@@ -1,0 +1,11 @@
+# Data folder
+data/
+
+# VsCode settings
+.vscode/
+
+# Python cache files
+__pycache__/
+
+# Safed models
+models/

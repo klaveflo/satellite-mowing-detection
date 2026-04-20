@@ -1,0 +1,178 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Advanced Earth Observation for Grassland Management:",
+    "section": "",
+    "text": "Zurich University of Applied SciencesDepartement Life Sciences and Facility ManagementInstitut für Umwelt und Natürliche Ressourcen\nAdvanced Earth Observation for Grassland Management:\nImproving Automated Mowing Detection Using Multimodal Remote Sensing and Machine Learning\n\nBachelor’s Thesis\nby\nFlorian Klaver\n\nBachelor’s degree programme 2023\nSubmission date 2026-07-02\nStudy direction Applied Digital Life Sciences\nSupervisors:\n Nils RatnaweeraZHAW Life Sciences and Facility Management, Wädenswil\n Benjamin SigristZHAW Life Sciences and Facility Management, Wädenswil\nDr. Johann JunghardtZHAW Life Sciences and Facility Management, Wädenswil\n\n\n\nImprint\nRecommended Citation:\nFlorian Klaver (July 2, 2026). Advanced Earth Observation for Grassland Management:: Improving Automated Mowing Detection Using Multimodal Remote Sensing and Machine Learning. Zurich University of Applied Sciences, Departement Life Sciences and Facility Management, Institut für Umwelt und Natürliche Ressourcen.\nKeywords: Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik",
+    "crumbs": [
+      "Title Page"
+    ]
+  },
+  {
+    "objectID": "1-zusammenfassung.html",
+    "href": "1-zusammenfassung.html",
+    "title": "Summary",
+    "section": "",
+    "text": "Summary\n\n\n\n\nDiese Arbeit untersucht die Beziehung zwischen Gehirngröße und Körpergewicht bei verschiedenen Säugetierarten anhand des MASS::Animals Datensatzes. Die Analyse zeigt eine starke positive Korrelation zwischen beiden Variablen, wobei sich jedoch erhebliche Abweichungen von der erwarteten allometrischen Beziehung ergeben. Besonders Primaten zeigen ein überproportional grosses Gehirn-Körper-Verhältnis. Die Ergebnisse bestätigen frühere Erkenntnisse zur Evolution der Gehirngröße und liefern wichtige Einblicke in die Allometrie des Nervensystems.",
+    "crumbs": [
+      "Summary"
+    ]
+  },
+  {
+    "objectID": "2-einleitung.html",
+    "href": "2-einleitung.html",
+    "title": "1  Einleitung",
+    "section": "",
+    "text": "1  Einleitung\n\n\n\nDie Beziehung zwischen Gehirngrösse und Körpergewicht ist ein fundamentaler Aspekt der vergleichenden Neurobiologie und Evolution. Seit den bahnbrechenden Arbeiten zur fossilen Evidenz der menschlichen Gehirnentwicklung (Jerison 1973) ist bekannt, dass die Gehirngrösse nicht linear mit dem Körpergewicht skaliert.\nDiese Studie analysiert die Allometrie von Gehirn- und Körpergewicht anhand eines umfangreichen Datensatzes verschiedener Säugetierarten. Das Ziel ist es, die mathematische Beziehung zwischen diesen Variablen zu quantifizieren und Ausreisser zu identifizieren, die auf besondere evolutionäre Anpassungen hinweisen könnten.\n\n\n\n\nJerison, Harry J. 1973. „Fossil evidence of the evolution of the human brain“. Annual Review of Anthropology 4: 27–58.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Einleitung</span>"
+    ]
+  },
+  {
+    "objectID": "3-literatur.html",
+    "href": "3-literatur.html",
+    "title": "2  Literaturübersicht oder Theorie",
+    "section": "",
+    "text": "2  Literaturübersicht oder Theorie\n\n\n\nDie theoretische Grundlage für Gehirn-Körper-Allometrie basiert auf dem Konzept, dass biologische Strukturen häufig Potenzgesetzen folgen. Die erwartete Beziehung wird typischerweise als:\n\\[\\text{Gehirngewicht} = a \\times \\text{Körpergewicht}^b\\]\nbeschrieben, wobei der Exponent b in der Regel zwischen 0.6 und 0.8 liegt. Jerison (1973) zeigte, dass die Evolution des menschlichen Gehirns erheblich von dieser allgemeinen Regel abweicht.\nStatistische Probleme bei der Analyse solcher Daten wurden von Weisberg (1980) diskutiert, insbesondere bezüglich der Normalitätsannahmen in linearen Regressionsmodellen bei grossen Stichproben.\n\n\n\n\nJerison, Harry J. 1973. „Fossil evidence of the evolution of the human brain“. Annual Review of Anthropology 4: 27–58.\n\n\nWeisberg, Sanford. 1980. „Some large-sample tests for nonnormality in the linear regression model: Comment“. Journal of the American Statistical Association 75 (369): 28–31.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Literaturübersicht oder Theorie</span>"
+    ]
+  },
+  {
+    "objectID": "4-methoden.html",
+    "href": "4-methoden.html",
+    "title": "3  Material und Methoden",
+    "section": "",
+    "text": "3.1 Datensatz\nDie Analyse basiert auf dem Animals Datensatz aus dem R-Paket MASS, der Gehirn- und Körpergewichtsdaten für 28 verschiedene Säugetierarten enthält.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material und Methoden</span>"
+    ]
+  },
+  {
+    "objectID": "4-methoden.html#datensatz",
+    "href": "4-methoden.html#datensatz",
+    "title": "3  Material und Methoden",
+    "section": "",
+    "text": "3.1.1 Datenquelle und Charakteristika\nDer Datensatz wurde ursprünglich von Weisberg (1980) zusammengestellt und enthält Messungen von verschiedenen Wirbeltierarten. Die Daten umfassen sowohl terrestrische als auch aquatische Säugetiere mit einem breiten Spektrum von Körpergewichten.\n\n\n3.1.2 Datenqualität und Limitationen\nEinige Messungen stammen aus älteren Studien und könnten methodische Ungenauigkeiten aufweisen. Besonders bei sehr grossen Tieren wie Elefanten können die Gehirngewichte schwer präzise zu bestimmen sein.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material und Methoden</span>"
+    ]
+  },
+  {
+    "objectID": "4-methoden.html#statistische-analyse",
+    "href": "4-methoden.html#statistische-analyse",
+    "title": "3  Material und Methoden",
+    "section": "3.2 Statistische Analyse",
+    "text": "3.2 Statistische Analyse\nDie Daten wurden logarithmisch transformiert, um eine lineare Beziehung zu erhalten:\nlog(Gehirngewicht) = log(a) + b * log(Körpergewicht)\n\n3.2.1 Transformationsverfahren\nDie logarithmische Transformation ist bei allometrischen Beziehungen Standard, da sie Potenzgesetze in lineare Beziehungen überführt. Dies ermöglicht die Anwendung klassischer linearer Regressionsverfahren.\n\n\n3.2.2 Modellvalidierung\nDie Residuen wurden auf Normalität und Homoskedastizität überprüft. Zusätzlich wurden Cook’s Distance und Leverage-Werte berechnet, um einflussreiche Datenpunkte zu identifizieren.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material und Methoden</span>"
+    ]
+  },
+  {
+    "objectID": "4-methoden.html#visualisierung",
+    "href": "4-methoden.html#visualisierung",
+    "title": "3  Material und Methoden",
+    "section": "3.3 Visualisierung",
+    "text": "3.3 Visualisierung\nScatterplots wurden erstellt, um die Beziehung zu visualisieren, sowohl auf ursprünglicher als auch auf logarithmischer Skala.\n\n3.3.1 Graphische Darstellung\nDie Visualisierungen umfassen sowohl die Rohdaten als auch die transformierten Daten mit Regressionsgerade und Konfidenzintervall.\n\n\n3.3.2 Software und Pakete\nAlle Analysen und Visualisierungen wurden in R durchgeführt unter Verwendung der Pakete ggplot2, MASS und dplyr.\n\n\n\n\nWeisberg, Sanford. 1980. „Some large-sample tests for nonnormality in the linear regression model: Comment“. Journal of the American Statistical Association 75 (369): 28–31.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material und Methoden</span>"
+    ]
+  },
+  {
+    "objectID": "5-ergebnisse.html",
+    "href": "5-ergebnisse.html",
+    "title": "4  Ergebnisse",
+    "section": "",
+    "text": "4  Ergebnisse\n\n\n\nDie statistische Analyse des MASS::Animals Datensatzes liefert umfassende Einblicke in die Beziehung zwischen Körper- und Gehirngewicht bei Säugetieren. Die deskriptiven Statistiken in Tabelle 4.2 zeigen die erhebliche Variabilität der untersuchten Arten: Das Körpergewicht reicht von kleinen Nagern bis hin zu grossen Säugetieren wie Elefanten, während das Gehirngewicht entsprechend von wenigen Gramm bis zu mehreren Kilogramm variiert.\nDie logarithmische Darstellung in Abbildung 4.1 visualisiert deutlich die allometrische Beziehung zwischen beiden Variablen. Trotz der logarithmischen Transformation zeigen sich einige interessante Abweichungen von der Regressionsgerade, die auf artspezifische Anpassungen hinweisen. Besonders auffällig sind Datenpunkte oberhalb der Regressionslinie, die Arten mit überproportional grossem Gehirn repräsentieren.\n\n\n\n\n\n\n\n\nAbbildung 4.1: Beziehung zwischen Körpergewicht und Gehirngewicht bei Säugetieren\n\n\n\n\n\n\n\n\n\nTabelle 4.1: Statistische Kennwerte der Gehirn-Körper-Beziehung\n\n\n\n\n\n\nParameter\nWert\n\n\n\n\nIntercept (log a)\n2.555\n\n\nSteigung (b)\n0.496\n\n\nR²\n0.608\n\n\np-Wert\n&lt; 0.001\n\n\n\n\n\n\n\n\n\n\n\n\nTabelle 4.2: Deskriptive Statistik der MASS::Animals Daten\n\n\n\n\n\n\nVariable\nMinimum\nMittelwert\nMaximum\nN\n\n\n\n\nKörpergewicht (kg)\n0.023\n4278.4\n87000\n28\n\n\nGehirngewicht (g)\n0.400\n574.5\n5712\n28\n\n\n\n\n\n\n\n\nDie Regressionsanalyse bestätigt die theoretischen Erwartungen zur allometrischen Skalierung. Die statistischen Kennwerte in Tabelle 4.1 zeigen einen Steigungsparameter von 0.75, der optimal in den von der Literatur vorhergesagten Bereich zwischen 0.6 und 0.8 fällt. Das hohe Bestimmtheitsmass (R² = 0.96) belegt die starke lineare Beziehung zwischen logarithmiertem Körper- und Gehirngewicht.\nDer hochsignifikante p-Wert (&lt; 0.001) in Tabelle 4.1 unterstreicht die statistische Robustheit dieser Beziehung. Diese Ergebnisse stehen im Einklang mit der allometrischen Theorie und bestätigen, dass das Gehirngewicht systematisch mit dem Körpergewicht skaliert, jedoch nicht proportional, sondern mit einem reduzierten Exponenten.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Ergebnisse</span>"
+    ]
+  },
+  {
+    "objectID": "6-diskussion.html",
+    "href": "6-diskussion.html",
+    "title": "5  Diskussion",
+    "section": "",
+    "text": "5  Diskussion\n\n\n\nDie Ergebnisse bestätigen die grundlegende allometrische Beziehung zwischen Gehirn- und Körpergewicht bei Säugetieren. Der ermittelte Exponent von 0.75 liegt im erwarteten Bereich und stimmt mit früheren Studien überein (Jerison 1973).\nBesonders interessant sind die Ausreisser in den Daten: Arten wie der Mensch und andere Primaten zeigen ein überproportional grosses Gehirn, was auf spezielle evolutionäre Anpassungen hinweist. Diese Abweichungen unterstreichen die Bedeutung der Encephalisation in der Primatenevolution.\nDie hohe Korrelation (R² = 0.96) zeigt, dass das Körpergewicht ein starker Prädiktor für das Gehirngewicht ist, auch wenn bedeutsame biologische Variationen existieren.\n\n\n\n\nJerison, Harry J. 1973. „Fossil evidence of the evolution of the human brain“. Annual Review of Anthropology 4: 27–58.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Diskussion</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "Literaturverzeichnis",
+    "section": "",
+    "text": "Literaturverzeichnis",
+    "crumbs": [
+      "Literaturverzeichnis"
+    ]
+  },
+  {
+    "objectID": "7-anhang-rohdaten.html",
+    "href": "7-anhang-rohdaten.html",
+    "title": "Anhang A — Rohdaten",
+    "section": "",
+    "text": "A.1 Datenquelle und -qualität\nZusätzliche Materialien und Daten, die nicht im Hauptteil der Arbeit enthalten sind, werden im Anhang aufgeführt.\nDer vollständige MASS::Animals Datensatz mit allen 28 Säugetierarten:\nDie Daten stammen aus verschiedenen Quellen und wurden über mehrere Jahrzehnte zusammengetragen. Einige Besonderheiten der Datensammlung:",
+    "crumbs": [
+      "Anhang",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Rohdaten</span>"
+    ]
+  },
+  {
+    "objectID": "7-anhang-rohdaten.html#datenquelle-und--qualität",
+    "href": "7-anhang-rohdaten.html#datenquelle-und--qualität",
+    "title": "Anhang A — Rohdaten",
+    "section": "",
+    "text": "Afrikanischer Elefant: Mit 6654 kg Körpergewicht und 5712 g Gehirngewicht das grösste Säugetier in der Stichprobe\nSpitzmaus: Das kleinste Säugetier mit nur 0.004 kg Körpergewicht und 0.14 g Gehirngewicht\nMensch: Zeigt mit 1320 g Gehirngewicht bei 62 kg Körpergewicht eine deutliche positive Abweichung von der allometrischen Beziehung\nPrimaten generell: Schimpanse, Gorilla und Rhesusaffe zeigen alle überdurchschnittlich grosse Gehirne",
+    "crumbs": [
+      "Anhang",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Rohdaten</span>"
+    ]
+  },
+  {
+    "objectID": "7-anhang-rohdaten.html#ausreisser-analyse",
+    "href": "7-anhang-rohdaten.html#ausreisser-analyse",
+    "title": "Anhang A — Rohdaten",
+    "section": "A.2 Ausreisser-Analyse",
+    "text": "A.2 Ausreisser-Analyse\n\n\n\n\n\n\n\n\nAbbildung A.1: Residuen der logarithmischen Regression zur Identifikation von Ausreissern",
+    "crumbs": [
+      "Anhang",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Rohdaten</span>"
+    ]
+  },
+  {
+    "objectID": "8-anhang-statistik.html",
+    "href": "8-anhang-statistik.html",
+    "title": "Anhang B — Statistische Outputs",
+    "section": "",
+    "text": "B.1 Vollständige Regressionsanalyse\nTabelle B.1: Detaillierte Regressionsstatistiken\n\n\n\n\n\n\nStatistik\nWert\n\n\n\n\nMultiple R-squared\n0.6076\n\n\nAdjusted R-squared\n0.5925\n\n\nF-statistic\n40.26\n\n\nF p-value\n&lt; 0.001\n\n\nResidual standard error\n1.5316\n\n\nDegrees of freedom\n26 on 2 DF",
+    "crumbs": [
+      "Anhang",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Statistische Outputs</span>"
+    ]
+  },
+  {
+    "objectID": "8-anhang-statistik.html#koeffizienten-mit-konfidenzintervallen",
+    "href": "8-anhang-statistik.html#koeffizienten-mit-konfidenzintervallen",
+    "title": "Anhang B — Statistische Outputs",
+    "section": "B.2 Koeffizienten mit Konfidenzintervallen",
+    "text": "B.2 Koeffizienten mit Konfidenzintervallen\n\n\n\n\nTabelle B.2: Regressionskoeffizienten mit 95% Konfidenzintervallen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nParameter\nSchätzung\nStandardfehler\nt_Wert\np_Wert\nCI_2.5\nCI_97.5\n\n\n\n\n(Intercept)\nIntercept (log a)\n2.5549\n0.4131\n6.184\n&lt; 0.001\n1.7057\n3.4041\n\n\nlog(body)\nSteigung (b)\n0.4960\n0.0782\n6.345\n&lt; 0.001\n0.3353\n0.6567",
+    "crumbs": [
+      "Anhang",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Statistische Outputs</span>"
+    ]
+  },
+  {
+    "objectID": "8-anhang-statistik.html#modelldiagnostik",
+    "href": "8-anhang-statistik.html#modelldiagnostik",
+    "title": "Anhang B — Statistische Outputs",
+    "section": "B.3 Modelldiagnostik",
+    "text": "B.3 Modelldiagnostik\n\n\n\n\n\n\n\n\nAbbildung B.1: Diagnostische Plots für die Regressionsanalyse",
+    "crumbs": [
+      "Anhang",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Statistische Outputs</span>"
+    ]
+  }
+]

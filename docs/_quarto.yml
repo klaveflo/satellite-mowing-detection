@@ -1,0 +1,54 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Advanced Earth Observation for Grassland Management:"
+  subtitle: "Improving Automated Mowing Detection Using Multimodal Remote Sensing and Machine Learning"
+  author:
+    - Florian Klaver
+  date: "2026-07-02"
+  downloads: pdf           # adds a PDF download button to the HTML navbar
+  chapters:
+    - file: index.qmd
+      text: "Title Page"   # sidebar label for the title page
+    - 1-zusammenfassung.qmd
+    - 2-einleitung.qmd
+    - 3-literatur.qmd
+    - 4-methoden.qmd
+    - 5-ergebnisse.qmd
+    - 6-diskussion.qmd
+    - references.qmd
+  appendices:
+    - 7-anhang-rohdaten.qmd
+    - 8-anhang-statistik.qmd
+
+bibliography: references.bib
+lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
+
+institut: "Institute for Computational Life Sciences"
+keywords: "Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
+confidential: false         # adds a "Vertraulich" notice on the title page
+zhaw-cover-image:
+  src: cover.png
+  max-width: 100%          # optional, constrains the image on the title page
+  max-height: 5cm
+thesis-type: "Bachelor's Thesis"
+degree-type: "Bachelor's degree programme"
+study-year: "2023"
+submission-date: "2026-07-02"
+study-direction: "Applied Digital Life Sciences"
+supervisors:
+  - title: ""
+    name: "Nils Ratnaweera" 
+    affiliation: "ZHAW Life Sciences and Facility Management, Wädenswil"
+  - title: ""
+    name: "Benjamin Sigrist"
+    affiliation: "ZHAW Life Sciences and Facility Management, Wädenswil"
+  - title: "Dr."
+    name: "Johann Junghardt"
+    affiliation: "ZHAW Life Sciences and Facility Management, Wädenswil"
+
+format:
+  zhaw-lsfm-typst: default
+  zhaw-lsfm-html: default
