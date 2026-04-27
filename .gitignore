@@ -9,3 +9,6 @@ __pycache__/
 
 # Safed models
 models/
+
+# Environment variables
+.env
