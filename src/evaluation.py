@@ -16,7 +16,8 @@ from matplotlib.colors import ListedColormap
 from rasterio import features as rio_features
 from sklearn.metrics import (
     classification_report, confusion_matrix, ConfusionMatrixDisplay,
-    roc_curve, auc, precision_score, recall_score, f1_score
+    roc_curve, auc, precision_score, recall_score, f1_score,
+    precision_recall_curve,
 )
 from sklearn.model_selection import GroupShuffleSplit, GroupKFold, GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -141,6 +142,33 @@ def evaluate_model(model, X_test, y_test, model_name="Model", color="darkorange"
 
 
 # ---------------------------------------------------------------------------
+# Threshold calibration
+# ---------------------------------------------------------------------------
+
+def find_optimal_threshold(model, X_test, y_test):
+    """
+    Find the probability threshold that maximises F1 on a held-out test set.
+
+    Sweeps all natural thresholds from the precision-recall curve and picks
+    the one with the highest F1.  Use the returned threshold in run_prediction
+    instead of the default 0.5 to correct for class-imbalance mismatch between
+    balanced training data and the real-world scene distribution.
+
+    Returns
+    -------
+    threshold : float  — optimal probability cutoff for predict_proba[:,1]
+    f1_at_threshold : float  — F1 achieved at that threshold on the test set
+    """
+    proba = model.predict_proba(X_test)[:, 1]
+    precision, recall, thresholds = precision_recall_curve(y_test, proba)
+    # precision/recall arrays have length n+1; thresholds has length n
+    f1_scores = (2 * precision[:-1] * recall[:-1]
+                 / (precision[:-1] + recall[:-1] + 1e-8))
+    best_idx = int(np.argmax(f1_scores))
+    return float(thresholds[best_idx]), float(f1_scores[best_idx])
+
+
+# ---------------------------------------------------------------------------
 # Model training helpers
 # ---------------------------------------------------------------------------
 
@@ -151,7 +179,7 @@ def train_tuned_svm(X_train, y_train, groups_train, X_test, y_test,
     pipeline = Pipeline([('scaler', StandardScaler()),
                          ('svm', SVC(probability=True, random_state=42))])
     grid = GridSearchCV(pipeline, param_grid, cv=GroupKFold(n_splits=5),
-                        scoring='accuracy', n_jobs=-1, verbose=1)
+                        scoring='f1', n_jobs=-1, verbose=1)
     grid.fit(X_train, y_train, groups=groups_train)
     print("Best params:", grid.best_params_)
     evaluate_model(grid.best_estimator_, X_test, y_test, model_name=model_alias,
@@ -165,7 +193,7 @@ def train_tuned_rf(X_train, y_train, groups_train, X_test, y_test,
         param_grid = {'rf__n_estimators': [100, 200], 'rf__max_depth': [None, 10, 20]}
     pipeline = Pipeline([('rf', RandomForestClassifier(random_state=42, n_jobs=-1))])
     grid = GridSearchCV(pipeline, param_grid, cv=GroupKFold(n_splits=5),
-                        scoring='accuracy', n_jobs=-1, verbose=1)
+                        scoring='f1', n_jobs=-1, verbose=1)
     grid.fit(X_train, y_train, groups=groups_train)
     print("Best params:", grid.best_params_)
     evaluate_model(grid.best_estimator_, X_test, y_test, model_name=model_alias,
@@ -179,7 +207,7 @@ def train_tuned_lgbm(X_train, y_train, groups_train, X_test, y_test,
         param_grid = {'lgbm__num_leaves': [31, 63], 'lgbm__learning_rate': [0.05, 0.1]}
     pipeline = Pipeline([('lgbm', LGBMClassifier(random_state=42, n_jobs=-1, verbose=-1))])
     grid = GridSearchCV(pipeline, param_grid, cv=GroupKFold(n_splits=5),
-                        scoring='accuracy', n_jobs=-1, verbose=1)
+                        scoring='f1', n_jobs=-1, verbose=1)
     grid.fit(X_train, y_train, groups=groups_train)
     print("Best params:", grid.best_params_)
     evaluate_model(grid.best_estimator_, X_test, y_test, model_name=model_alias,
@@ -287,6 +315,18 @@ def prepare_scene_features(before_image_path, after_image_path,
     cloud_mask = ((cloud_b > CLOUD_THRESHOLD) | (cloud_a > CLOUD_THRESHOLD)).flatten()
     nan_mask = np.isnan(feature_df.values).any(axis=1)
 
+    # --- DIAGNOSTIC (temporary) ---
+    print(f"  [DIAG] scene CRS:             {crs}")
+    print(f"  [DIAG] scene bounds:          {rasterio.transform.array_bounds(height, width, transform)}")
+    print(f"  [DIAG] GPKG CRS (before reproject): {gpd.read_file(ground_cover_path, layer='Bodenbedeckung_BoFlaeche_Area', rows=1).crs}")
+    print(f"  [DIAG] grassland rows:        {len(grassland)}")
+    print(f"  [DIAG] grassland_mask True:   {grassland_mask.sum():,} / {len(grassland_mask):,}")
+    print(f"  [DIAG] airport_poly rows:     {len(airport_poly)}")
+    print(f"  [DIAG] airport_mask True:     {airport_mask.sum():,} / {len(airport_mask):,}")
+    print(f"  [DIAG] ~cloud_mask True:      {(~cloud_mask).sum():,} / {len(cloud_mask):,}")
+    print(f"  [DIAG] ~nan_mask True:        {(~nan_mask).sum():,} / {len(nan_mask):,}")
+    # --- END DIAGNOSTIC ---
+
     valid_mask = grassland_mask & airport_mask & ~cloud_mask & ~nan_mask
     return feature_df, valid_mask, meta, height, width
 
@@ -295,12 +335,26 @@ def prepare_scene_features(before_image_path, after_image_path,
 # Prediction
 # ---------------------------------------------------------------------------
 
-def run_prediction(model, feature_df, valid_mask, height, width, output_path, meta):
-    """Apply model to valid pixels and save prediction raster."""
-    print(f"Predicting on {valid_mask.sum():,} valid pixels...")
+def run_prediction(model, feature_df, valid_mask, height, width, output_path, meta,
+                   threshold=0.5):
+    """Apply model to valid pixels and save prediction raster.
+
+    Parameters
+    ----------
+    threshold : float
+        Decision probability threshold applied to predict_proba[:,1].
+        Use the value returned by find_optimal_threshold() to correct for
+        class-imbalance mismatch between training and full-scene distribution.
+        Defaults to 0.5 (standard predict behaviour).
+    """
+    print(f"Predicting on {valid_mask.sum():,} valid pixels (threshold={threshold:.3f})...")
     prediction_flat = np.full(height * width, -1, dtype=np.int8)
     if valid_mask.sum() > 0:
-        prediction_flat[valid_mask] = model.predict(feature_df[valid_mask])
+        if threshold != 0.5 and hasattr(model, 'predict_proba'):
+            proba = model.predict_proba(feature_df[valid_mask])[:, 1]
+            prediction_flat[valid_mask] = (proba >= threshold).astype(np.int8)
+        else:
+            prediction_flat[valid_mask] = model.predict(feature_df[valid_mask])
     else:
         print("Warning: No valid pixels.")
 

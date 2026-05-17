@@ -156,7 +156,8 @@ def postprocess_prediction(pred_map: np.ndarray,
                             disk_radius: int = 2,
                             min_area_pixels: int = 4,
                             n_segments: int = 300,
-                            slic_compactness: float = 0.05) -> np.ndarray:
+                            slic_compactness: float = 0.05,
+                            slic_threshold: float = 0.5) -> np.ndarray:
     """
     Apply one or more postprocessing steps to a binary prediction map.
 
@@ -193,7 +194,8 @@ def postprocess_prediction(pred_map: np.ndarray,
                 raise ValueError("scene_image must be provided for SLIC postprocessing.")
             result = apply_slic_majority_vote(result, scene_image,
                                               n_segments=n_segments,
-                                              compactness=slic_compactness)
+                                              compactness=slic_compactness,
+                                              threshold=slic_threshold)
         elif step == 'full':
             result = apply_median_filter(result, size=median_size)
             result = apply_morphological_clean(result, disk_radius=disk_radius,
@@ -201,7 +203,8 @@ def postprocess_prediction(pred_map: np.ndarray,
             if scene_image is not None:
                 result = apply_slic_majority_vote(result, scene_image,
                                                   n_segments=n_segments,
-                                                  compactness=slic_compactness)
+                                                  compactness=slic_compactness,
+                                                  threshold=slic_threshold)
         else:
             raise ValueError(
                 f"Unknown postprocessing step: '{step}'. "
