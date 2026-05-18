@@ -315,18 +315,6 @@ def prepare_scene_features(before_image_path, after_image_path,
     cloud_mask = ((cloud_b > CLOUD_THRESHOLD) | (cloud_a > CLOUD_THRESHOLD)).flatten()
     nan_mask = np.isnan(feature_df.values).any(axis=1)
 
-    # --- DIAGNOSTIC (temporary) ---
-    print(f"  [DIAG] scene CRS:             {crs}")
-    print(f"  [DIAG] scene bounds:          {rasterio.transform.array_bounds(height, width, transform)}")
-    print(f"  [DIAG] GPKG CRS (before reproject): {gpd.read_file(ground_cover_path, layer='Bodenbedeckung_BoFlaeche_Area', rows=1).crs}")
-    print(f"  [DIAG] grassland rows:        {len(grassland)}")
-    print(f"  [DIAG] grassland_mask True:   {grassland_mask.sum():,} / {len(grassland_mask):,}")
-    print(f"  [DIAG] airport_poly rows:     {len(airport_poly)}")
-    print(f"  [DIAG] airport_mask True:     {airport_mask.sum():,} / {len(airport_mask):,}")
-    print(f"  [DIAG] ~cloud_mask True:      {(~cloud_mask).sum():,} / {len(cloud_mask):,}")
-    print(f"  [DIAG] ~nan_mask True:        {(~nan_mask).sum():,} / {len(nan_mask):,}")
-    # --- END DIAGNOSTIC ---
-
     valid_mask = grassland_mask & airport_mask & ~cloud_mask & ~nan_mask
     return feature_df, valid_mask, meta, height, width
 
