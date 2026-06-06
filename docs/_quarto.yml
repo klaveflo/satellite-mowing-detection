@@ -12,22 +12,22 @@ book:
   chapters:
     - file: index.qmd
       text: "Title Page"   # sidebar label for the title page
-    - 1-zusammenfassung.qmd
-    - 2-einleitung.qmd
-    - 3-literatur.qmd
-    - 4-methoden.qmd
-    - 5-ergebnisse.qmd
-    - 6-diskussion.qmd
+    - 1-abstract.qmd
+    - 2-introduction.qmd
+    - 3-literature.qmd
+    - 4-methods.qmd
+    - 5-results.qmd
+    - 6-discussion.qmd
     - references.qmd
   appendices:
-    - 7-anhang-rohdaten.qmd
-    - 8-anhang-statistik.qmd
+    - 7-appendix-rawdata.qmd
+    - 8-appendix-statistics.qmd
 
 bibliography: references.bib
 lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
 
 institut: "Institute for Computational Life Sciences"
-keywords: "Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
+keywords: "Earth observation, grassland management, mowing detection, multimodal remote sensing, machine learning"
 confidential: false         # adds a "Vertraulich" notice on the title page
 zhaw-cover-image:
   src: cover.png
