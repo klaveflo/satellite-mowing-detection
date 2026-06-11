@@ -30,7 +30,7 @@ institut: "Institute for Computational Life Sciences"
 keywords: "Earth observation, grassland management, mowing detection, multimodal remote sensing, machine learning"
 confidential: false         # adds a "Vertraulich" notice on the title page
 zhaw-cover-image:
-  src: cover.png
+  src: images/cover.png
   max-width: 100%          # optional, constrains the image on the title page
   max-height: 5cm
 thesis-type: "Bachelor's Thesis"
@@ -51,4 +51,5 @@ supervisors:
 
 format:
   zhaw-lsfm-typst: default
-  zhaw-lsfm-html: default
+  zhaw-lsfm-html:
+    embeded-resources: true
