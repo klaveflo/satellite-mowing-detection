@@ -1,4 +1,4 @@
-# Introcution
+# Introduction {#sec-introduction}
 
 Grassland management at airports is a safety-critical task. Vegetation height and structure on airfield grounds directly influence habitat attractiveness for bird species, which in turn affects the frequency and severity of bird strikes [@devault2011]. At Zurich Airport, grasslands are subject to regular mowing protocols designed to reduce wildlife hazards. However, monitoring when and where mowing occurs has traditionally relied on manual records created by field staff, a process that is labour-intensive and prone to spatial inaccuracies. To investigate the relationship between mowing practices and bird population dynamics, consistent and spatially reliable mowing records are required. 
 

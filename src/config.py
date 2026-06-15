@@ -95,8 +95,11 @@ SNAP_HOME      = Path("C:/Program Files/esa-snap")
 SUBSWATH       = "IW2"
 FIRST_BURST    = 1
 LAST_BURST     = 9
-COH_WIN_RG     = 10
-COH_WIN_AZ     = 3
+
+# Coherence estimation window — matched to Tamm et al. (2016) R80/R160 setup
+# ENL ≈ 46, ground footprint ≈ 71m × 69m
+COH_WIN_RG     = 19
+COH_WIN_AZ     = 5
 OUTPUT_SPACING = 20.0        # metres; coherence output pixel size
 
 # ---------------------------------------------------------------------------

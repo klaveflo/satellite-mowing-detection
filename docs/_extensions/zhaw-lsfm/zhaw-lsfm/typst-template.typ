@@ -78,11 +78,22 @@
   )
 
   show heading: it => {
+    if it.level == 1 {
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
+    }
     it
     v(0.5em)
   }
   // Pagebreaks are handled by Lua filter to avoid container conflicts
   
+  set figure(
+    numbering: (..nums) => context {
+      let chapter = counter(heading.where(level: 1)).get().first()
+      numbering("1.1", chapter, ..nums)
+    }
+  )
+
   // Title page
   if title != none or authors != none {
     page(numbering: none)[
@@ -150,7 +161,7 @@
             ]
           ]
           #if study-direction != none [
-            \ Studienrichtung #study-direction
+            \ Study-Direction #study-direction
           ]
         ]
       }
