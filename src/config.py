@@ -28,7 +28,7 @@ AV_DATA_DIR    = DATA_DIR / "amtliche_vermessung_zh"
 # ---------------------------------------------------------------------------
 S2_FEATURES_DIR = DATA_DIR / "features_all_indices"
 S1_FEATURES_DIR = DATA_DIR / "features_s1"
-COH_DIR         = DATA_DIR / "features_coherence"
+COH_DIR         = DATA_DIR / "features_coherence_snrcorr"
 SNAP_TMP_DIR    = DATA_DIR / "_snap_tmp"
 
 # ---------------------------------------------------------------------------
