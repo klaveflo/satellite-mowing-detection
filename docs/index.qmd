@@ -10,12 +10,83 @@ is-index: true   # prevents the chapter title from appearing twice on this page
 :::
 
 # Acknowledgments {.unnumbered .unlisted}
-I would like to thank...
-Use of AI...
-Cover image from [Unsplash](https://unsplash.com/de/fotos/blick-auf-erde-und-satellit-yZygONrUBe8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink) by NASA...
+I would like to thank my supervisors Nils Ratnaweera, Benjamin Sigrist, and Johann Junghardt for their guidance and feedback throughout this thesis. I am grateful to Zurich Airport and the ZHAW research group from the Institute for Environment and Natural Resources for providing the ground truth data that forms the foundation of this study. I also thank Strickhof for providing additional mowing records near Lindau, which enabled the generalisation test, and Agroscope for their willingness to share data, even though the provided records could not be integrated into the final analysis.
+
+AI-based tools such as Claude were used throughout this project to support code development, particularly for SAR data processing, debugging and text refinement in the written report. 
+
+The cover image is courtesy of NASA, obtained via [Unsplash](https://unsplash.com/de/fotos/blick-auf-erde-und-satellit-yZygONrUBe8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink) under their free-use license.
+
 
 # List of Abbreviations {.unnumbered .unlisted}
-Will be added later
++---------+----------------------------------------------------+
+| AUC     | Area Under the Curve                               |
++---------+----------------------------------------------------+
+| CDSE    | Copernicus Data Space Ecosystem                    |
++---------+----------------------------------------------------+
+| DEM     | Digital Elevation Model                            |
++---------+----------------------------------------------------+
+| ESA     | European Space Agency                              |
++---------+----------------------------------------------------+
+| EVI     | Enhanced Vegetation Index                          |
++---------+----------------------------------------------------+
+| GEE     | Google Earth Engine                                |
++---------+----------------------------------------------------+
+| GNDVI   | Green Normalized Difference Vegetation Index       |
++---------+----------------------------------------------------+
+| GPT     | Graph Processing Tool                              |
++---------+----------------------------------------------------+
+| GRD     | Ground Range Detected                              |
++---------+----------------------------------------------------+
+| InSAR   | Interferometric Synthetic Aperture Radar            |
++---------+----------------------------------------------------+
+| IW      | Interferometric Wide Swath                         |
++---------+----------------------------------------------------+
+| LightGBM| Light Gradient Boosting Machine                    |
++---------+----------------------------------------------------+
+| LOO     | Leave-One-Out                                      |
++---------+----------------------------------------------------+
+| ML      | Machine Learning                                   |
++---------+----------------------------------------------------+
+| NDII    | Normalized Difference Infrared Index               |
++---------+----------------------------------------------------+
+| NDVI    | Normalized Difference Vegetation Index             |
++---------+----------------------------------------------------+
+| NESZ    | Noise Equivalent Sigma Zero                        |
++---------+----------------------------------------------------+
+| NIR     | Near-Infrared                                      |
++---------+----------------------------------------------------+
+| OBIA    | Object-Based Image Analysis                        |
++---------+----------------------------------------------------+
+| RF      | Random Forest                                      |
++---------+----------------------------------------------------+
+| ROC     | Receiver Operating Characteristic                  |
++---------+----------------------------------------------------+
+| SAR     | Synthetic Aperture Radar                           |
++---------+----------------------------------------------------+
+| SAVI    | Soil-Adjusted Vegetation Index                     |
++---------+----------------------------------------------------+
+| SLC     | Single Look Complex                                |
++---------+----------------------------------------------------+
+| SLIC    | Simple Linear Iterative Clustering                 |
++---------+----------------------------------------------------+
+| SNAP    | Sentinel Application Platform                      |
++---------+----------------------------------------------------+
+| SNR     | Signal-to-Noise Ratio                              |
++---------+----------------------------------------------------+
+| SRTM    | Shuttle Radar Topography Mission                   |
++---------+----------------------------------------------------+
+| SVM     | Support Vector Machine                             |
++---------+----------------------------------------------------+
+| SWIR    | Short-Wave Infrared                                |
++---------+----------------------------------------------------+
+| TOPSAR  | Terrain Observation with Progressive Scans SAR     |
++---------+----------------------------------------------------+
+| VI      | Vegetation Index                                   |
++---------+----------------------------------------------------+
+| VH      | Vertical transmit, Horizontal receive              |
++---------+----------------------------------------------------+
+| VV      | Vertical transmit, Vertical receive                |
++---------+----------------------------------------------------+
 
 
 <!-- Typst: render the table of contents here (hidden in HTML, handled by sidebar) -->

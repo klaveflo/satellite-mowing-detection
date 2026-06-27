@@ -18,6 +18,7 @@ book:
     - 4-methods.qmd
     - 5-results.qmd
     - 6-discussion.qmd
+    - statement-of-reproducibility.qmd
     - references.qmd
   appendices:
     - 7-appendix-rawdata.qmd
