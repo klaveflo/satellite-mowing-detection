@@ -321,11 +321,14 @@ Comparison of PW2 baseline and best model on scene 12. The pattern is consistent
 The performance difference between scenes (best F1 of 0.689 on scene 12 versus 0.749 on scene 73) reflects the variability inherent in scene-level evaluation, where cloud cover, mowing extent, and ground truth quality differ between events. Both scenes confirm the general pattern: the enhanced workflow substantially improves precision over the PW2 baseline, threshold calibration and postprocessing are essential for operational application.
 
 
+### Generalisation Test
 
+The S2-only_diff RF model was applied to a scene pair near Lindau (30.04.2025 to 10.05.2025) using the prototype notebook. No grassland mask or study area boundary was applied, meaning the model ran over the full scene extent including forests, roads, buildings, and agricultural cropland.
 
-## Generalisation Test 
-Content: Qualitative results from applying the model to the Lindau/Aadorf patches (Minimal test on additional patches from agroscope or Strickhof) to check generalisation on completly unknown areas.
+The evaluation against the four available ground truth polygons yields an F1-Score of 0.516 with a  precision of 0.348 and recall of 0.995 (@fig-generalisation). The model detects virtually all known mowing pixels (2,027 true positives, 11 false negatives) but also predicts 3,793 pixels as mowed outside the ground truth polygons.
 
-Planned figure: Prediction map on the external area, with visual comparison to known mowing extent.
+![Generalisation test near Lindau (30.04.2025 to 10.05.2025), applied without grassland mask or study area restriction. F1 = 0.516, P = 0.348, R = 0.995. Cyan: true positive, orange: false positive, magenta: false negative.](images/generalization_lindau_2025-05-10.png){#fig-generalisation width=60%}
 
-Key narrative points: Does the model generalise at all to external, completely unknown areas? What breaks? 
+However, the low precision should be interpreted with caution. The ground truth covers only four parcels managed by Strickhof and does not account for mowing events on surrounding parcels managed by other farmers. Visual comparison of the before and after RGB composites confirms that several of the areas flagged as false positives show clear spectral changes consistent with vegetation removal, suggesting that these are likely genuine mowing events not captured in the available reference data. The reported F1-Score therefore represents a lower bound on actual model performance at this site.
+
+Notably, the model correctly avoids predicting mowing on non-grassland surfaces despite the absence of a land cover mask. Forests, buildings, roads, and bare soil areas remain undetected, indicating that the spectral change features are sufficiently specific to distinguish mowing from other surface types. This is an encouraging result for the operational applicability of the prototype, as it suggests that a grassland mask, while beneficial for reducing computation, is not strictly required to avoid systematic false detections on non-vegetated surfaces.
