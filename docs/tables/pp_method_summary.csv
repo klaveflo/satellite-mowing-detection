@@ -1,0 +1,6 @@
+category,f1,delta_F1,disk_radius,min_area_pixels,median_size,n_segments,slic_compactness
+Median + Morphological,0.590083754609594,0.009040065272098552,1,4,3,,
+No postprocessing,0.5810436893374954,0.0,,,,,
+Morphological only,0.5778209431315959,-0.0032227462058994627,1,4,0,,
+Median + Morphological + SLIC,0.23542307217893513,-0.3456206171585603,2,8,5,400.0,0.1
+Morphological + SLIC,0.23542307217893513,-0.3456206171585603,2,6,0,400.0,0.1

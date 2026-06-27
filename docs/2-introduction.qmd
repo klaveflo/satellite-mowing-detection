@@ -10,8 +10,9 @@ The first limitation concerns data availability. Optical sensors depend on clear
 
 The second limitation concerns spatial consistency. The pixel-based classification approach produces predictions independently for each pixel, resulting in spatially fragmented output with characteristic salt-and-pepper noise [@blaschke2010]. In the full-scene application conducted in the previous study, models that performed well on test metrics produced scattered false positives across the scene and failed to reconstruct the contiguous shapes of mowing events [@klaver2025]. Spatial postprocessing techniques, such as morphological filtering [@jamil2008] and superpixel-based segmentation [@achanta2012], can address this issue by incorporating neighbourhood context into the classification output. These methods have been applied in remote sensing contexts to improve the spatial coherence of pixel-based classifications [@dharani2021; @crommelinck2017], though their specific application to mowing detection remains underexplored.
   
-The main objectives are: 
+Based on the limitations identified in the previous study, this thesis addresses the following research questions:
 
-1. To investigate the integration of Synthetic Aperture Radar (SAR) data from the Sentinel-1 mission as a complementary input to the existing optical feature set, with the goal of reducing dependence on cloud-free optical acquisitions.
-2. To implement and evaluate spatial postprocessing methods that improve the spatial consistency of pixel-based predictions.
-3. To benchmark the enhanced workflow against the existing baseline model from the previous study, assessing whether the additions yield measurable improvements in detection robustness and operational reliability.
+1. Can the integration of Sentinel-1 SAR data improve mowing detection performance compared to a purely optical approach, and reduce the workflow's dependence on cloud-free acquisitions? 
+2. To what extent do spatial postprocessing methods such as morphological filtering and superpixel-based segmentation improve the spatial consistency of pixel-based classification outputs?
+3. Can the availability and quality of ground truth data for mowing detection be improved through acquisition of additional reference datasets beyond the existing airport records?
+4. How does the enhanced workflow compare to the baseline model from the previous study in terms of detection accuracy and operational reliability?

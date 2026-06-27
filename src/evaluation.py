@@ -46,6 +46,8 @@ FEATURE_NAMES = [
     'blue_after', 'green_after', 'red_after', 'nir_after', 'swir_after',
 ]
 
+IMG_DIR = "docs/images"
+
 
 # ---------------------------------------------------------------------------
 # Data preparation
@@ -128,16 +130,19 @@ def evaluate_model(model, X_test, y_test, model_name="Model", color="darkorange"
     for t in ax1.texts:
         t.set_fontsize(11)
     ax1.grid(False)
+    ax1.set_ylabel("True label", fontsize=12)
+    ax1.set_xlabel("Predicted label", fontsize=12)
 
     fpr, tpr, _ = roc_curve(y_test, y_proba)
     roc_auc = auc(fpr, tpr)
     ax2.plot(fpr, tpr, color=color, lw=2, label=f"AUC = {roc_auc:.3f}")
     ax2.plot([0, 1], [0, 1], color="navy", linestyle="--", lw=1)
-    ax2.set_xlabel("False Positive Rate")
-    ax2.set_ylabel("True Positive Rate")
-    ax2.set_title(f"ROC — {model_name}")
+    ax2.set_xlabel("False Positive Rate", fontsize=12)
+    ax2.set_ylabel("True Positive Rate", fontsize=12)
+    # ax2.set_title(f"ROC — {model_name}")
     ax2.legend()
     plt.tight_layout()
+    plt.savefig(f"../{IMG_DIR}/ml_training/eval_{model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
     plt.show()
 
 
@@ -426,14 +431,14 @@ def evaluate_and_visualize(prediction_path, ground_truth_names, masks_dir,
         mpatches.Patch(color='#FF00FF', label='False Negative'),
     ]
     ax1.legend(handles=legend_patches, loc='upper right', framealpha=0.9)
-    ax1.set_title(f"Spatial Analysis: {base_name}")
+    # ax1.set_title(f"Spatial Analysis: {base_name}")
     ax1.axis('off')
 
     cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
     ConfusionMatrixDisplay(cm, display_labels=['Not Mowed', 'Mowed']).plot(
         ax=ax2, cmap='Blues', colorbar=False, values_format='d'
     )
-    ax2.set_title("Confusion Matrix")
+    # ax2.set_title("Confusion Matrix")
     ax2.grid(False)
 
     plt.tight_layout()
