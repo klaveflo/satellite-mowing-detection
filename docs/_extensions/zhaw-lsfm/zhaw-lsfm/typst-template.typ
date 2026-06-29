@@ -77,12 +77,18 @@
     } else { none }
   )
 
-  let chapter-for-figs = counter("chapter-for-figs")
+let chapter-for-figs = counter("chapter-for-figs")
+  let appendix-fig-counter = counter("appendix-fig-counter")
 
   show heading: it => {
     if it.level == 1 {
       if it.numbering != none {
-        chapter-for-figs.step()
+        let is-appendix = appendix-mode.get()
+        if is-appendix {
+          appendix-fig-counter.step()
+        } else {
+          chapter-for-figs.step()
+        }
       }
       counter(figure.where(kind: "quarto-float-fig")).update(0)
       counter(figure.where(kind: "quarto-float-tbl")).update(0)
@@ -92,10 +98,16 @@
   }
   // Pagebreaks are handled by Lua filter to avoid container conflicts
   
-  set figure(
+set figure(
     numbering: (..nums) => context {
-      let chapter = chapter-for-figs.get().first()
-      numbering("1.1", chapter, ..nums)
+      let is-appendix = appendix-mode.get()
+      if is-appendix {
+        let app-chap = appendix-fig-counter.get().first()
+        numbering("A.1", app-chap, ..nums)
+      } else {
+        let chapter = chapter-for-figs.get().first()
+        numbering("1.1", chapter, ..nums)
+      }
     }
   )
 
