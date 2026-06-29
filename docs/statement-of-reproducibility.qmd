@@ -1,4 +1,4 @@
-# Statement of Reproducibility
+# Statement of Reproducibility {.unnumbered}
 
 All code developed for data processing, model training, evaluation, and the operational prototype is fully available in the project's [GitHub repository](https://github.com/klaveflo/satellite-mowing-detection). The ground truth data provided by Zurich Airport is confidential and cannot be publicly shared, but the code structure allows reproduction of the workflow using similar datasets. Sentinel-2 imagery is openly available through the [Copernicus Browser](https://browser.dataspace.copernicus.eu/). Sentinel-1 GRD data were accessed via Google Earth Engine, and SLC products were acquired from the Copernicus Data Space Ecosystem using the `cdsetool` library. Both sources are publicly accessible, though SLC acquisition requires user credentials that are not included in the repository. The [official land survey and fire brigade responsibility area data](https://geo.zh.ch/) are openly available from the Canton of Zurich geoportal.
 

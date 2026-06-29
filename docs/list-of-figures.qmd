@@ -1,0 +1,38 @@
+# List of Figures {.unnumbered .unlisted}
+
+```{=typst}
+#context {
+  let figs = query(figure.where(kind: "quarto-float-fig"))
+  for f in figs {
+    let loc = f.location()
+    let chap = counter("chapter-for-figs").at(loc).first()
+    let fig-nr = counter(figure.where(kind: "quarto-float-fig")).at(loc).first()
+    let page-nr = counter(page).at(loc).first()
+    let caption-text = if f.caption != none { f.caption.body } else { [] }
+    // Skip subfigures: they have short or empty captions and share a number with parent
+    if caption-text == [] { continue }
+    let ct = repr(caption-text)
+    if ct.len() < 100 { continue }
+    [#link(loc)[Figure #chap.#fig-nr #caption-text #box(width: 1fr, repeat[.]) #page-nr] \ ]
+    v(0.4em)
+  }
+}
+```
+
+# List of Tables {.unnumbered .unlisted}
+
+```{=typst}
+#context {
+  let tbls = query(figure.where(kind: "quarto-float-tbl"))
+  for t in tbls {
+    let loc = t.location()
+    let chap = counter("chapter-for-figs").at(loc).first()
+    let tbl-nr = counter(figure.where(kind: "quarto-float-tbl")).at(loc).first()
+    let page-nr = counter(page).at(loc).first()
+    let caption-text = if t.caption != none { t.caption.body } else { [] }
+    if caption-text == [] { continue }
+    [#link(loc)[Table #chap.#tbl-nr #caption-text #box(width: 1fr, repeat[.]) #page-nr] \ ]
+    v(0.4em)
+  }
+}
+```

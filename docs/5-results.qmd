@@ -4,9 +4,7 @@ jupyter: ba
 
 # Results {#sec-results}
 ## Interferometric Coherence and SNR Correction Analysis
-The physical expectation for interferometric SAR over grasslands is that the removal of vegetation biomass increases surface scattering stability, thereby reducing temporal decorrelation. Consequently, coherence values are expected to increase following a mowing event, resulting in a positive Cohen's $d$ when comparing the post-mowing coherence of mowed parcels against untouched baseline parcels.
-
-An analysis of the coherence signals across different seasons reveals a significant deviation from this theoretical expectation. @tbl-coherence-seasonal summarizes the mean coherence values, Cohen's $d$ effect sizes, and p-values for both raw and SNR-corrected signals.
+@tbl-coherence-seasonal summarises the mean post-mowing coherence values, Cohen's $d$ effect sizes, and p-values for both raw and SNR-corrected signals across the three seasonal windows.
 
 ```{python}
 #| tbl-cap: "Mean post-mowing coherence by class and season. Mowed and Not mowed columns show the mean coherence of the respective class after the event. Cohen's d quantifies the effect size between classes."
@@ -58,25 +56,24 @@ data["Correction"] = data["Correction"].replace({
 
 ```
 
-The data indicates that the expected positive shift is primarily isolated to the VH polarisation during the late season. In this specific temporal window, mowed parcels demonstrate a clear relative increase in coherence compared to the unmowed background. This shift is visually apparent in the density distributions (@fig-vh-density), where the mowed class (red) is shifted to the right towards higher coherence values. 
+VH polarisation during the late season was the only configuration that produced a positive Cohen's $d$, with mowed parcels showing higher mean post-event coherence than unmowed parcels. This separation is also visible in the density distributions (@fig-vh-density), where the mowed class is shifted to the right relative to the unmowed class.
 
-Conversely, in the early and peak growth seasons, both polarisations generally exhibit negative Cohen's $d$ values. In these periods, the mowed parcels unexpectedly display lower post-event coherence than their untouched counterparts, representing a direct inversion of the expected scattering behavior. The application of the SNR correction successfully improved the statistical separability of the classes by slightly increasing the magnitude of Cohen's $d$ and lowering the associated p-values across most configurations. However, the correction strictly amplified the existing signals, it did not resolve or reverse the fundamental signal inversion observed during the early and peak seasons.
+In the early and peak growth seasons, both polarisations produced negative Cohen's $d$ values, with mowed parcels showing lower post-event coherence than unmowed parcels. VV polarisation showed near-zero effect sizes across all seasons, with consistently high p-values.
+
+The SNR correction increased the magnitude of Cohen's $d$ and lowered the associated p-values across most configurations, but did not change the sign of the effect in any season-polarisation combination.
 
 ![Density distributions of post-event VH coherence (`coh_after`) across early, peak, and late seasons, showing the rightward shift of the mowed class exclusively in the late season.](images/snr_correction/plot_A_coh_vh_after.png){#fig-vh-density}
 
 
 
 ## Feature Importance and Selection
-@fig-perm-importance-A and @fig-perm-importance-B show the permutation importance of all candidate features for Group A (26 features, no coherence) and Group B (28 features, including coherence). In both groups, optical vegetation index features dominate the top ranks, while GRD backscatter features and absolute  coherence values contribute negligibly or negatively to classification performance.
+@fig-perm-importance-A and @fig-perm-importance-B show the permutation importance of all candidate features for Group A (26 features, no coherence) and Group B (28 features, including coherence). In both groups, optical vegetation index features occupy the top ranks, while GRD backscatter features and absolute coherence values show negligible or negative importance.
 
 ![Permutation importance for Group A (26 features). Bars show the mean F1-Score decrease when each feature is permuted (20 shuffles), with error bars indicating one standard deviation.](images/feature_importance/perm_importance.png){#fig-perm-importance-A width=80%}
 
 ![Permutation importance for Group B (28 features). Bars show the mean F1-Score decrease when each feature is permuted (20 shuffles), with error bars indicating one standard deviation.](images/feature_importance/perm_importance_B.png){#fig-perm-importance-B width=80%}
 
-In Group A, ndii_diff is the single dominant predictor, followed by swir_after, evi_after, and swir_diff. No GRD feature reaches positive importance. In Group B, the ranking shifts substantially: gndvi_after and gndvi_diff become the two strongest predictors, while ndii_diff drops to rank three. Features such as gndvi_diff, which shows negative importance in Group A, appear among the most informative in Group B. The absolute coherence values (coh_vv, coh_vh) show near-zero importance, indicating they primarily reflect landscape characteristics rather than mowing-specific
-change.
-
-These ranking shifts reflect the different compositions of the two groups. Group B contains fewer events from a subset of dates with available coherence data, altering the spectral and temporal distribution of training samples. The instability of individual feature rankings across groups suggests that the selection should be interpreted with caution, as the limited dataset size means that small changes in sample composition can substantially affect importance estimates. The final feature sets for each model configuration (@tbl-model-configs) were selected by balancing the analytical findings with domain experience and theoretical expectations of the underlying physical processes.
+In Group A, ndii_diff is the single dominant predictor, followed by swir_after, evi_after, and swir_diff. No GRD feature reaches positive importance. In Group B, the ranking shifts substantially: gndvi_after and gndvi_diff become the two strongest predictors, while ndii_diff drops to rank three. Features such as gndvi_diff, which shows negative importance in Group A, appear among the most informative in Group B. The absolute coherence values (coh_vv, coh_vh) show near-zero importance in both groups. The final feature sets for each model configuration (@tbl-model-configs) were derived from these rankings in combination with domain knowledge, as described in @sec-methods.
 
 
 ## Test-Set Classification Performance
@@ -133,20 +130,17 @@ data["Configuration"] = data["Configuration"].str.replace("_", " ")
 
 ![F1-Score comparison across all model configurations for Group A (left) and Group B (right). The dashed line indicates the 0.5 random baseline. GRD-only and Coh-only configurations perform near random, while optical features dominate classification performance.](images/ml_training/f1_comparison.png){#fig-f1-comparison}
 
-Within Group A, the S2-only configurations achieve the highest F1-Scores, with the SVM reaching 0.923 using five optical features. Reducing the feature set to only the three difference features (ndii_diff, gndvi_diff, swir_diff) produces a minimal drop to 0.920, suggesting that the temporal change signal carries most of the discriminative information. Adding GRD backscatter features to the optical set does not improve performance: the S2+GRD RF achieves 0.919, marginally below the S2-only baseline. The GRD-only configurations confirm that SAR backscatter alone cannot discriminate mowing events at this site, with F1-Scores between 0.467 and 0.528.
+Within Group A, the S2-only configurations achieve the highest F1-Scores, with the SVM reaching 0.923 using five optical features. Reducing the feature set to only the three difference features (ndii_diff, gndvi_diff, swir_diff) produces a minimal drop to 0.920. Adding GRD backscatter features to the optical set does not improve performance: the S2+GRD RF achieves 0.919, marginally below the S2-only baseline. The GRD-only configurations achieve F1-Scores between 0.467 and 0.528, near the random baseline.
 
-Within Group B, the Full-fusion RF achieves the highest F1-Score of 0.922, followed by S2_best+Coh RF at 0.910. Coherence-only models perform near random (F1 between 0.468 and 0.479), indicating that coherence values alone do not provide sufficient class separability. The S2_diff+Coh configurations, which combine only difference features with coherence, achieve lower F1-Scores (0.841 to 0.861) than the S2_best+Coh configurations that include absolute index values, confirming that post-event vegetation state features contribute meaningful information beyond the temporal
-change signal.
+Within Group B, the Full-fusion RF achieves the highest F1-Score of 0.922, followed by S2_best+Coh RF at 0.910. Coherence-only models perform near random (F1 between 0.468 and 0.479). The S2_diff+Coh configurations, which combine only difference features with coherence, achieve lower F1-Scores (0.841 to 0.861) than the S2_best+Coh configurations that include absolute post-event index values (0.899 to 0.910).
 
-The choice of classifier has a smaller effect on performance than the choice of features. Across Group A, the spread between the best and worst algorithm for a given feature set is typically less
-than 0.01 F1. In Group B, the spread is larger, particularly for the Full-fusion configuration where RF (0.922) substantially outperforms SVM (0.859). This may reflect the SVM's sensitivity to
-irrelevant features in higher-dimensional input spaces.
+The choice of classifier has a smaller effect on performance than the choice of features. Across Group A, the spread between the best and worst algorithm for a given feature set is typically less than 0.01 F1. In Group B, the spread is larger, particularly for the Full-fusion configuration where RF (0.922) substantially outperforms SVM (0.859).
 
 ![Confusion matrix and ROC curve for the best-performing Group A model (S2-only_best SVM, F1 = 0.923, AUC = 0.954). The model correctly classifies 4,152 mowed and 3,592 not-mowed pixels, with 110 false positives and 569 false negatives.](images/ml_training/eval_S2-only_best_SVM.png){#fig-cm-best}
 
 
 ## Scene-Level Threshold Calibration {#sec-threshold-results}
-The LOO-calibrated thresholds for all evaluated models are reported in @tbl-calibrated-thresholds. For all S2-based models, the calibrated thresholds are substantially higher than the default of 0.5, ranging from 0.775 (Full-fusion RF) to 0.950 (S2_best+Coh RF). This reflects the severe class imbalance at scene level, where typically less than 10% of grassland pixels are mowed at any given time. Higher thresholds force the classifier to predict mowing only when the estimated probability is very high, reducing false positive detections at the cost of some missed events. The coherence-only and GRD-only models show the opposite pattern, with calibrated thresholds near 0.1, indicating that even at the most permissive decision boundary these models struggle to produce meaningful detections.
+The LOO-calibrated thresholds for all evaluated models are reported in @tbl-calibrated-thresholds. For all S2-based models, the calibrated thresholds range from 0.775 (Full-fusion RF) to 0.950 (S2_best+Coh RF), substantially above the default of 0.5. The coherence-only and GRD-only models show the opposite pattern, with calibrated thresholds at or near 0.1.
 
 | Model | Calibrated threshold |
 |:--|:--|
@@ -164,7 +158,7 @@ The LOO-calibrated thresholds for all evaluated models are reported in @tbl-cali
 
 : Scene-level LOO-calibrated thresholds. Calibration was performed over six held-out scenes with ground truth. {#tbl-calibrated-thresholds}
 
-The practical impact of threshold calibration is illustrated in @fig-threshold-calibration, which compares predictions on scene 46 using the default threshold (t = 0.50) and the calibrated threshold (t = 0.875), both without postprocessing. At the default threshold, the model achieves high recall (0.881) but low precision (0.327), producing widespread false positive detections across non-mowed grassland areas. The calibrated threshold raises precision from 0.327 to 0.499 and improves the F1-Score from 0.477 to 0.587. Recall decreases from 0.881 to 0.712 as some genuine mowing pixels no longer exceed the stricter decision boundary, but the overall classification quality improves substantially.
+The effect of threshold calibration is illustrated in @fig-threshold-calibration, which compares predictions on scene 46 using the model S2_only_diff RF with the default threshold (t = 0.50) and the calibrated threshold (t = 0.875), both without postprocessing. At the default threshold, the model achieves high recall (0.881) but low precision (0.327). The calibrated threshold raises precision to 0.499 and improves the F1-Score from 0.477 to 0.587, while recall decreases to 0.712. In the figure it is clearly visible that the thrshold calibration removes many of the scattered false positives, reducing salt-and-pepper noise.
 
 ::: {#fig-threshold-calibration layout-ncol=2}
 
@@ -174,9 +168,6 @@ The practical impact of threshold calibration is illustrated in @fig-threshold-c
 
 Prediction maps for scene 46 without postprocessing. (a) Default threshold of 0.50 (F1 = 0.477, P = 0.327, R = 0.881). (b) LOO-calibrated threshold of 0.875 (F1 = 0.587, P = 0.499, R = 0.712). Cyan: true positive, orange: false positive, magenta: false negative, yellow: boundary-ambiguous (predicted mowed, but ground truth mowing occurred exactly on the after-image date itself, making those pixels uncertain).
 :::
-
-This result is important context for interpreting the postprocessing effects reported in the following section. Because threshold calibration already removes a majority of scattered false positive pixels, the remaining spatial noise available for postprocessing to address is limited.
-
 
 ## Effect of Spatial Postprocessing
 The postprocessing parameter grid search was evaluated on six calibration scenes using one of the most stable and best performing model configurations (S2-only_diff RF). @tbl-pp-summary shows the best configuration from each method category alongside the baseline without postprocessing.
@@ -195,19 +186,18 @@ data = data.rename(columns={
     "category": "Method",
     "f1": "F1",
     "delta_F1": "ΔF1",
+    "median_size": "Median size",
     "disk_radius": "Disk r",
     "min_area_pixels": "Min. area",
     "n_segments": "Segments",
     "slic_compactness": "Compact."
 })
 
-data = data.drop(columns=["median_size"])
-
 (
     GT(data)
     .fmt_number(columns=["F1", "ΔF1"], decimals=3)
-    .fmt_number(columns=["Disk r", "Min. area"], decimals=0)
-    .fmt_number(columns=["Segments", "Compact."], decimals=1)
+    .fmt_number(columns=["Median size", "Disk r", "Min. area", "Segments"], decimals=0)
+    .fmt_number(columns=[ "Compact."], decimals=1)
     .sub_missing(missing_text="—")
     .tab_options(
         table_font_size="10pt",
@@ -221,13 +211,13 @@ data = data.drop(columns=["median_size"])
 )
 ```
 
-The overall effect of postprocessing on the F1-Score is small. The best-performing configuration, a median filter followed by morphological opening and closing with a disk radius of 1 pixel and a minimum component area of 4 pixels, achieved a mean F1 of 0.590 across the six calibration scenes, an improvement of +0.009 over the unprocessed baseline (0.581). Morphological operations alone produced a marginal decrease of -0.003. Configurations involving SLIC superpixel aggregation performed drastically worse, dropping to F1-Scores around 0.235. This indicates that the majority voting within superpixel segments, at the tested parameter ranges, removes true positive detections more aggressively than it removes false positives, collapsing the mowing signal rather than refining it.
+The overall effect of postprocessing on the F1-Score is small. The best-performing configuration, a median filter with a window size of 3x3 followed by morphological opening and closing with a disk radius of 1 pixel and a minimum component area of 4 pixels, achieved a mean F1 of 0.590 across the six calibration scenes, an improvement of +0.009 over the unprocessed baseline (0.581). Morphological operations alone produced a marginal decrease of -0.003. Configurations involving SLIC superpixel aggregation performed drastically worse, dropping to F1-Scores around 0.235.
 
-The effect of postprocessing varies across scenes, as shown in @fig-pp-f1-comparison. For four of the six calibration scenes, the best postprocessing configuration produced a modest improvement in F1-Score, while for two scenes it resulted in a slight decrease. This scene-level variability suggests that the benefit of postprocessing depends on the spatial distribution of mowing events and the amount of noise present in the raw prediction.
+The effect of postprocessing varies across scenes, as shown in @fig-pp-f1-comparison. For four of the six calibration scenes, the best postprocessing configuration produced a modest improvement in F1-Score, while for two scenes it resulted in a slight decrease.
 
-![F1-Score comparison with and without the best postprocessing configuration across all six  calibration scenes. The effect is inconsistent: postprocessing improves performance on some scenes while slightly degrading it on others.](images/pp_f1_comparison_scenes.png){#fig-pp-f1-comparison width=60%}
+![F1-Score comparison with and without the best postprocessing configuration across all six calibration scenes. The effect is inconsistent: postprocessing improves performance on some scenes while slightly degrading it on others.](images/pp_f1_comparison_scenes.png){#fig-pp-f1-comparison width=65%}
 
-@fig-pp-sidebyside illustrates the spatial effect of postprocessing on a single scene (match_id 46). The raw prediction (F1 = 0.587) contains scattered false positive pixels along parcel boundaries and near infrastructure, particularly visible as orange fragments along the runway strips. After morphological postprocessing (F1 = 0.667), these isolated detections are removed, producing cleaner parcel boundaries and reducing the false positive area. The false negative regions (magenta) remain largely unchanged, confirming that the postprocessing primarily acts on precision rather than recall.
+@fig-pp-sidebyside illustrates the spatial effect of postprocessing on a single scene (match_id 46). The raw prediction (F1 = 0.587) contains scattered false positive pixels along parcel boundaries and near infrastructure, particularly visible as orange fragments along the runway strips. After postprocessing (F1 = 0.667), these isolated detections are removed, producing cleaner parcel boundaries and reducing the false positive area. The false negative regions (magenta) remain largely unchanged.
 
 ::: {#fig-pp-sidebyside layout-ncol=2}
 
@@ -239,13 +229,12 @@ Prediction maps for scene 46. (a) Raw prediction (F1 = 0.587). (b) After median 
 :::
 
 
-
 ## Operational Scene Application {#sec-operational-results}
 
 The trained models were applied to two held-out scenes (match_id 12 and 73) with available ground truth to evaluate operational performance. Each model was applied using its LOO-calibrated threshold, with and without the best postprocessing configuration. The full results are reported in @tbl-scene-results.
 
 ```{python}
-#| tbl-cap: "Operational evaluation on held-out scenes 12 and 73. F1_raw and F1_pp denote performance without and with postprocessing respectively."
+#| tbl-cap: "Operational evaluation on held-out scenes 12 and 73. F1 raw and F1 PP denote performance without and with postprocessing respectively."
 #| label: tbl-scene-results
 #| echo: false
 
@@ -287,16 +276,16 @@ data["Model"] = data["Model"].str.replace("_", " ")
 
 ```
 
-The best-performing model on scene 12 is the S2-only_diff SVM (F1 = 0.689 raw, 0.674 with postprocessing), followed closely by the S2-only_best SVM (0.667 raw, 0.673 with postprocessing) and the Full-fusion RF (0.675 raw, 0.669 with postprocessing). On scene 73, the S2-only_best RF achieves the highest F1 among S2-only models (0.749 raw, 0.735 with postprocessing). The Full-fusion RF performs comparably at 0.724. Across both scenes, the S2-based models consistently outperform all configurations that rely on SAR data alone. GRD-only and coherence-only models achieve F1-Scores around 0.200, with recall near 1.0 and precision near 0.11, indicating that they predict nearly every pixel as mowed.
+The best-performing model on scene 12 is the S2-only_diff SVM (F1 = 0.689 raw, 0.674 with postprocessing), followed closely by the S2-only_best SVM (0.667 raw, 0.673 with postprocessing) and the Full-fusion RF (0.675 raw, 0.669 with postprocessing). On scene 73, the S2-only_best RF achieves the highest F1 among S2-only models (0.749 raw, 0.735 with postprocessing). The Full-fusion RF performs comparably at 0.724. Across both scenes, the S2-based models consistently outperform all configurations that rely on SAR data alone. GRD-only and coherence-only models achieve F1-Scores around 0.200, with recall near 1.0 and precision near 0.11.
 
-@fig-coh-failure illustrates this failure mode for the coherence- only RF on scene 12. Despite the LOO-calibrated threshold of 0.1, the model predicts almost the entire grassland area as mowed, resulting in an F1-Score of 0.200. This confirms that coherence values alone, without optical context, do not provide sufficient class separability for mowing detection at this site.
+@fig-coh-failure shows the coherence-only RF prediction on scene 12. Despite the LOO-calibrated threshold of 0.1, the model predicts almost the entire grassland area as mowed, resulting in an F1-Score of 0.200.
 
 ![Prediction map for the coherence-only RF on scene 12 (F1 = 0.200). The model predicts nearly all grassland pixels as mowed (cyan and orange cover almost the entire area), with a recall of 0.989 but a precision of only 0.111. Cyan: true positive, orange: false positive, magenta: false negative, yellow: boundary-ambiguous (predicted mowed, but ground truth mowing occurred exactly on the after-image date itself, making those pixels uncertain).](images/full_scene_eval/eval_scene12_coh_only_rf.png){#fig-coh-failure width=60%}
 
 
 ### Comparison with PW2 Baseline
 
-To directly assess the improvement over the previous study, the best-performing model from PW2 (SVM using ndii_diff as the sole feature, with a default threshold of 0.5) was applied to the same two scenes. On scene 73, the PW2 model achieves an F1-Score of 0.397 with a precision of 0.251 and recall of 0.938. The best current model (S2-only_best RF) reaches 0.749 on the same scene, nearly doubling the F1-Score. The improvement is driven primarily by precision, which increases from 0.251 to 0.706, while recall decreases moderately from 0.938 to 0.798. This pattern reflects the combined effect of the expanded feature set, the threshold calibration, and the refined ground truth cleaning applied in this thesis.
+To directly assess the improvement over the previous study, the best-performing model from PW2 (SVM using ndii_diff as the sole feature, with a default threshold of 0.5) was applied to the same two scenes. On scene 73, the PW2 model achieves an F1-Score of 0.397 with a precision of 0.251 and recall of 0.938. The best current model (S2-only_best RF) reaches 0.749, with precision increasing to 0.706 and recall decreasing to 0.798.
 
 ::: {#fig-comparison-scene73 layout-ncol=2}
 
@@ -318,17 +307,13 @@ On scene 12, the improvement is smaller but consistent: the PW2 model achieves 0
 Comparison of PW2 baseline and best model on scene 12. The pattern is consistent with scene 73: the improved model reduces false positives while maintaining coverage of the main mowing areas.
 :::
 
-The performance difference between scenes (best F1 of 0.689 on scene 12 versus 0.749 on scene 73) reflects the variability inherent in scene-level evaluation, where cloud cover, mowing extent, and ground truth quality differ between events. Both scenes confirm the general pattern: the enhanced workflow substantially improves precision over the PW2 baseline, threshold calibration and postprocessing are essential for operational application.
 
-
-### Generalisation Test
+## Generalisation Test
 
 The S2-only_diff RF model was applied to a scene pair near Lindau (30.04.2025 to 10.05.2025) using the prototype notebook. No grassland mask or study area boundary was applied, meaning the model ran over the full scene extent including forests, roads, buildings, and agricultural cropland.
 
-The evaluation against the four available ground truth polygons yields an F1-Score of 0.516 with a  precision of 0.348 and recall of 0.995 (@fig-generalisation). The model detects virtually all known mowing pixels (2,027 true positives, 11 false negatives) but also predicts 3,793 pixels as mowed outside the ground truth polygons.
+The evaluation against the four available ground truth polygons yields an F1-Score of 0.516 with a precision of 0.348 and recall of 0.995 (@fig-generalisation). The model detects virtually all known mowing pixels (2,027 true positives, 11 false negatives) but also predicts 3,793 pixels as mowed outside the ground truth polygons.
 
 ![Generalisation test near Lindau (30.04.2025 to 10.05.2025), applied without grassland mask or study area restriction. F1 = 0.516, P = 0.348, R = 0.995. Cyan: true positive, orange: false positive, magenta: false negative.](images/generalization_lindau_2025-05-10.png){#fig-generalisation width=60%}
 
-However, the low precision should be interpreted with caution. The ground truth covers only four parcels managed by Strickhof and does not account for mowing events on surrounding parcels managed by other farmers. Visual comparison of the before and after RGB composites confirms that several of the areas flagged as false positives show clear spectral changes consistent with vegetation removal, suggesting that these are likely genuine mowing events not captured in the available reference data. The reported F1-Score therefore represents a lower bound on actual model performance at this site.
-
-Notably, the model correctly avoids predicting mowing on non-grassland surfaces despite the absence of a land cover mask. Forests, buildings, roads, and bare soil areas remain undetected, indicating that the spectral change features are sufficiently specific to distinguish mowing from other surface types. This is an encouraging result for the operational applicability of the prototype, as it suggests that a grassland mask, while beneficial for reducing computation, is not strictly required to avoid systematic false detections on non-vegetated surfaces.
+The ground truth covers only four parcels managed by Strickhof and does not account for mowing events on surrounding parcels managed by other farmers. Visual comparison of the before and after RGB composites shows that several of the areas flagged as false positives display spectral changes consistent with vegetation removal. The model does not predict mowing on non-grassland surfaces: forests, buildings, roads, and bare soil areas remain undetected despite the absence of a land cover mask.

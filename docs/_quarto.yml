@@ -12,7 +12,6 @@ book:
   chapters:
     - file: index.qmd
       text: "Title Page"   # sidebar label for the title page
-    - 1-abstract.qmd
     - 2-introduction.qmd
     - 3-literature.qmd
     - 4-methods.qmd
@@ -20,6 +19,7 @@ book:
     - 6-discussion.qmd
     - statement-of-reproducibility.qmd
     - references.qmd
+    - list-of-figures.qmd
   appendices:
     - 7-appendix-rawdata.qmd
     - 8-appendix-statistics.qmd
