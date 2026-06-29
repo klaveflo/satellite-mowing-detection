@@ -103,9 +103,10 @@ COH_WIN_AZ     = 5
 OUTPUT_SPACING = 20.0        # metres; coherence output pixel size
 
 # ---------------------------------------------------------------------------
-# Postprocessing defaults (tuned on 2020-08-12 baseline; revisit in nb09)
+# Postprocessing defaults
 # ---------------------------------------------------------------------------
-PP_DISK_RADIUS = 2
+PP_DISK_RADIUS = 1
 PP_MIN_AREA_PX = 4
+PP_MEDIAN_SIZE = 3
 PP_N_SEGMENTS  = 300
 PP_COMPACTNESS = 0.05
