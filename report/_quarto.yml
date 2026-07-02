@@ -51,6 +51,6 @@ supervisors:
     affiliation: "ZHAW Life Sciences and Facility Management, Wädenswil"
 
 format:
-  zhaw-lsfm-typst: default
   zhaw-lsfm-html:
     embeded-resources: true
+  zhaw-lsfm-typst: default
