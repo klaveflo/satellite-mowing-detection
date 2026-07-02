@@ -1,3 +1,4 @@
 # References {#sec-refs .unnumbered}
 
-{{< references >}}
+::: {#refs}
+:::

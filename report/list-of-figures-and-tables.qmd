@@ -1,4 +1,8 @@
-# List of Figures {.unnumbered}
+# List of Figures and Tables {.unnumbered}
+
+::: {.content-visible when-format="typst"}
+
+## Figures {.unnumbered .unlisted}
 
 ```{=typst}
 #context {
@@ -20,7 +24,7 @@
 }
 ```
 
-# List of Tables {.unnumbered .unlisted}
+## Tables {.unnumbered .unlisted}
 
 ```{=typst}
 #context {
@@ -39,3 +43,11 @@
   }
 }
 ```
+
+:::
+
+::: {.content-visible when-format="html"}
+
+The list of figures and tables is available in the PDF version of this report.
+
+:::

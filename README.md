@@ -60,7 +60,6 @@ conda env create -f environment.yml
 conda activate satellite-mowing-detection
 ```
 
-> **TODO (author):** Add `environment.yml` to the repository root if not yet committed.
 
 ---
 

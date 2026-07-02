@@ -20,7 +20,7 @@ book:
     - statement-of-reproducibility.qmd
     - references.qmd
     - list-of-ai-tools.qmd
-    - list-of-figures.qmd
+    - list-of-figures-and-tables.qmd
   appendices:
     - 7-appendix-statistics.qmd
 
