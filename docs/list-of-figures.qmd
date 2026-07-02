@@ -1,4 +1,4 @@
-# List of Figures {.unnumbered .unlisted}
+# List of Figures {.unnumbered}
 
 ```{=typst}
 #context {

@@ -1,6 +1,0 @@
-# Statistical Outputs {#sec-statistical-outputs}
-
-![Pearson Correlation over all 30 features](images/feature_importance/pearson_correlation.png){#fig-pearson-correlation width=100%}
-
-![Feature importance by MDI](images/feature_importance/mdi_importance.png){#fig-mdi-importance width=100%}
-

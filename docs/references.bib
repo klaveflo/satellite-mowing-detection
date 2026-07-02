@@ -292,7 +292,7 @@ eprint = {https://doi.org/10.1080/1206212X.2019.1578068}
   publisher={Copernicus GmbH}
 }
 
-@article{breiman2001randomforests,
+@article{breiman2001,
   title   = {Random Forests},
   author  = {Breiman, Leo},
   journal = {Machine Learning},
@@ -303,7 +303,23 @@ eprint = {https://doi.org/10.1080/1206212X.2019.1578068}
   doi     = {10.1023/A:1010933404324}
 }
 
-@article{cortes1995svm,
+@article{altmann2010,
+    author = {Altmann, André and Toloşi, Laura and Sander, Oliver and Lengauer, Thomas},
+    title = {Permutation importance: a corrected feature importance measure},
+    journal = {Bioinformatics},
+    volume = {26},
+    number = {10},
+    pages = {1340-1347},
+    year = {2010},
+    month = {05},
+    abstract = {Motivation: In life sciences, interpretability of machine learning models is as important as their prediction accuracy. Linear models are probably the most frequently used methods for assessing feature relevance, despite their relative inflexibility. However, in the past years effective estimators of feature relevance have been derived for highly complex or non-parametric models such as support vector machines and RandomForest (RF) models. Recently, it has been observed that RF models are biased in such a way that categorical variables with a large number of categories are preferred.Results: In this work, we introduce a heuristic for normalizing feature importance measures that can correct the feature importance bias. The method is based on repeated permutations of the outcome vector for estimating the distribution of measured importance for each variable in a non-informative setting. The P-value of the observed importance provides a corrected measure of feature importance. We apply our method to simulated data and demonstrate that (i) non-informative predictors do not receive significant P-values, (ii) informative variables can successfully be recovered among non-informative variables and (iii) P-values computed with permutation importance (PIMP) are very helpful for deciding the significance of variables, and therefore improve model interpretability. Furthermore, PIMP was used to correct RF-based importance measures for two real-world case studies. We propose an improved RF model that uses the significant variables with respect to the PIMP measure and show that its prediction accuracy is superior to that of other existing models.Availability: R code for the method presented in this article is available at http://www.mpi-inf.mpg.de/∼altmann/download/PIMP.RContact:  altmann@mpi-inf.mpg.de, laura.tolosi@mpi-inf.mpg.deSupplementary information:  Supplementary data are available at Bioinformatics online.},
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btq134},
+    url = {https://doi.org/10.1093/bioinformatics/btq134},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/26/10/1340/48851160/bioinformatics_26_10_1340.pdf},
+}
+
+@article{cortes1995,
   title   = {Support-Vector Networks},
   author  = {Cortes, Corinna and Vapnik, Vladimir},
   journal = {Machine Learning},
@@ -314,7 +330,7 @@ eprint = {https://doi.org/10.1080/1206212X.2019.1578068}
   doi     = {10.1007/BF00994018}
 }
 
-@article{ke2017lightgbm,
+@article{ke2017,
   title   = {LightGBM: A Highly Efficient Gradient Boosting Decision Tree},
   author  = {Ke, Guolin and Meng, Qi and Finley, Thomas and Wang, Taifeng and Chen, Wei and Ma, Weidong and Ye, Qiwei and Liu, Tie-Yan},
   journal = {Advances in Neural Information Processing Systems},
@@ -322,18 +338,18 @@ eprint = {https://doi.org/10.1080/1206212X.2019.1578068}
   year    = {2017}
 }
 
-@misc{sklearn_metrics,
-  author       = {{scikit-learn developers}},
-  title        = {Classification metrics},
-  howpublished = {\url{https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics}},
-  year         = {2026},
-  note         = {Accessed 2026-06-24}
-}
-
-@misc{sklearn_loo,
+@online{sklearnloo,
   author       = {{scikit-learn developers}},
   title        = {LeaveOneOut cross-validator},
-  howpublished = {\url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneOut.html}},
+  url          = {https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneOut.html},
+  year         = {2026},
+  urldate      = {Accessed 2026-06-24}
+}
+
+@misc{sklearnmetrics,
+  author       = {{scikit-learn developers}},
+  title        = {Classification metrics},
+  url          = {https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics},
   year         = {2026},
   note         = {Accessed 2026-06-24}
 }
@@ -347,4 +363,49 @@ eprint = {https://doi.org/10.1080/1206212X.2019.1578068}
   pages   = {3681},
   year    = {2019},
   doi     = {10.1038/s41467-019-13250-1}
+}
+
+@misc{mathworks_medfilt2,
+  author       = {MathWorks},
+  title        = {medfilt2 - 2-D median filtering},
+  howpublished = {\url{https://ch.mathworks.com/help/images/ref/medfilt2.html}},
+  year         = {2026},
+  note         = {Accessed 2026-06-30}
+}
+
+@misc{cdsetool_pypi,
+  author       = {Vejby},
+  title        = {cdsetool},
+  howpublished = {\url{https://pypi.org/project/cdsetool/}},
+  year         = {2026},
+  note         = {Accessed 2026-06-30}
+}
+
+@misc{snap_gpt_docs,
+  author       = {ESA},
+  title        = {The SNAP Graph Processing Tool (gpt)},
+  howpublished = {\url{https://step.esa.int/main/wp-content/help/?version=11.0.0&helpid=gpf.graphProcessingTool}},
+  year         = {2026},
+  note         = {Accessed 2026-06-30}
+}
+
+@misc{snap_platform,
+  author       = {ESA},
+  title        = {SNAP -- The Sentinels Application Platform},
+  howpublished = {\url{https://step.esa.int/main/toolboxes/snap/}},
+  year         = {2026},
+  note         = {Accessed 2026-06-30}
+}
+
+@article{ploton2020,
+  title   = {Spatial validation reveals poor predictive performance of large-scale ecological mapping models},
+  author  = {Ploton, Pierre and Mortier, Fr{\'e}d{\'e}ric and R{\'e}jou-M{\'e}chain, Maxime and Barbier, Nicolas and Picard, Nicolas and Rossi, Vivien and Dormann, Carsten F. and Cornu, Guillaume and Viennois, G{\'e}rald and Bayol, Nathan and Lyapustin, Alexander and Gourlet-Fleury, Sylvie and P{\'e}lissier, Romain},
+  journal = {Nature Communications},
+  year    = {2020},
+  volume  = {11},
+  number  = {1},
+  pages   = {4540},
+  doi     = {10.1038/s41467-020-18321-y},
+  pmid    = {32917875},
+  pmcid   = {PMC7486894}
 }

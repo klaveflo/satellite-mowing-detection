@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "Advanced Earth Observation for Grassland Management:"
+  title: "Advanced Earth Observation for Grassland Management"
   subtitle: "Improving Automated Mowing Detection Using Multimodal Remote Sensing and Machine Learning"
   author:
     - Florian Klaver
@@ -19,16 +19,16 @@ book:
     - 6-discussion.qmd
     - statement-of-reproducibility.qmd
     - references.qmd
+    - list-of-ai-tools.qmd
     - list-of-figures.qmd
   appendices:
-    - 7-appendix-rawdata.qmd
-    - 8-appendix-statistics.qmd
+    - 7-appendix-statistics.qmd
 
 bibliography: references.bib
 lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
 
 institut: "Institute for Computational Life Sciences"
-keywords: "Earth observation, grassland management, mowing detection, multimodal remote sensing, machine learning"
+keywords: "mowing detection, Sentinel-2, Sentinel-1, interferometric coherence, SAR, machine learning, remote sensing, grassland management, change detection, Zurich Airport"
 confidential: false         # adds a "Vertraulich" notice on the title page
 zhaw-cover-image:
   src: images/cover.png

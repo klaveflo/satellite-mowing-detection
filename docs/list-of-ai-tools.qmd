@@ -1,0 +1,27 @@
+# List of Used AI Tools {.unnumbered}
+
+## Claude {.unlisted}
+- **Tool Type:** Large Language Model (LLM)
+- **Model:** Claude Opus 4.6
+- **Provider:** Anthropic PBC
+- **URL:** https://claude.ai/
+- **Purpose:** 
+    - Code development (specifically for SAR data processing) and general debugging
+    - Text refinement in the written report
+
+## Perplexity AI {.unlisted}
+- **Tool Type:** Large Language Model (LLM)
+- **Model:** Perplexity AI
+- **Provider:** Perplexity AI
+- **URL:** https://www.perplexity.ai/
+- **Purpose:** 
+    - Research of scientific literature
+
+## DeepL {.unlisted}
+- **Tool Type:** AI-based Translation Tool and Text Refinement
+- **Model:** DeepL Translator & DeepL Write
+- **Provider:** DeepL SE
+- **URL:** https://www.deepl.com/
+- **Purpose:** 
+    - Translation of text or single words from English to German and vice versa
+    - Text refinement in the written report
