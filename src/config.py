@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# Repo root — resolved from this file's location so paths are always absolute
+# Repo root: resolved from this file's location so paths are always absolute
 # regardless of the working directory the notebook is launched from.
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -96,7 +96,7 @@ SUBSWATH       = "IW2"
 FIRST_BURST    = 1
 LAST_BURST     = 9
 
-# Coherence estimation window — matched to Tamm et al. (2016) R80/R160 setup
+# Coherence estimation window, matched to Tamm et al. (2016) R80/R160 setup
 # ENL ≈ 46, ground footprint ≈ 71m × 69m
 COH_WIN_RG     = 19
 COH_WIN_AZ     = 5

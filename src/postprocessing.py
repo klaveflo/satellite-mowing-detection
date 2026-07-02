@@ -3,9 +3,9 @@ Postprocessing routines for binary mowing prediction maps.
 
 Three levels of postprocessing, designed to be applied in sequence:
 
-  1. median_filter        — removes salt-and-pepper single-pixel noise
-  2. morphological_clean  — binary open/close + minimum area filter
-  3. slic_majority_vote   — object-based smoothing using SLIC superpixels
+  1. median_filter        - removes salt-and-pepper single-pixel noise
+  2. morphological_clean  - binary open/close + minimum area filter
+  3. slic_majority_vote   - object-based smoothing using SLIC superpixels
 
 The main entry point is postprocess_prediction(), which accepts a method name
 or list of method names so notebooks can run clean comparisons.
@@ -19,7 +19,7 @@ from scipy.ndimage import (
     label as ndimage_label,
 )
 
-# skimage is only needed for SLIC — import lazily so the module loads without it
+# skimage is only needed for SLIC, import lazily so the module loads without it
 try:
     from skimage.segmentation import slic
     from skimage.morphology import disk
@@ -110,11 +110,11 @@ def apply_slic_majority_vote(pred_map: np.ndarray,
     Parameters
     ----------
     pred_map     : 2-D int8 array {-1, 0, 1}
-    scene_image  : 3-D float array (H, W, C) — the multi-band AFTER image
+    scene_image  : 3-D float array (H, W, C) - the multi-band AFTER image
                    normalised to [0, 1].  Typically RGB or all 5 S2 bands.
     n_segments   : approximate number of superpixels (default 300)
     compactness  : SLIC compactness.  Low value (0.05) forces spectral
-                   over spatial clustering — good for irregular field shapes.
+                   over spatial clustering - good for irregular field shapes.
     threshold    : fraction of positive pixels in a segment required to label
                    the whole segment as mowed (default 0.5 = majority vote)
 
@@ -165,12 +165,12 @@ def postprocess_prediction(pred_map: np.ndarray,
     ----------
     pred_map     : 2-D int8 array with values {-1 (nodata), 0, 1}
     method       : one of:
-                     'median'           — median filter only
-                     'morphological'    — morphological open/close + area filter
-                     'slic'             — SLIC majority vote (requires scene_image)
-                     'median+morphological'   — both in sequence
-                     'morphological+slic'     — both in sequence
-                     'full'             — all three in sequence
+                     'median'           - median filter only
+                     'morphological'    - morphological open/close + area filter
+                     'slic'             - SLIC majority vote (requires scene_image)
+                     'median+morphological'   - both in sequence
+                     'morphological+slic'     - both in sequence
+                     'full'             - all three in sequence
     scene_image  : required for methods containing 'slic'; shape (H, W, C),
                    values normalised to [0, 1]
 

@@ -1,6 +1,6 @@
 """
 Vegetation index calculations for Sentinel-2 imagery.
-Lifted directly from Feature_Engineering.ipynb (PA2 project).
+Lifted directly from Feature_Engineering.ipynb (PW2 project).
 All functions guard against division-by-zero and return NaN for invalid pixels.
 """
 

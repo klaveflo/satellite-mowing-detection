@@ -15,9 +15,7 @@ Reference: Tamm T., Zalite K., Voormansik K., Talgre L. (2016).
 import numpy as np
 
 # ---------------------------------------------------------------------------
-# Default NESZ constants for Sentinel-1 IW2, ~38° incidence angle.
-# These are representative tabulated values; the true NESZ varies with range
-# position and is available in the SLC calibration XML.  Values in dB.
+# Default NESZ constants for Sentinel-1 IW2,  Values in dB.
 # ---------------------------------------------------------------------------
 NESZ_VV_DB: float = -25.0
 NESZ_VH_DB: float = -27.0

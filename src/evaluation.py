@@ -139,7 +139,7 @@ def evaluate_model(model, X_test, y_test, model_name="Model", color="darkorange"
     ax2.plot([0, 1], [0, 1], color="navy", linestyle="--", lw=1)
     ax2.set_xlabel("False Positive Rate", fontsize=12)
     ax2.set_ylabel("True Positive Rate", fontsize=12)
-    # ax2.set_title(f"ROC — {model_name}")
+    # ax2.set_title(f"ROC - {model_name}")
     ax2.legend()
     plt.tight_layout()
     plt.savefig(f"../{IMG_DIR}/ml_training/eval_{model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
@@ -161,8 +161,8 @@ def find_optimal_threshold(model, X_test, y_test):
 
     Returns
     -------
-    threshold : float  — optimal probability cutoff for predict_proba[:,1]
-    f1_at_threshold : float  — F1 achieved at that threshold on the test set
+    threshold : float  - optimal probability cutoff for predict_proba[:,1]
+    f1_at_threshold : float  - F1 achieved at that threshold on the test set
     """
     proba = model.predict_proba(X_test)[:, 1]
     precision, recall, thresholds = precision_recall_curve(y_test, proba)
@@ -235,7 +235,7 @@ def prepare_scene_features(before_image_path, after_image_path,
     Returns
     -------
     feature_df  : DataFrame (n_pixels, len(features_to_keep)); invalid pixels have NaN
-    valid_mask  : boolean 1-D array (n_pixels,) — grassland + airport + non-cloud
+    valid_mask  : boolean 1-D array (n_pixels,) - grassland + airport + non-cloud
     meta        : rasterio metadata dict (for writing output rasters)
     height, width : scene dimensions
     """
@@ -467,7 +467,7 @@ def run_full_assessment(model_path, model_features, before_img, after_img,
         If provided, the prediction raster is postprocessed before evaluation.
     """
     if not os.path.exists(model_path):
-        print(f"Skipping — not found: {model_path}")
+        print(f"Skipping - not found: {model_path}")
         return None
 
     print(f"\n{'='*60}\nASSESSMENT: {os.path.basename(model_path)}\n{'='*60}")
