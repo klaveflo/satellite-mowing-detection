@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="keywords" content="mowing detection, Sentinel-2, Sentinel-1, interferometric coherence, SAR, machine learning, remote sensing, grassland management, change detection, Zurich Airport">
+
+<title>4&nbsp; Results – Advanced Earth Observation for Grassland Management</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./6-discussion.pdf" rel="next">
+<link href="./4-methods.pdf" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-12eeb4b20e9f5a2b0bfc604bfaf942bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="site_libs\quarto-contrib\quarto-project\zhaw-lsfm\zhaw-lsfm\zhaw-html.css">
+</head>
+
+<body class="floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-results.pdf"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Results</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Advanced Earth Observation for Grassland Management</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Advanced-Earth-Observation-for-Grassland-Management.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Title Page</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-introduction.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-literature.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Literature Review</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-methods.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-results.pdf" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-discussion.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussion</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./statement-of-reproducibility.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statement of Reproducibility</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./list-of-ai-tools.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Used AI Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./list-of-figures.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Figures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7-appendix-statistics.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistical Outputs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-coherence-results" id="toc-sec-coherence-results" class="nav-link active" data-scroll-target="#sec-coherence-results"><span class="header-section-number">4.1</span> Interferometric Coherence and SNR Correction Analysis</a></li>
+  <li><a href="#sec-feature-importance" id="toc-sec-feature-importance" class="nav-link" data-scroll-target="#sec-feature-importance"><span class="header-section-number">4.2</span> Feature Importance and Selection</a></li>
+  <li><a href="#sec-test-performance" id="toc-sec-test-performance" class="nav-link" data-scroll-target="#sec-test-performance"><span class="header-section-number">4.3</span> Test-Set Classification Performance</a></li>
+  <li><a href="#sec-threshold-results" id="toc-sec-threshold-results" class="nav-link" data-scroll-target="#sec-threshold-results"><span class="header-section-number">4.4</span> Scene-Level Threshold Calibration</a></li>
+  <li><a href="#sec-postprocessing-results" id="toc-sec-postprocessing-results" class="nav-link" data-scroll-target="#sec-postprocessing-results"><span class="header-section-number">4.5</span> Effect of Spatial Postprocessing</a></li>
+  <li><a href="#sec-operational-results" id="toc-sec-operational-results" class="nav-link" data-scroll-target="#sec-operational-results"><span class="header-section-number">4.6</span> Operational Scene Application</a>
+  <ul class="collapse">
+  <li><a href="#comparison-with-pw2-baseline" id="toc-comparison-with-pw2-baseline" class="nav-link" data-scroll-target="#comparison-with-pw2-baseline"><span class="header-section-number">4.6.1</span> Comparison with PW2 Baseline</a></li>
+  <li><a href="#non-event-control" id="toc-non-event-control" class="nav-link" data-scroll-target="#non-event-control"><span class="header-section-number">4.6.2</span> Non-Event Control</a></li>
+  </ul></li>
+  <li><a href="#generalisation-test" id="toc-generalisation-test" class="nav-link" data-scroll-target="#generalisation-test"><span class="header-section-number">4.7</span> Generalisation Test</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+<h1 class="title"><span id="sec-results" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Results</span></span></h1>
+
+
+
+<section id="sec-coherence-results" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-coherence-results"><span class="header-section-number">4.1</span> Interferometric Coherence and SNR Correction Analysis</h2>
+<p><a href="#tbl-coherence-seasonal" class="quarto-xref">Table&nbsp;<span>4.1</span></a> summarises the mean coherence values, Cohen’s <span class="math inline">\(d\)</span> effect sizes, and p-values for both raw and SNR-corrected signals across the three seasonal windows.</p>
+<div class="cell" data-execution_count="1">
+<div id="tbl-coherence-seasonal" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="1">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-coherence-seasonal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Mean coherence by class and season. Mowed and Not mowed columns show the mean coherence of the respective class. Cohen’s d quantifies the effect size between classes.
+</figcaption>
+<div aria-describedby="tbl-coherence-seasonal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div id="chbiwjuuvn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>
+#chbiwjuuvn table {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+#chbiwjuuvn thead, tbody, tfoot, tr, td, th { border-style: none; }
+ tr { background-color: transparent; }
+#chbiwjuuvn p { margin: 0; padding: 0; }
+ #chbiwjuuvn .gt_table { display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 10pt; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; }
+ #chbiwjuuvn .gt_caption { padding-top: 4px; padding-bottom: 4px; }
+ #chbiwjuuvn .gt_title { color: #333333; font-size: 12pt; font-weight: initial; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; border-bottom-color: #FFFFFF; border-bottom-width: 0; }
+ #chbiwjuuvn .gt_subtitle { color: #333333; font-size: 85%; font-weight: initial; padding-top: 3px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; border-top-color: #FFFFFF; border-top-width: 0; }
+ #chbiwjuuvn .gt_heading { background-color: #FFFFFF; text-align: center; border-bottom-color: #FFFFFF; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #chbiwjuuvn .gt_bottom_border { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: gray; }
+ #chbiwjuuvn .gt_col_headings { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #chbiwjuuvn .gt_col_heading { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; }
+ #chbiwjuuvn .gt_column_spanner_outer { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; }
+ #chbiwjuuvn .gt_column_spanner_outer:first-child { padding-left: 0; }
+ #chbiwjuuvn .gt_column_spanner_outer:last-child { padding-right: 0; }
+ #chbiwjuuvn .gt_column_spanner { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%; }
+ #chbiwjuuvn .gt_spanner_row { border-bottom-style: hidden; }
+ #chbiwjuuvn .gt_group_heading { padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; text-align: left; }
+ #chbiwjuuvn .gt_empty_group_heading { padding: 0.5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: middle; }
+ #chbiwjuuvn .gt_from_md> :first-child { margin-top: 0; }
+ #chbiwjuuvn .gt_from_md> :last-child { margin-bottom: 0; }
+ #chbiwjuuvn .gt_row { padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; }
+ #chbiwjuuvn .gt_stub { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; }
+ #chbiwjuuvn .gt_stub_row_group { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; vertical-align: top; }
+ #chbiwjuuvn .gt_row_group_first td { border-top-width: 2px; }
+ #chbiwjuuvn .gt_row_group_first th { border-top-width: 2px; }
+ #chbiwjuuvn .gt_striped { color: #333333; background-color: #F4F4F4; }
+ #chbiwjuuvn .gt_table_body { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #chbiwjuuvn .gt_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #chbiwjuuvn .gt_first_summary_row { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; }
+ #chbiwjuuvn .gt_last_summary_row_top { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #chbiwjuuvn .gt_grand_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #chbiwjuuvn .gt_first_grand_summary_row_bottom { border-top-style: double; border-top-width: 6px; border-top-color: #D3D3D3; }
+ #chbiwjuuvn .gt_last_grand_summary_row_top { border-bottom-style: double; border-bottom-width: 6px; border-bottom-color: #D3D3D3; }
+ #chbiwjuuvn .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #chbiwjuuvn .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #chbiwjuuvn .gt_left { text-align: left; }
+ #chbiwjuuvn .gt_center { text-align: center; }
+ #chbiwjuuvn .gt_right { text-align: right; font-variant-numeric: tabular-nums; }
+ #chbiwjuuvn .gt_font_normal { font-weight: normal; }
+ #chbiwjuuvn .gt_font_bold { font-weight: bold; }
+ #chbiwjuuvn .gt_font_italic { font-style: italic; }
+ #chbiwjuuvn .gt_super { font-size: 65%; }
+ #chbiwjuuvn .gt_footnotes { color: font-color(#FFFFFF); background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #chbiwjuuvn .gt_footnote { margin: 0px; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; }
+ #chbiwjuuvn .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #chbiwjuuvn .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #chbiwjuuvn .gt_footnote_marks { font-size: 75%; vertical-align: 0.4em; position: initial; }
+ #chbiwjuuvn .gt_asterisk { font-size: 100%; vertical-align: 0; }
+ 
+</style>
+
+<table class="gt_table cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Season" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Season</th>
+<th id="Pol." class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Pol.</th>
+<th id="Correction" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Correction</th>
+<th id="Mowed" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Mowed</th>
+<th id="Not-mowed" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Not mowed</th>
+<th id="Cohen&amp;#x27;s-d" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Cohen's d</th>
+<th id="p-value" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">p-value</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left">Early (Apr-May)</td>
+<td class="gt_row gt_left">VV</td>
+<td class="gt_row gt_left">Raw</td>
+<td class="gt_row gt_right">0.264</td>
+<td class="gt_row gt_right">0.282</td>
+<td class="gt_row gt_right">−0.126</td>
+<td class="gt_row gt_right">0.482</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Early (Apr-May)</td>
+<td class="gt_row gt_left gt_striped">VV</td>
+<td class="gt_row gt_left gt_striped">SNR-corr.</td>
+<td class="gt_row gt_right gt_striped">0.285</td>
+<td class="gt_row gt_right gt_striped">0.299</td>
+<td class="gt_row gt_right gt_striped">−0.092</td>
+<td class="gt_row gt_right gt_striped">0.310</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Early (Apr-May)</td>
+<td class="gt_row gt_left">VH</td>
+<td class="gt_row gt_left">Raw</td>
+<td class="gt_row gt_right">0.311</td>
+<td class="gt_row gt_right">0.316</td>
+<td class="gt_row gt_right">−0.034</td>
+<td class="gt_row gt_right">0.531</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Early (Apr-May)</td>
+<td class="gt_row gt_left gt_striped">VH</td>
+<td class="gt_row gt_left gt_striped">SNR-corr.</td>
+<td class="gt_row gt_right gt_striped">0.394</td>
+<td class="gt_row gt_right gt_striped">0.381</td>
+<td class="gt_row gt_right gt_striped">0.070</td>
+<td class="gt_row gt_right gt_striped">0.144</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Peak (Jun-Jul)</td>
+<td class="gt_row gt_left">VV</td>
+<td class="gt_row gt_left">Raw</td>
+<td class="gt_row gt_right">0.266</td>
+<td class="gt_row gt_right">0.293</td>
+<td class="gt_row gt_right">−0.176</td>
+<td class="gt_row gt_right">0.968</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Peak (Jun-Jul)</td>
+<td class="gt_row gt_left gt_striped">VV</td>
+<td class="gt_row gt_left gt_striped">SNR-corr.</td>
+<td class="gt_row gt_right gt_striped">0.284</td>
+<td class="gt_row gt_right gt_striped">0.307</td>
+<td class="gt_row gt_right gt_striped">−0.144</td>
+<td class="gt_row gt_right gt_striped">0.878</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Peak (Jun-Jul)</td>
+<td class="gt_row gt_left">VH</td>
+<td class="gt_row gt_left">Raw</td>
+<td class="gt_row gt_right">0.296</td>
+<td class="gt_row gt_right">0.311</td>
+<td class="gt_row gt_right">−0.104</td>
+<td class="gt_row gt_right">0.700</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Peak (Jun-Jul)</td>
+<td class="gt_row gt_left gt_striped">VH</td>
+<td class="gt_row gt_left gt_striped">SNR-corr.</td>
+<td class="gt_row gt_right gt_striped">0.362</td>
+<td class="gt_row gt_right gt_striped">0.365</td>
+<td class="gt_row gt_right gt_striped">−0.013</td>
+<td class="gt_row gt_right gt_striped">0.181</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Late (Aug-Oct)</td>
+<td class="gt_row gt_left">VV</td>
+<td class="gt_row gt_left">Raw</td>
+<td class="gt_row gt_right">0.259</td>
+<td class="gt_row gt_right">0.270</td>
+<td class="gt_row gt_right">−0.077</td>
+<td class="gt_row gt_right">0.341</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Late (Aug-Oct)</td>
+<td class="gt_row gt_left gt_striped">VV</td>
+<td class="gt_row gt_left gt_striped">SNR-corr.</td>
+<td class="gt_row gt_right gt_striped">0.282</td>
+<td class="gt_row gt_right gt_striped">0.283</td>
+<td class="gt_row gt_right gt_striped">−0.007</td>
+<td class="gt_row gt_right gt_striped">0.113</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Late (Aug-Oct)</td>
+<td class="gt_row gt_left">VH</td>
+<td class="gt_row gt_left">Raw</td>
+<td class="gt_row gt_right">0.327</td>
+<td class="gt_row gt_right">0.315</td>
+<td class="gt_row gt_right">0.084</td>
+<td class="gt_row gt_right">0.021</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Late (Aug-Oct)</td>
+<td class="gt_row gt_left gt_striped">VH</td>
+<td class="gt_row gt_left gt_striped">SNR-corr.</td>
+<td class="gt_row gt_right gt_striped">0.427</td>
+<td class="gt_row gt_right gt_striped">0.373</td>
+<td class="gt_row gt_right gt_striped">0.307</td>
+<td class="gt_row gt_right gt_striped">0.000</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>VH polarisation during the late season was the only configuration that produced a positive Cohen’s <span class="math inline">\(d\)</span>, with mowed parcels showing higher mean post-event coherence than unmowed parcels. This separation is also visible in the density distributions (<a href="#fig-vh-density" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>), where the mowed class is shifted to the right relative to the unmowed class.</p>
+<p>In the early and peak growth seasons, both polarisations produced negative Cohen’s <span class="math inline">\(d\)</span> values, with mowed parcels showing lower post-event coherence than unmowed parcels. VV polarisation showed near-zero effect sizes across all seasons, with consistently high p-values.</p>
+<p>The SNR correction increased the magnitude of Cohen’s <span class="math inline">\(d\)</span> and lowered the associated p-values across most configurations, but did not change the sign of the effect in any season-polarisation combination.</p>
+<div id="fig-vh-density" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vh-density-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/snr_correction/plot_A_coh_vh_after.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vh-density-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Density distributions of post-event VH coherence (coh_after) across early, peak, and late seasons, showing the rightward shift of the mowed class exclusively in the late season.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-feature-importance" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-feature-importance"><span class="header-section-number">4.2</span> Feature Importance and Selection</h2>
+<p><a href="#fig-perm-importance-A" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> and <a href="#fig-perm-importance-B" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> show the permutation importance of all candidate features for Group A (26 features, no coherence) and Group B (28 features, including coherence). In both groups, optical vegetation index features occupy the top ranks, while GRD backscatter features and absolute coherence values show negligible or negative importance.</p>
+<div id="fig-perm-importance-A" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-perm-importance-A-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/feature_importance/perm_importance.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-perm-importance-A-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Permutation importance for Group A (26 features). Bars show the mean F1-Score decrease when each feature is permuted (20 shuffles), with error bars indicating one standard deviation.
+</figcaption>
+</figure>
+</div>
+<div id="fig-perm-importance-B" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-perm-importance-B-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/feature_importance/perm_importance_B.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-perm-importance-B-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Permutation importance for Group B (28 features). Bars show the mean F1-Score decrease when each feature is permuted (20 shuffles), with error bars indicating one standard deviation.
+</figcaption>
+</figure>
+</div>
+<p>In Group A, ndii_diff is the single dominant predictor, followed by swir_after, evi_after, and swir_diff. No GRD feature reaches above near-zero importance. In Group B, the ranking shifts substantially: gndvi_after and gndvi_diff become the two strongest predictors, while ndii_diff drops to rank three. Features such as gndvi_diff, which shows negative importance in Group A, appear among the most informative in Group B. The coherence values (coh_vv, coh_vh) show negative near-zero importance. The final feature sets for each model configuration were derived from these rankings in combination with domain knowledge, as described in <a href="4-methods.html#sec-feature-fusion" class="quarto-xref"><span>Section 3.4</span></a>.</p>
+</section>
+<section id="sec-test-performance" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-test-performance"><span class="header-section-number">4.3</span> Test-Set Classification Performance</h2>
+<p><a href="#tbl-model-results" class="quarto-xref">Table&nbsp;<span>4.2</span></a> summarises the test-set performance of all 24 model configurations across both groups. The F1 comparison across all configurations is shown in <a href="#fig-f1-comparison" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>.</p>
+<div class="cell" data-execution_count="2">
+<div id="tbl-model-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="2">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.2: Test-set classification performance for all model configurations. Group A models were evaluated on 13 held-out events (8,423 samples), Group B models on 5 held-out events (3,288 samples). Results across groups are not directly comparable due to different test sets.
+</figcaption>
+<div aria-describedby="tbl-model-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="zzinmgbtiq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>
+#zzinmgbtiq table {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+#zzinmgbtiq thead, tbody, tfoot, tr, td, th { border-style: none; }
+ tr { background-color: transparent; }
+#zzinmgbtiq p { margin: 0; padding: 0; }
+ #zzinmgbtiq .gt_table { display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 10pt; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; }
+ #zzinmgbtiq .gt_caption { padding-top: 4px; padding-bottom: 4px; }
+ #zzinmgbtiq .gt_title { color: #333333; font-size: 12pt; font-weight: initial; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; border-bottom-color: #FFFFFF; border-bottom-width: 0; }
+ #zzinmgbtiq .gt_subtitle { color: #333333; font-size: 85%; font-weight: initial; padding-top: 3px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; border-top-color: #FFFFFF; border-top-width: 0; }
+ #zzinmgbtiq .gt_heading { background-color: #FFFFFF; text-align: center; border-bottom-color: #FFFFFF; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #zzinmgbtiq .gt_bottom_border { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: gray; }
+ #zzinmgbtiq .gt_col_headings { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #zzinmgbtiq .gt_col_heading { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; }
+ #zzinmgbtiq .gt_column_spanner_outer { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; }
+ #zzinmgbtiq .gt_column_spanner_outer:first-child { padding-left: 0; }
+ #zzinmgbtiq .gt_column_spanner_outer:last-child { padding-right: 0; }
+ #zzinmgbtiq .gt_column_spanner { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%; }
+ #zzinmgbtiq .gt_spanner_row { border-bottom-style: hidden; }
+ #zzinmgbtiq .gt_group_heading { padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; text-align: left; }
+ #zzinmgbtiq .gt_empty_group_heading { padding: 0.5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: middle; }
+ #zzinmgbtiq .gt_from_md> :first-child { margin-top: 0; }
+ #zzinmgbtiq .gt_from_md> :last-child { margin-bottom: 0; }
+ #zzinmgbtiq .gt_row { padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; }
+ #zzinmgbtiq .gt_stub { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; }
+ #zzinmgbtiq .gt_stub_row_group { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; vertical-align: top; }
+ #zzinmgbtiq .gt_row_group_first td { border-top-width: 2px; }
+ #zzinmgbtiq .gt_row_group_first th { border-top-width: 2px; }
+ #zzinmgbtiq .gt_striped { color: #333333; background-color: #F4F4F4; }
+ #zzinmgbtiq .gt_table_body { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #zzinmgbtiq .gt_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #zzinmgbtiq .gt_first_summary_row { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; }
+ #zzinmgbtiq .gt_last_summary_row_top { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #zzinmgbtiq .gt_grand_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #zzinmgbtiq .gt_first_grand_summary_row_bottom { border-top-style: double; border-top-width: 6px; border-top-color: #D3D3D3; }
+ #zzinmgbtiq .gt_last_grand_summary_row_top { border-bottom-style: double; border-bottom-width: 6px; border-bottom-color: #D3D3D3; }
+ #zzinmgbtiq .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #zzinmgbtiq .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #zzinmgbtiq .gt_left { text-align: left; }
+ #zzinmgbtiq .gt_center { text-align: center; }
+ #zzinmgbtiq .gt_right { text-align: right; font-variant-numeric: tabular-nums; }
+ #zzinmgbtiq .gt_font_normal { font-weight: normal; }
+ #zzinmgbtiq .gt_font_bold { font-weight: bold; }
+ #zzinmgbtiq .gt_font_italic { font-style: italic; }
+ #zzinmgbtiq .gt_super { font-size: 65%; }
+ #zzinmgbtiq .gt_footnotes { color: font-color(#FFFFFF); background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #zzinmgbtiq .gt_footnote { margin: 0px; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; }
+ #zzinmgbtiq .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #zzinmgbtiq .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #zzinmgbtiq .gt_footnote_marks { font-size: 75%; vertical-align: 0.4em; position: initial; }
+ #zzinmgbtiq .gt_asterisk { font-size: 100%; vertical-align: 0; }
+ 
+</style>
+
+<table class="gt_table cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Configuration" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Configuration</th>
+<th id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">n</th>
+<th id="F1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F1</th>
+<th id="Precision" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Precision</th>
+<th id="Recall" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Recall</th>
+<th id="AUC" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">AUC</th>
+<th id="Group" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Group</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left">S2-only best RF</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0.920</td>
+<td class="gt_row gt_right">0.925</td>
+<td class="gt_row gt_right">0.919</td>
+<td class="gt_row gt_right">0.954</td>
+<td class="gt_row gt_left">A</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2-only best SVM</td>
+<td class="gt_row gt_right gt_striped">5</td>
+<td class="gt_row gt_right gt_striped">0.923</td>
+<td class="gt_row gt_right gt_striped">0.929</td>
+<td class="gt_row gt_right gt_striped">0.922</td>
+<td class="gt_row gt_right gt_striped">0.962</td>
+<td class="gt_row gt_left gt_striped">A</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">S2-only best LGBM</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0.915</td>
+<td class="gt_row gt_right">0.919</td>
+<td class="gt_row gt_right">0.915</td>
+<td class="gt_row gt_right">0.951</td>
+<td class="gt_row gt_left">A</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2-only diff RF</td>
+<td class="gt_row gt_right gt_striped">3</td>
+<td class="gt_row gt_right gt_striped">0.914</td>
+<td class="gt_row gt_right gt_striped">0.920</td>
+<td class="gt_row gt_right gt_striped">0.913</td>
+<td class="gt_row gt_right gt_striped">0.942</td>
+<td class="gt_row gt_left gt_striped">A</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">S2-only diff SVM</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">0.920</td>
+<td class="gt_row gt_right">0.927</td>
+<td class="gt_row gt_right">0.920</td>
+<td class="gt_row gt_right">0.955</td>
+<td class="gt_row gt_left">A</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2-only diff LGBM</td>
+<td class="gt_row gt_right gt_striped">3</td>
+<td class="gt_row gt_right gt_striped">0.910</td>
+<td class="gt_row gt_right gt_striped">0.916</td>
+<td class="gt_row gt_right gt_striped">0.910</td>
+<td class="gt_row gt_right gt_striped">0.947</td>
+<td class="gt_row gt_left gt_striped">A</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">GRD-only RF</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">0.528</td>
+<td class="gt_row gt_right">0.529</td>
+<td class="gt_row gt_right">0.541</td>
+<td class="gt_row gt_right">0.524</td>
+<td class="gt_row gt_left">A</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">GRD-only SVM</td>
+<td class="gt_row gt_right gt_striped">4</td>
+<td class="gt_row gt_right gt_striped">0.467</td>
+<td class="gt_row gt_right gt_striped">0.528</td>
+<td class="gt_row gt_right gt_striped">0.557</td>
+<td class="gt_row gt_right gt_striped">0.530</td>
+<td class="gt_row gt_left gt_striped">A</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">GRD-only LGBM</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">0.522</td>
+<td class="gt_row gt_right">0.526</td>
+<td class="gt_row gt_right">0.542</td>
+<td class="gt_row gt_right">0.523</td>
+<td class="gt_row gt_left">A</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2+GRD RF</td>
+<td class="gt_row gt_right gt_striped">9</td>
+<td class="gt_row gt_right gt_striped">0.919</td>
+<td class="gt_row gt_right gt_striped">0.925</td>
+<td class="gt_row gt_right gt_striped">0.919</td>
+<td class="gt_row gt_right gt_striped">0.955</td>
+<td class="gt_row gt_left gt_striped">A</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">S2+GRD SVM</td>
+<td class="gt_row gt_right">9</td>
+<td class="gt_row gt_right">0.913</td>
+<td class="gt_row gt_right">0.919</td>
+<td class="gt_row gt_right">0.913</td>
+<td class="gt_row gt_right">0.963</td>
+<td class="gt_row gt_left">A</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2+GRD LGBM</td>
+<td class="gt_row gt_right gt_striped">9</td>
+<td class="gt_row gt_right gt_striped">0.910</td>
+<td class="gt_row gt_right gt_striped">0.914</td>
+<td class="gt_row gt_right gt_striped">0.910</td>
+<td class="gt_row gt_right gt_striped">0.952</td>
+<td class="gt_row gt_left gt_striped">A</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Coh-only RF</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">0.478</td>
+<td class="gt_row gt_right">0.504</td>
+<td class="gt_row gt_right">0.475</td>
+<td class="gt_row gt_right">0.481</td>
+<td class="gt_row gt_left">B</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Coh-only SVM</td>
+<td class="gt_row gt_right gt_striped">2</td>
+<td class="gt_row gt_right gt_striped">0.468</td>
+<td class="gt_row gt_right gt_striped">0.509</td>
+<td class="gt_row gt_right gt_striped">0.471</td>
+<td class="gt_row gt_right gt_striped">0.481</td>
+<td class="gt_row gt_left gt_striped">B</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Coh-only LGBM</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">0.479</td>
+<td class="gt_row gt_right">0.502</td>
+<td class="gt_row gt_right">0.476</td>
+<td class="gt_row gt_right">0.477</td>
+<td class="gt_row gt_left">B</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2 best+Coh RF</td>
+<td class="gt_row gt_right gt_striped">7</td>
+<td class="gt_row gt_right gt_striped">0.910</td>
+<td class="gt_row gt_right gt_striped">0.911</td>
+<td class="gt_row gt_right gt_striped">0.910</td>
+<td class="gt_row gt_right gt_striped">0.940</td>
+<td class="gt_row gt_left gt_striped">B</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">S2 best+Coh SVM</td>
+<td class="gt_row gt_right">7</td>
+<td class="gt_row gt_right">0.887</td>
+<td class="gt_row gt_right">0.888</td>
+<td class="gt_row gt_right">0.887</td>
+<td class="gt_row gt_right">0.936</td>
+<td class="gt_row gt_left">B</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2 best+Coh LGBM</td>
+<td class="gt_row gt_right gt_striped">7</td>
+<td class="gt_row gt_right gt_striped">0.881</td>
+<td class="gt_row gt_right gt_striped">0.881</td>
+<td class="gt_row gt_right gt_striped">0.881</td>
+<td class="gt_row gt_right gt_striped">0.930</td>
+<td class="gt_row gt_left gt_striped">B</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">S2 diff+Coh RF</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0.861</td>
+<td class="gt_row gt_right">0.869</td>
+<td class="gt_row gt_right">0.860</td>
+<td class="gt_row gt_right">0.900</td>
+<td class="gt_row gt_left">B</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">S2 diff+Coh SVM</td>
+<td class="gt_row gt_right gt_striped">5</td>
+<td class="gt_row gt_right gt_striped">0.841</td>
+<td class="gt_row gt_right gt_striped">0.844</td>
+<td class="gt_row gt_right gt_striped">0.840</td>
+<td class="gt_row gt_right gt_striped">0.892</td>
+<td class="gt_row gt_left gt_striped">B</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">S2 diff+Coh LGBM</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0.859</td>
+<td class="gt_row gt_right">0.867</td>
+<td class="gt_row gt_right">0.858</td>
+<td class="gt_row gt_right">0.875</td>
+<td class="gt_row gt_left">B</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Full-fusion RF</td>
+<td class="gt_row gt_right gt_striped">11</td>
+<td class="gt_row gt_right gt_striped">0.922</td>
+<td class="gt_row gt_right gt_striped">0.924</td>
+<td class="gt_row gt_right gt_striped">0.922</td>
+<td class="gt_row gt_right gt_striped">0.952</td>
+<td class="gt_row gt_left gt_striped">B</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Full-fusion SVM</td>
+<td class="gt_row gt_right">11</td>
+<td class="gt_row gt_right">0.859</td>
+<td class="gt_row gt_right">0.859</td>
+<td class="gt_row gt_right">0.859</td>
+<td class="gt_row gt_right">0.919</td>
+<td class="gt_row gt_left">B</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Full-fusion LGBM</td>
+<td class="gt_row gt_right gt_striped">11</td>
+<td class="gt_row gt_right gt_striped">0.892</td>
+<td class="gt_row gt_right gt_striped">0.893</td>
+<td class="gt_row gt_right gt_striped">0.892</td>
+<td class="gt_row gt_right gt_striped">0.933</td>
+<td class="gt_row gt_left gt_striped">B</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div id="fig-f1-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-f1-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ml_training/f1_comparison.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-f1-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: F1-Score comparison across all model configurations for Group A (left) and Group B (right). The dashed line indicates the 0.5 random baseline. Blue bars represent Random Forest, green bars Support Vector Machine and orange bars LightGBM configurations.
+</figcaption>
+</figure>
+</div>
+<p>Within Group A, the S2-only configurations achieve the highest F1-Scores, with the SVM reaching 0.923 using five optical features. Reducing the feature set to only the three difference features (ndii_diff, gndvi_diff, swir_diff) produces a minimal drop to 0.920. Adding GRD backscatter features to the optical set does not improve performance: the S2+GRD RF achieves 0.919, marginally below the S2-only baseline. The GRD-only configurations achieve F1-Scores between 0.467 and 0.528, near the random baseline.</p>
+<p>Within Group B, the Full-fusion RF achieves the highest F1-Score of 0.922, followed by S2_best+Coh RF at 0.910. Coherence-only models perform near random (F1 between 0.468 and 0.479). The S2_diff+Coh configurations, which combine S2 difference features with coherence, achieve lower F1-Scores (0.841 to 0.861) than the S2_best+Coh configurations that include absolute post-event index values (0.899 to 0.910).</p>
+<p>The choice of classifier has a smaller effect on performance than the choice of features. Across Group A, the spread between the best and worst algorithm for a given feature set is typically less than 0.01 F1. In Group B, the spread is larger, particularly for the Full-fusion configuration where RF (0.922) substantially outperforms SVM (0.859).</p>
+<p><a href="#fig-cm-best" class="quarto-xref">Figure&nbsp;<span>4.5</span></a> shows the confusion matrix and ROC curve for the best-performing Group A model (S2-only_best SVM). The model achieves an AUC of 0.962, with the confusion matrix showing that the majority of errors are false negatives (571) rather than false positives (83), indicating a conservative classification tendency at the default threshold. The Confusion matrices and ROC curves for all other model configurations are provided in <a href="7-appendix-statistics.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
+<div id="fig-cm-best" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cm-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ml_training/eval_S2-only_best_SVM.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cm-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.5: Confusion matrix and ROC curve for the best-performing Group A model (S2-only_best SVM, F1 = 0.923, AUC = 0.962). The model correctly classifies 4,150 mowed and 3,619 not-mowed pixels, with 83 false positives and 571 false negatives.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-threshold-results" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-threshold-results"><span class="header-section-number">4.4</span> Scene-Level Threshold Calibration</h2>
+<p>The LOO-calibrated thresholds for all evaluated models are reported in <a href="#tbl-calibrated-thresholds" class="quarto-xref">Table&nbsp;<span>4.3</span></a>. For all S2-based models, the calibrated thresholds range from 0.775 (Full-fusion RF) to 0.950 (S2_best+Coh RF), substantially above the default of 0.5. The coherence-only and GRD-only models show the opposite pattern, with calibrated thresholds at or near 0.1.</p>
+<div id="tbl-calibrated-thresholds" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-calibrated-thresholds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.3: Scene-level LOO-calibrated thresholds. Calibration was performed over six held-out scenes with ground truth.
+</figcaption>
+<div aria-describedby="tbl-calibrated-thresholds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">Calibrated threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S2-only_best RF</td>
+<td style="text-align: left;">0.925</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2-only_best SVM</td>
+<td style="text-align: left;">0.875</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S2-only_diff RF</td>
+<td style="text-align: left;">0.875</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2-only_diff SVM</td>
+<td style="text-align: left;">0.900</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S2_best+Coh RF</td>
+<td style="text-align: left;">0.950</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2_diff+Coh RF</td>
+<td style="text-align: left;">0.850</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S2+GRD RF</td>
+<td style="text-align: left;">0.800</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Full-fusion RF</td>
+<td style="text-align: left;">0.775</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Coh-only RF</td>
+<td style="text-align: left;">0.100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Coh-only SVM</td>
+<td style="text-align: left;">0.325</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GRD-only RF</td>
+<td style="text-align: left;">0.100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The effect of threshold calibration is illustrated in <a href="#fig-threshold-calibration" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>, which compares predictions on scene 46 using the model S2-only_diff SVM with the default threshold (t = 0.50) and the calibrated threshold (t = 0.875), both without postprocessing. At the default threshold, the model achieves high recall (0.881) but low precision (0.327). The calibrated threshold raises precision to 0.499 and improves the F1-Score from 0.477 to 0.587, while recall decreases to 0.712. In the figure it is clearly visible that the threshold calibration removes many of the scattered false positives, reducing salt-and-pepper noise and at the same time causing the model to miss some true positives.</p>
+<div id="fig-threshold-calibration" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-threshold-calibration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-threshold-calibration" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-thresh-default" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-thresh-default-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/threshold_calibration_scene46_default.png" class="img-fluid figure-img" data-ref-parent="fig-threshold-calibration">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-thresh-default-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Default threshold (t = 0.50)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-threshold-calibration" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-thresh-calibrated" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-thresh-calibrated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/threshold_calibration_scene46_calibrated.png" class="img-fluid figure-img" data-ref-parent="fig-threshold-calibration">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-thresh-calibrated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Calibrated threshold (t = 0.875)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-threshold-calibration-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: Prediction maps for scene 46 without postprocessing. (a) Default threshold of 0.50 (F1 = 0.477, P = 0.327, R = 0.881). (b) LOO-calibrated threshold of 0.875 (F1 = 0.587, P = 0.499, R = 0.712). Cyan: true positive, orange: false positive, magenta: false negative, yellow: boundary-ambiguous (predicted mowed, but ground truth mowing occurred exactly on the after-image date itself, making those pixels uncertain).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-postprocessing-results" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-postprocessing-results"><span class="header-section-number">4.5</span> Effect of Spatial Postprocessing</h2>
+<p><a href="#tbl-pp-summary" class="quarto-xref">Table&nbsp;<span>4.4</span></a> shows the best configuration from each method category alongside the baseline without postprocessing.</p>
+<div class="cell" data-execution_count="3">
+<div id="tbl-pp-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pp-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.4: Best postprocessing configuration per method category, averaged across six calibration scenes. Delta F1 is relative to the no-postprocessing baseline.
+</figcaption>
+<div aria-describedby="tbl-pp-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="xnyusgbnpp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>
+#xnyusgbnpp table {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+#xnyusgbnpp thead, tbody, tfoot, tr, td, th { border-style: none; }
+ tr { background-color: transparent; }
+#xnyusgbnpp p { margin: 0; padding: 0; }
+ #xnyusgbnpp .gt_table { display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 10pt; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; }
+ #xnyusgbnpp .gt_caption { padding-top: 4px; padding-bottom: 4px; }
+ #xnyusgbnpp .gt_title { color: #333333; font-size: 12pt; font-weight: initial; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; border-bottom-color: #FFFFFF; border-bottom-width: 0; }
+ #xnyusgbnpp .gt_subtitle { color: #333333; font-size: 85%; font-weight: initial; padding-top: 3px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; border-top-color: #FFFFFF; border-top-width: 0; }
+ #xnyusgbnpp .gt_heading { background-color: #FFFFFF; text-align: center; border-bottom-color: #FFFFFF; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #xnyusgbnpp .gt_bottom_border { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: gray; }
+ #xnyusgbnpp .gt_col_headings { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #xnyusgbnpp .gt_col_heading { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; }
+ #xnyusgbnpp .gt_column_spanner_outer { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; }
+ #xnyusgbnpp .gt_column_spanner_outer:first-child { padding-left: 0; }
+ #xnyusgbnpp .gt_column_spanner_outer:last-child { padding-right: 0; }
+ #xnyusgbnpp .gt_column_spanner { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%; }
+ #xnyusgbnpp .gt_spanner_row { border-bottom-style: hidden; }
+ #xnyusgbnpp .gt_group_heading { padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; text-align: left; }
+ #xnyusgbnpp .gt_empty_group_heading { padding: 0.5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: middle; }
+ #xnyusgbnpp .gt_from_md> :first-child { margin-top: 0; }
+ #xnyusgbnpp .gt_from_md> :last-child { margin-bottom: 0; }
+ #xnyusgbnpp .gt_row { padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; }
+ #xnyusgbnpp .gt_stub { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; }
+ #xnyusgbnpp .gt_stub_row_group { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; vertical-align: top; }
+ #xnyusgbnpp .gt_row_group_first td { border-top-width: 2px; }
+ #xnyusgbnpp .gt_row_group_first th { border-top-width: 2px; }
+ #xnyusgbnpp .gt_striped { color: #333333; background-color: #F4F4F4; }
+ #xnyusgbnpp .gt_table_body { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #xnyusgbnpp .gt_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #xnyusgbnpp .gt_first_summary_row { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; }
+ #xnyusgbnpp .gt_last_summary_row_top { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #xnyusgbnpp .gt_grand_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #xnyusgbnpp .gt_first_grand_summary_row_bottom { border-top-style: double; border-top-width: 6px; border-top-color: #D3D3D3; }
+ #xnyusgbnpp .gt_last_grand_summary_row_top { border-bottom-style: double; border-bottom-width: 6px; border-bottom-color: #D3D3D3; }
+ #xnyusgbnpp .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #xnyusgbnpp .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #xnyusgbnpp .gt_left { text-align: left; }
+ #xnyusgbnpp .gt_center { text-align: center; }
+ #xnyusgbnpp .gt_right { text-align: right; font-variant-numeric: tabular-nums; }
+ #xnyusgbnpp .gt_font_normal { font-weight: normal; }
+ #xnyusgbnpp .gt_font_bold { font-weight: bold; }
+ #xnyusgbnpp .gt_font_italic { font-style: italic; }
+ #xnyusgbnpp .gt_super { font-size: 65%; }
+ #xnyusgbnpp .gt_footnotes { color: font-color(#FFFFFF); background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #xnyusgbnpp .gt_footnote { margin: 0px; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; }
+ #xnyusgbnpp .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #xnyusgbnpp .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #xnyusgbnpp .gt_footnote_marks { font-size: 75%; vertical-align: 0.4em; position: initial; }
+ #xnyusgbnpp .gt_asterisk { font-size: 100%; vertical-align: 0; }
+ 
+</style>
+
+<table class="gt_table cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Method" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Method</th>
+<th id="F1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F1</th>
+<th id="ΔF1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ΔF1</th>
+<th id="Disk-r" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Disk r</th>
+<th id="Min.-area" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Min. area</th>
+<th id="Median-size" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Median size</th>
+<th id="Segments" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Segments</th>
+<th id="Compact." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Compact.</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left">Median + Morphological</td>
+<td class="gt_row gt_right">0.602</td>
+<td class="gt_row gt_right">0.005</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">—</td>
+<td class="gt_row gt_right">—</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Morphological only</td>
+<td class="gt_row gt_right gt_striped">0.599</td>
+<td class="gt_row gt_right gt_striped">0.001</td>
+<td class="gt_row gt_right gt_striped">1</td>
+<td class="gt_row gt_right gt_striped">2</td>
+<td class="gt_row gt_right gt_striped">0</td>
+<td class="gt_row gt_right gt_striped">—</td>
+<td class="gt_row gt_right gt_striped">—</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">No postprocessing</td>
+<td class="gt_row gt_right">0.597</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">—</td>
+<td class="gt_row gt_right">—</td>
+<td class="gt_row gt_right">—</td>
+<td class="gt_row gt_right">—</td>
+<td class="gt_row gt_right">—</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped">Median + Morphological + SLIC</td>
+<td class="gt_row gt_right gt_striped">0.239</td>
+<td class="gt_row gt_right gt_striped">−0.359</td>
+<td class="gt_row gt_right gt_striped">1</td>
+<td class="gt_row gt_right gt_striped">6</td>
+<td class="gt_row gt_right gt_striped">5</td>
+<td class="gt_row gt_right gt_striped">400</td>
+<td class="gt_row gt_right gt_striped">0.1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left">Morphological + SLIC</td>
+<td class="gt_row gt_right">0.239</td>
+<td class="gt_row gt_right">−0.359</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">400</td>
+<td class="gt_row gt_right">0.1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The overall effect of postprocessing on the F1-Score is small. The best-performing configuration, a median filter with a window size of 3x3 followed by morphological opening and closing with a disk radius of 1 pixel and a minimum component area of 4 pixels, achieved a mean F1 of 0.602 across the six calibration scenes, an improvement of +0.005 over the unprocessed baseline (0.597). Morphological operations alone produced a negligible increase of +0.001. Configurations involving SLIC superpixel aggregation performed drastically worse, dropping to F1-Scores around 0.239.</p>
+<p>The effect of postprocessing also varies across scenes, as shown in <a href="#fig-pp-f1-comparison" class="quarto-xref">Figure&nbsp;<span>4.7</span></a>. For three of the six calibration scenes, the best postprocessing configuration produced a modest improvement in F1-Score, while for the other three scenes it resulted in a slight decrease.</p>
+<div id="fig-pp-f1-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pp-f1-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/pp_f1_comparison_scenes.png" class="img-fluid figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pp-f1-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.7: F1-Score comparison with and without the best postprocessing configuration across all six calibration scenes.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-pp-sidebyside" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> illustrates the spatial effect of postprocessing on a single scene (match_id 46). The raw prediction (F1 = 0.567 ) contains scattered false positive pixels. After postprocessing (F1 = 0.632), these isolated detections are removed, producing cleaner parcel boundaries and reducing the false positive area. The false negative regions (magenta) remain largely unchanged.</p>
+<div id="fig-pp-sidebyside" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pp-sidebyside-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pp-sidebyside" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pp-raw" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pp-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/pp_sidebyside_scene46_raw.png" class="img-fluid figure-img" data-ref-parent="fig-pp-sidebyside">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pp-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Without postprocessing
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pp-sidebyside" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pp-best" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pp-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/pp_sidebyside_scene46_pp.png" class="img-fluid figure-img" data-ref-parent="fig-pp-sidebyside">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pp-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Best postprocessing
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pp-sidebyside-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Prediction maps for scene 46. (a) Raw prediction (F1 = 0.567). (b) After median + morphological postprocessing (F1 = 0.632). Colour legend as in <a href="#fig-threshold-calibration" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-operational-results" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="sec-operational-results"><span class="header-section-number">4.6</span> Operational Scene Application</h2>
+<p><a href="#tbl-scene-results" class="quarto-xref">Table&nbsp;<span>4.5</span></a> reports the operational performance of the 11 selected models on held-out scenes 12 and 73.</p>
+<div class="cell" data-execution_count="4">
+<div id="tbl-scene-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-scene-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.5: Operational evaluation on held-out scenes 12 and 73. Raw and PP denote performance without and with postprocessing respectively. Abbreviations: P = Precision, R = Recall. Models are sorted by F1 PP within each scene.
+</figcaption>
+<div aria-describedby="tbl-scene-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="uysxlibsqf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>
+#uysxlibsqf table {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+#uysxlibsqf thead, tbody, tfoot, tr, td, th { border-style: none; }
+ tr { background-color: transparent; }
+#uysxlibsqf p { margin: 0; padding: 0; }
+ #uysxlibsqf .gt_table { display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 9pt; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; }
+ #uysxlibsqf .gt_caption { padding-top: 4px; padding-bottom: 4px; }
+ #uysxlibsqf .gt_title { color: #333333; font-size: 12pt; font-weight: initial; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; border-bottom-color: #FFFFFF; border-bottom-width: 0; }
+ #uysxlibsqf .gt_subtitle { color: #333333; font-size: 85%; font-weight: initial; padding-top: 3px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; border-top-color: #FFFFFF; border-top-width: 0; }
+ #uysxlibsqf .gt_heading { background-color: #FFFFFF; text-align: center; border-bottom-color: #FFFFFF; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #uysxlibsqf .gt_bottom_border { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: gray; }
+ #uysxlibsqf .gt_col_headings { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; }
+ #uysxlibsqf .gt_col_heading { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; }
+ #uysxlibsqf .gt_column_spanner_outer { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; }
+ #uysxlibsqf .gt_column_spanner_outer:first-child { padding-left: 0; }
+ #uysxlibsqf .gt_column_spanner_outer:last-child { padding-right: 0; }
+ #uysxlibsqf .gt_column_spanner { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%; }
+ #uysxlibsqf .gt_spanner_row { border-bottom-style: hidden; }
+ #uysxlibsqf .gt_group_heading { padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; text-align: left; }
+ #uysxlibsqf .gt_empty_group_heading { padding: 0.5px; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: middle; }
+ #uysxlibsqf .gt_from_md> :first-child { margin-top: 0; }
+ #uysxlibsqf .gt_from_md> :last-child { margin-bottom: 0; }
+ #uysxlibsqf .gt_row { padding-top: 3px; padding-bottom: 3px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; }
+ #uysxlibsqf .gt_stub { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; }
+ #uysxlibsqf .gt_stub_row_group { color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: initial; text-transform: inherit; border-right-style: solid; border-right-width: 2px; border-right-color: #D3D3D3; padding-left: 5px; padding-right: 5px; vertical-align: top; }
+ #uysxlibsqf .gt_row_group_first td { border-top-width: 2px; }
+ #uysxlibsqf .gt_row_group_first th { border-top-width: 2px; }
+ #uysxlibsqf .gt_striped { color: #333333; background-color: #F4F4F4; }
+ #uysxlibsqf .gt_table_body { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #uysxlibsqf .gt_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #uysxlibsqf .gt_first_summary_row { border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; }
+ #uysxlibsqf .gt_last_summary_row_top { border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; }
+ #uysxlibsqf .gt_grand_summary_row { color: #333333; background-color: #FFFFFF; text-transform: inherit; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; }
+ #uysxlibsqf .gt_first_grand_summary_row_bottom { border-top-style: double; border-top-width: 6px; border-top-color: #D3D3D3; }
+ #uysxlibsqf .gt_last_grand_summary_row_top { border-bottom-style: double; border-bottom-width: 6px; border-bottom-color: #D3D3D3; }
+ #uysxlibsqf .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #uysxlibsqf .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #uysxlibsqf .gt_left { text-align: left; }
+ #uysxlibsqf .gt_center { text-align: center; }
+ #uysxlibsqf .gt_right { text-align: right; font-variant-numeric: tabular-nums; }
+ #uysxlibsqf .gt_font_normal { font-weight: normal; }
+ #uysxlibsqf .gt_font_bold { font-weight: bold; }
+ #uysxlibsqf .gt_font_italic { font-style: italic; }
+ #uysxlibsqf .gt_super { font-size: 65%; }
+ #uysxlibsqf .gt_footnotes { color: font-color(#FFFFFF); background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #uysxlibsqf .gt_footnote { margin: 0px; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; }
+ #uysxlibsqf .gt_sourcenotes { color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; }
+ #uysxlibsqf .gt_sourcenote { font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px; text-align: left; }
+ #uysxlibsqf .gt_footnote_marks { font-size: 75%; vertical-align: 0.4em; position: initial; }
+ #uysxlibsqf .gt_asterisk { font-size: 100%; vertical-align: 0; }
+ 
+</style>
+
+<table class="gt_table cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Scene" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Scene</th>
+<th id="Model" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Model</th>
+<th id="F1-raw" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F1 raw</th>
+<th id="F1-PP" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F1 PP</th>
+<th id="P-raw" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">P raw</th>
+<th id="P-PP" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">P PP</th>
+<th id="R-raw" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">R raw</th>
+<th id="R-PP" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">R PP</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_left">s2 only diff svm</td>
+<td class="gt_row gt_right">0.689</td>
+<td class="gt_row gt_right">0.674</td>
+<td class="gt_row gt_right">0.675</td>
+<td class="gt_row gt_right">0.727</td>
+<td class="gt_row gt_right">0.703</td>
+<td class="gt_row gt_right">0.629</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_left gt_striped">s2 only best svm</td>
+<td class="gt_row gt_right gt_striped">0.667</td>
+<td class="gt_row gt_right gt_striped">0.673</td>
+<td class="gt_row gt_right gt_striped">0.624</td>
+<td class="gt_row gt_right gt_striped">0.703</td>
+<td class="gt_row gt_right gt_striped">0.716</td>
+<td class="gt_row gt_right gt_striped">0.645</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_left">full fusion rf</td>
+<td class="gt_row gt_right">0.675</td>
+<td class="gt_row gt_right">0.669</td>
+<td class="gt_row gt_right">0.768</td>
+<td class="gt_row gt_right">0.862</td>
+<td class="gt_row gt_right">0.602</td>
+<td class="gt_row gt_right">0.547</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_left gt_striped">s2 only diff rf</td>
+<td class="gt_row gt_right gt_striped">0.642</td>
+<td class="gt_row gt_right gt_striped">0.655</td>
+<td class="gt_row gt_right gt_striped">0.656</td>
+<td class="gt_row gt_right gt_striped">0.795</td>
+<td class="gt_row gt_right gt_striped">0.629</td>
+<td class="gt_row gt_right gt_striped">0.556</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_left">s2 grd rf</td>
+<td class="gt_row gt_right">0.638</td>
+<td class="gt_row gt_right">0.614</td>
+<td class="gt_row gt_right">0.827</td>
+<td class="gt_row gt_right">0.903</td>
+<td class="gt_row gt_right">0.520</td>
+<td class="gt_row gt_right">0.465</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_left gt_striped">s2 diff coh rf</td>
+<td class="gt_row gt_right gt_striped">0.628</td>
+<td class="gt_row gt_right gt_striped">0.605</td>
+<td class="gt_row gt_right gt_striped">0.728</td>
+<td class="gt_row gt_right gt_striped">0.880</td>
+<td class="gt_row gt_right gt_striped">0.552</td>
+<td class="gt_row gt_right gt_striped">0.461</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_left">pw2 svm ndii</td>
+<td class="gt_row gt_right">0.597</td>
+<td class="gt_row gt_right">0.597</td>
+<td class="gt_row gt_right">0.470</td>
+<td class="gt_row gt_right">0.470</td>
+<td class="gt_row gt_right">0.817</td>
+<td class="gt_row gt_right">0.817</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_left gt_striped">s2 only best rf</td>
+<td class="gt_row gt_right gt_striped">0.502</td>
+<td class="gt_row gt_right gt_striped">0.399</td>
+<td class="gt_row gt_right gt_striped">0.709</td>
+<td class="gt_row gt_right gt_striped">0.860</td>
+<td class="gt_row gt_right gt_striped">0.389</td>
+<td class="gt_row gt_right gt_striped">0.260</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_left">s2 best coh rf</td>
+<td class="gt_row gt_right">0.314</td>
+<td class="gt_row gt_right">0.231</td>
+<td class="gt_row gt_right">0.845</td>
+<td class="gt_row gt_right">0.983</td>
+<td class="gt_row gt_right">0.193</td>
+<td class="gt_row gt_right">0.131</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_left gt_striped">coh only rf</td>
+<td class="gt_row gt_right gt_striped">0.200</td>
+<td class="gt_row gt_right gt_striped">0.211</td>
+<td class="gt_row gt_right gt_striped">0.111</td>
+<td class="gt_row gt_right gt_striped">0.118</td>
+<td class="gt_row gt_right gt_striped">0.989</td>
+<td class="gt_row gt_right gt_striped">0.990</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_left">coh only svm</td>
+<td class="gt_row gt_right">0.199</td>
+<td class="gt_row gt_right">0.209</td>
+<td class="gt_row gt_right">0.111</td>
+<td class="gt_row gt_right">0.117</td>
+<td class="gt_row gt_right">0.999</td>
+<td class="gt_row gt_right">0.991</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_left gt_striped">grd only rf</td>
+<td class="gt_row gt_right gt_striped">0.199</td>
+<td class="gt_row gt_right gt_striped">0.208</td>
+<td class="gt_row gt_right gt_striped">0.111</td>
+<td class="gt_row gt_right gt_striped">0.116</td>
+<td class="gt_row gt_right gt_striped">1.000</td>
+<td class="gt_row gt_right gt_striped">0.991</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">73</td>
+<td class="gt_row gt_left">s2 grd rf</td>
+<td class="gt_row gt_right">0.756</td>
+<td class="gt_row gt_right">0.741</td>
+<td class="gt_row gt_right">0.692</td>
+<td class="gt_row gt_right">0.751</td>
+<td class="gt_row gt_right">0.831</td>
+<td class="gt_row gt_right">0.732</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">73</td>
+<td class="gt_row gt_left gt_striped">s2 only best rf</td>
+<td class="gt_row gt_right gt_striped">0.749</td>
+<td class="gt_row gt_right gt_striped">0.735</td>
+<td class="gt_row gt_right gt_striped">0.706</td>
+<td class="gt_row gt_right gt_striped">0.806</td>
+<td class="gt_row gt_right gt_striped">0.798</td>
+<td class="gt_row gt_right gt_striped">0.676</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">73</td>
+<td class="gt_row gt_left">full fusion rf</td>
+<td class="gt_row gt_right">0.724</td>
+<td class="gt_row gt_right">0.717</td>
+<td class="gt_row gt_right">0.677</td>
+<td class="gt_row gt_right">0.765</td>
+<td class="gt_row gt_right">0.779</td>
+<td class="gt_row gt_right">0.675</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">73</td>
+<td class="gt_row gt_left gt_striped">s2 only best svm</td>
+<td class="gt_row gt_right gt_striped">0.632</td>
+<td class="gt_row gt_right gt_striped">0.651</td>
+<td class="gt_row gt_right gt_striped">0.477</td>
+<td class="gt_row gt_right gt_striped">0.528</td>
+<td class="gt_row gt_right gt_striped">0.936</td>
+<td class="gt_row gt_right gt_striped">0.847</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">73</td>
+<td class="gt_row gt_left">s2 only diff svm</td>
+<td class="gt_row gt_right">0.625</td>
+<td class="gt_row gt_right">0.635</td>
+<td class="gt_row gt_right">0.485</td>
+<td class="gt_row gt_right">0.537</td>
+<td class="gt_row gt_right">0.878</td>
+<td class="gt_row gt_right">0.777</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">73</td>
+<td class="gt_row gt_left gt_striped">s2 only diff rf</td>
+<td class="gt_row gt_right gt_striped">0.574</td>
+<td class="gt_row gt_right gt_striped">0.598</td>
+<td class="gt_row gt_right gt_striped">0.433</td>
+<td class="gt_row gt_right gt_striped">0.496</td>
+<td class="gt_row gt_right gt_striped">0.852</td>
+<td class="gt_row gt_right gt_striped">0.751</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">73</td>
+<td class="gt_row gt_left">s2 diff coh rf</td>
+<td class="gt_row gt_right">0.526</td>
+<td class="gt_row gt_right">0.515</td>
+<td class="gt_row gt_right">0.427</td>
+<td class="gt_row gt_right">0.497</td>
+<td class="gt_row gt_right">0.685</td>
+<td class="gt_row gt_right">0.533</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">73</td>
+<td class="gt_row gt_left gt_striped">s2 best coh rf</td>
+<td class="gt_row gt_right gt_striped">0.596</td>
+<td class="gt_row gt_right gt_striped">0.496</td>
+<td class="gt_row gt_right gt_striped">0.795</td>
+<td class="gt_row gt_right gt_striped">0.856</td>
+<td class="gt_row gt_right gt_striped">0.477</td>
+<td class="gt_row gt_right gt_striped">0.349</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">73</td>
+<td class="gt_row gt_left">pw2 svm ndii</td>
+<td class="gt_row gt_right">0.397</td>
+<td class="gt_row gt_right">0.397</td>
+<td class="gt_row gt_right">0.251</td>
+<td class="gt_row gt_right">0.251</td>
+<td class="gt_row gt_right">0.938</td>
+<td class="gt_row gt_right">0.938</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">73</td>
+<td class="gt_row gt_left gt_striped">grd only rf</td>
+<td class="gt_row gt_right gt_striped">0.198</td>
+<td class="gt_row gt_right gt_striped">0.199</td>
+<td class="gt_row gt_right gt_striped">0.110</td>
+<td class="gt_row gt_right gt_striped">0.111</td>
+<td class="gt_row gt_right gt_striped">1.000</td>
+<td class="gt_row gt_right gt_striped">0.917</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right">73</td>
+<td class="gt_row gt_left">coh only svm</td>
+<td class="gt_row gt_right">0.198</td>
+<td class="gt_row gt_right">0.198</td>
+<td class="gt_row gt_right">0.110</td>
+<td class="gt_row gt_right">0.111</td>
+<td class="gt_row gt_right">0.997</td>
+<td class="gt_row gt_right">0.915</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped">73</td>
+<td class="gt_row gt_left gt_striped">coh only rf</td>
+<td class="gt_row gt_right gt_striped">0.197</td>
+<td class="gt_row gt_right gt_striped">0.197</td>
+<td class="gt_row gt_right gt_striped">0.109</td>
+<td class="gt_row gt_right gt_striped">0.111</td>
+<td class="gt_row gt_right gt_striped">0.985</td>
+<td class="gt_row gt_right gt_striped">0.903</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The best-performing model on scene 12 is the S2-only_diff SVM (F1 = 0.689 raw, 0.674 with postprocessing), followed closely by the S2-only_best SVM (0.667 raw, 0.673 with postprocessing) and the Full-fusion RF (0.675 raw, 0.669 with postprocessing). On scene 73, the S2-only_best RF achieves the highest F1 among S2-only models (0.749 raw, 0.735 with postprocessing). The Full-fusion RF performs comparably at 0.717. Across both scenes, the S2-based models consistently outperform all configurations that rely on SAR data alone. GRD-only and coherence-only models achieve F1-Scores around 0.200, with recall near 1.0 and precision near 0.11.</p>
+<p><a href="#fig-coh-failure" class="quarto-xref">Figure&nbsp;<span>4.9</span></a> shows the coherence-only RF prediction on scene 12. The model predicts almost the entire grassland area as mowed, resulting in an F1-Score of 0.200.</p>
+<div id="fig-coh-failure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coh-failure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/full_scene_eval/eval_scene12_coh_only_rf.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coh-failure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.9: Prediction map for the coh-only RF on scene 12 (F1 = 0.200). Colour legend as in <a href="#fig-threshold-calibration" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.
+</figcaption>
+</figure>
+</div>
+<section id="comparison-with-pw2-baseline" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="comparison-with-pw2-baseline"><span class="header-section-number">4.6.1</span> Comparison with PW2 Baseline</h3>
+<p>To directly assess the improvement over the previous study, the best-performing model from PW2 (SVM using ndii_diff as the sole feature, with a default threshold of 0.5 and no postprocessing) was applied to the same two scenes. On scene 73 (<a href="#fig-comparison-scene73" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>), the PW2 model achieves an F1-Score of 0.397 with a precision of 0.251 and recall of 0.938. The S2-only_diff SVM, selected as the most stable model across multiple scenes, reaches 0.635, with precision increasing to 0.537 and recall decreasing to 0.777.</p>
+<div id="fig-comparison-scene73" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comparison-scene73-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-comparison-scene73" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-scene73-pw2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-scene73-pw2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/full_scene_eval/eval_scene73_pw2_svm_ndii.png" class="img-fluid figure-img" data-ref-parent="fig-comparison-scene73">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-scene73-pw2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) PW2 baseline (F1=0.397)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-comparison-scene73" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-scene73-best" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-scene73-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/full_scene_eval/eval_scene73_s2_only_diff_svm.png" class="img-fluid figure-img" data-ref-parent="fig-comparison-scene73">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-scene73-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) S2-only_diff SVM (F1=0.635)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparison-scene73-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.10: Comparison of PW2 baseline and S2-only_diff SVM on scene 73 Colour legend as in <a href="#fig-threshold-calibration" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-comparison-scene12" class="quarto-xref">Figure&nbsp;<span>4.11</span></a> shows that on scene 12, the improvement is smaller but consistent: the PW2 model achieves an F1-Score of 0.597 while the best model (S2-only_diff SVM) reaches 0.674.</p>
+<div id="fig-comparison-scene12" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comparison-scene12-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-comparison-scene12" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-scene12-pw2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-scene12-pw2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/full_scene_eval/eval_scene12_pw2_svm_ndii.png" class="img-fluid figure-img" data-ref-parent="fig-comparison-scene12">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-scene12-pw2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) PW2 baseline (F1=0.597)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-comparison-scene12" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-scene12-best" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-scene12-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/full_scene_eval/eval_scene12_s2_only_diff_svm.png" class="img-fluid figure-img" data-ref-parent="fig-comparison-scene12">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-scene12-best-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) S2-only_diff SVM (F1=0.674)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparison-scene12-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.11: Comparison of PW2 baseline and S2-only_diff SVM on scene 12. The pattern is consistent with scene 73: the improved model reduces false positives while maintaining coverage of the main mowing areas. Colour legend as in <a href="#fig-threshold-calibration" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="non-event-control" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="non-event-control"><span class="header-section-number">4.6.2</span> Non-Event Control</h3>
+<p><a href="#fig-control-test" class="quarto-xref">Figure&nbsp;<span>4.12</span></a> shows the control test results for scene 46, where the model was applied to the non-event window (<span class="math inline">\(t_{n-2}\)</span> to <span class="math inline">\(t_{n-1}\)</span>) alongside the standard mowing detection window from <span class="math inline">\(t_{n-1}\)</span> to <span class="math inline">\(t_{n+1}\)</span>. The model correctly predicts no mowing in the non-event window, while detecting the known mowing areas in the event window.</p>
+<div id="fig-control-test" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-control-test-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-control-test" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-control-nonevent" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-control-nonevent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/control_test_46_ctrl.png" class="img-fluid figure-img" data-ref-parent="fig-control-test">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-control-nonevent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Non-event window (<span class="math inline">\(t_{n-2}\)</span> to <span class="math inline">\(t_{n-1}\)</span>)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-control-test" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-control-event" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-control-event-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/control_test_46_true.png" class="img-fluid figure-img" data-ref-parent="fig-control-test">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-control-event-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Mowing event window (<span class="math inline">\(t_{n-1}\)</span> to <span class="math inline">\(t_{n+1}\)</span>)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-control-test-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.12: Control test on scene 46. Left: model applied to the non-event window, where no mowing occurred. Right: model applied to the subsequent mowing event window on the same area. Green in control map (left): True negatives for the Ground Truth area, red in control map: general false positives, rest of the colour legend as in <a href="#fig-threshold-calibration" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="generalisation-test" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="generalisation-test"><span class="header-section-number">4.7</span> Generalisation Test</h2>
+<p>The generalisation test near Lindau (30.04.2025 to 10.05.2025) was conducted over the full scene extent without grassland mask or study area restriction. The evaluation against the four available ground truth polygons yields an F1-Score of 0.511 with a precision of 0.344 and recall of 0.997 (<a href="#fig-generalisation" class="quarto-xref">Figure&nbsp;<span>4.13</span></a>). The model detects virtually all known mowing pixels (2,032 true positives, 6 false negatives) but also predicts 3,881 pixels as mowed outside the ground truth polygons.</p>
+<div id="fig-generalisation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-generalisation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/generalization_lindau_2025-05-10.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-generalisation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.13: Generalisation test near Lindau (30.04.2025 to 10.05.2025), applied without grassland mask or study area restriction. F1 = 0.511, P = 0.344, R = 0.997. Cyan: true positive, orange: false positive, magenta: false negative.
+</figcaption>
+</figure>
+</div>
+<p>The ground truth covers only four parcels managed by Strickhof and does not account for mowing events on surrounding parcels managed by other farmers. Visual inspection of before and after RGB composites reveals spectral changes in several false-positive areas. Notably, the model does not produce false detections on non-grassland surfaces such as forests, buildings, roads, or bare soil, despite the absence of a land cover mask.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./4-methods.pdf" class="pagination-link" aria-label="Methods">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./6-discussion.pdf" class="pagination-link" aria-label="Discussion">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussion</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
