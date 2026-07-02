@@ -1,0 +1,117 @@
+---
+is-index: true   # prevents the chapter title from appearing twice on this page
+---
+
+<!-- HTML: render the ZHAW title page here (supervisors, imprint, etc.) -->
+::: {.content-visible when-format="html"}
+
+{{< zhaw-title-block >}}
+
+:::
+
+# Abstract {.unnumbered .unlisted}
+
+Satellite-based remote sensing provides a scalable approach to monitoring vegetation management across large areas. Automated detection of mowing events is relevant for grassland management applications, including airfield safety, where reliable mowing records support ecological monitoring. Preceding project work demonstrated that pixel-based machine learning models using Sentinel-2 optical imagery can detect mowing events, but identified two key limitations: dependence on cloud-free acquisitions and spatially fragmented predictions at the pixel level.
+
+This thesis investigates two methodological extensions to address these limitations. First, Synthetic Aperture Radar (SAR) data from the Sentinel-1 mission were integrated as a complementary data source. Both Ground Range Detected (GRD) backscatter and interferometric coherence derived from Single Look Complex (SLC) products were evaluated. Second, spatial postprocessing methods, including morphological filtering, median filtering, and superpixel-based aggregation, were implemented to reduce classification noise. An improved machine learning workflow incorporating refined feature selection, scene-level threshold calibration, and systematic model benchmarking was developed and evaluated against the preceding baseline. The study area is located at Zurich Airport, with ground truth mowing records spanning 2019 to 2023.
+
+The results show that Sentinel-2 optical features remain the dominant predictors of mowing events. The best optical model achieved a test-set F1-Score of 0.923. GRD backscatter features provided no measurable improvement, achieving near-random performance in isolation. On parcel-level interferometric coherence showed a physically meaningful but weak and season-dependent signal: a statistically significant increase in VH coherence after mowing was observed only during the late growing season, while both polarisations showed negligible or inverted responses during the early and peak seasons. Coherence-only models performed near random at the pixel level, though selective fusion with optical features produced the highest test-set F1-Score within the coherence-eligible subset (0.922). At the operational scene level, the best models achieved F1-Scores of 0.689 and 0.749 on two held-out scenes, nearly doubling the performance of the preceding baseline (0.597 and 0.397 respectively). Scene-level threshold calibration emerged as the single most impactful operational improvement, substantially reducing false positives. Spatial postprocessing contributed only marginal additional gains, as threshold calibration had already addressed the dominant source of classification noise. A standalone prototype notebook was developed and applied to an external site near Lindau, where the model correctly identified known mowing events (recall = 0.997) and avoided false detections on non-grassland surfaces without requiring a land cover mask.
+
+The findings indicate that optical vegetation indices, combined with appropriate threshold calibration and postprocessing, provide a robust basis for automated mowing detection. SAR interferometric coherence offers limited added value for pixel-based classification at this site, though parcel-level or segment-based approaches may yield better results. The primary bottleneck for further development remains the availability of spatially precise and diverse ground truth data.
+
+
+# Zusammenfassung {.unnumbered .unlisted}
+Satellitengestützte Fernerkundung bietet einen skalierbaren Ansatz zur Überwachung der Vegetationsbewirtschaftung über grosse Flächen. Die automatisierte Erkennung von Mähereignissen ist für verschiedene Anwendungen im Grünlandmanagement relevant, darunter die Flugsicherheit, wo zuverlässige Mähprotokolle das ökologische Monitoring unterstützen. Eine vorangegangene Projektarbeit zeigte, dass pixelbasierte Machine-Learning-Modelle mit optischen Sentinel-2-Daten Mähereignisse erkennen können, identifizierte jedoch zwei wesentliche Einschränkungen: die Abhängigkeit von wolkenfreien Aufnahmen und räumlich fragmentierte Vorhersagen auf Pixelebene.
+
+Diese Bachelorarbeit untersucht zwei methodische Erweiterungen zur Behebung dieser Einschränkungen. Erstens wurden Synthetic Aperture Radar (SAR)-Daten der Sentinel-1-Mission als komplementäre Datenquelle integriert. Sowohl Ground Range Detected (GRD)-Rückstreuung als auch interferometrische Kohärenz aus Single Look Complex (SLC)-Produkten wurden evaluiert. Zweitens wurden räumliche Post-Processing-Methoden, darunter morphologische Filterung, Medianfilterung und Superpixel-basierte Aggregation, zur Reduktion des Klassifikationsrauschens implementiert. Ein verbesserter Machine-Learning-Workflow mit optimierter Feature-Selektion, szenenbasierter Schwellwertkalibrierung und systematischem Modellvergleich wurde entwickelt und gegen die bestehende Baseline evaluiert. Das Untersuchungsgebiet liegt am Flughafen Zürich, mit Ground-Truth-Mähprotokollen aus den Jahren 2019 bis 2023.
+
+Die Ergebnisse zeigen, dass optische Sentinel-2-Features die dominanten Prädiktoren für Mähereignisse bleiben. Das beste optische Modell erreichte einen F1-Score von 0.923 auf dem Testdatensatz. GRD-Rückstreuungsfeatures lieferten keine messbare Verbesserung und erzielten isoliert nahezu zufällige Klassifikationsleistung. Auf Parzellenebene zeigte die interferometrische Kohärenz ein physikalisch plausibles, aber schwaches und saisonabhängiges Signal: ein statistisch signifikanter Anstieg der VH-Kohärenz nach dem Mähen wurde ausschliesslich in der späten Vegetationsperiode beobachtet, während beide Polarisationen in der frühen und mittleren Saison vernachlässigbare oder invertierte Reaktionen zeigten. Kohärenz-only Modelle erzielten auf Pixel-Level nahezu zufällig Ergebnisse, wobei die selektive Integration mit optischen Features den höchsten F1-Score innerhalb der kohärenzfähigen Teil-Gruppe ergab (0.922). Auf operationeller Szenenebene erreichten die besten Modelle F1-Scores von 0.689 und 0.749 auf zwei zurückgehaltenen Szenen, was die Leistung der vorangegangenen Baseline annähernd verdoppelte (0.597 bzw. 0.397). Die szenenbasierte Schwellwertkalibrierung erwies sich als die wirksamste operationelle Verbesserung und reduzierte falsch-positive Vorhersagen erheblich. Räumliches Post-Processing lieferte nur marginale zusätzliche Verbesserungen, da die Schwellwertkalibrierung die dominante Quelle des Klassifikationsrauschens bereits adressiert hatte. Ein eigenständiger Prototyp in Form eines interaktiven Jupyter Notebooks wurde entwickelt und auf ein externes Gebiet bei Lindau angewandt, wo das Modell bekannte Mähereignisse korrekt identifizierte (Recall = 0.997) und ohne Landbedeckungsmaske keine Fehldetektionen auf Nicht-Grünlandflächen produzierte.
+
+Die Ergebnisse zeigen, dass optische Vegetationsindizes in Kombination mit geeigneter Schwellwertkalibrierung und Post-Processing eine robuste Grundlage für die automatisierte Mäherkennung bieten. Interferometrische SAR-Kohärenz bietet auf dieser Untersuchungsfläche einen begrenzten Mehrwert für die pixelbasierte Klassifikation, wobei parzellenbasierte oder segmentbasierte Ansätze bessere Ergebnisse liefern könnten. Der wichtigste limitierende Faktor für die Weiterentwicklung bleibt die Verfügbarkeit von räumlich präzisen und diversen Ground-Truth-Daten.
+
+
+
+# Acknowledgments {.unnumbered .unlisted}
+I would like to thank my supervisors Nils Ratnaweera, Benjamin Sigrist, and Johann Junghardt for their guidance and feedback throughout this thesis. I am grateful to Zurich Airport and the ZHAW research group from the Institute for Environment and Natural Resources for providing the ground truth data that forms the foundation of this study. I also thank Strickhof for providing additional mowing records near Lindau, which enabled the generalisation test, and Agroscope for their willingness to share data, even though the provided records could not be integrated into the final analysis. 
+
+The cover image is courtesy of NASA, obtained via [Unsplash](https://unsplash.com/de/fotos/blick-auf-erde-und-satellit-yZygONrUBe8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink) under their free-use license.
+
+
+# List of Abbreviations {.unnumbered .unlisted}
++---------+----------------------------------------------------+
+| AUC     | Area Under the Curve                               |
++---------+----------------------------------------------------+
+| CDSE    | Copernicus Data Space Ecosystem                    |
++---------+----------------------------------------------------+
+| DEM     | Digital Elevation Model                            |
++---------+----------------------------------------------------+
+| ESA     | European Space Agency                              |
++---------+----------------------------------------------------+
+| EVI     | Enhanced Vegetation Index                          |
++---------+----------------------------------------------------+
+| GEE     | Google Earth Engine                                |
++---------+----------------------------------------------------+
+| GNDVI   | Green Normalized Difference Vegetation Index       |
++---------+----------------------------------------------------+
+| GPT     | Graph Processing Tool                              |
++---------+----------------------------------------------------+
+| GRD     | Ground Range Detected                              |
++---------+----------------------------------------------------+
+| InSAR   | Interferometric Synthetic Aperture Radar            |
++---------+----------------------------------------------------+
+| IW      | Interferometric Wide Swath                         |
++---------+----------------------------------------------------+
+| LightGBM| Light Gradient Boosting Machine                    |
++---------+----------------------------------------------------+
+| LOO     | Leave-One-Out                                      |
++---------+----------------------------------------------------+
+| ML      | Machine Learning                                   |
++---------+----------------------------------------------------+
+| NDII    | Normalized Difference Infrared Index               |
++---------+----------------------------------------------------+
+| NDVI    | Normalized Difference Vegetation Index             |
++---------+----------------------------------------------------+
+| NIR     | Near-Infrared                                      |
++---------+----------------------------------------------------+
+| OBIA    | Object-Based Image Analysis                        |
++---------+----------------------------------------------------+
+| RF      | Random Forest                                      |
++---------+----------------------------------------------------+
+| ROC     | Receiver Operating Characteristic                  |
++---------+----------------------------------------------------+
+| SAR     | Synthetic Aperture Radar                           |
++---------+----------------------------------------------------+
+| SAVI    | Soil-Adjusted Vegetation Index                     |
++---------+----------------------------------------------------+
+| SLC     | Single Look Complex                                |
++---------+----------------------------------------------------+
+| SLIC    | Simple Linear Iterative Clustering                 |
++---------+----------------------------------------------------+
+| SNAP    | Sentinel Application Platform                      |
++---------+----------------------------------------------------+
+| SNR     | Signal-to-Noise Ratio                              |
++---------+----------------------------------------------------+
+| SRTM    | Shuttle Radar Topography Mission                   |
++---------+----------------------------------------------------+
+| SVM     | Support Vector Machine                             |
++---------+----------------------------------------------------+
+| SWIR    | Short-Wave Infrared                                |
++---------+----------------------------------------------------+
+| TOPSAR  | Terrain Observation with Progressive Scans SAR     |
++---------+----------------------------------------------------+
+| VI      | Vegetation Index                                   |
++---------+----------------------------------------------------+
+| VH      | Vertical transmit, Horizontal receive              |
++---------+----------------------------------------------------+
+| VV      | Vertical transmit, Vertical receive                |
++---------+----------------------------------------------------+
+
+
+<!-- Typst: render the table of contents here (hidden in HTML, handled by sidebar) -->
+::: {.content-hidden when-format="html"}
+
+# Table of Contents {.unnumbered .unlisted}
+
+{{< table-of-contents >}}
+
+:::

@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="keywords" content="mowing detection, Sentinel-2, Sentinel-1, interferometric coherence, SAR, machine learning, remote sensing, grassland management, change detection, Zurich Airport">
+
+<title>3&nbsp; Methods – Advanced Earth Observation for Grassland Management</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./5-results.pdf" rel="next">
+<link href="./3-literature.pdf" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-12eeb4b20e9f5a2b0bfc604bfaf942bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="site_libs\quarto-contrib\quarto-project\zhaw-lsfm\zhaw-lsfm\zhaw-html.css">
+</head>
+
+<body class="floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4-methods.pdf"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Advanced Earth Observation for Grassland Management</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Advanced-Earth-Observation-for-Grassland-Management.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Title Page</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-introduction.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-literature.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Literature Review</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-methods.pdf" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-results.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-discussion.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussion</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./statement-of-reproducibility.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statement of Reproducibility</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./list-of-ai-tools.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Used AI Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./list-of-figures.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Figures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7-appendix-statistics.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Statistical Outputs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#study-area-and-data-sources" id="toc-study-area-and-data-sources" class="nav-link active" data-scroll-target="#study-area-and-data-sources"><span class="header-section-number">3.1</span> Study Area and Data Sources</a></li>
+  <li><a href="#sentinel-2-preprocessing-and-feature-engineering" id="toc-sentinel-2-preprocessing-and-feature-engineering" class="nav-link" data-scroll-target="#sentinel-2-preprocessing-and-feature-engineering"><span class="header-section-number">3.2</span> Sentinel-2 Preprocessing and Feature Engineering</a></li>
+  <li><a href="#sec-sar-processing" id="toc-sec-sar-processing" class="nav-link" data-scroll-target="#sec-sar-processing"><span class="header-section-number">3.3</span> SAR Data Acquisition and Coherence Estimation</a>
+  <ul class="collapse">
+  <li><a href="#grd-backscatter" id="toc-grd-backscatter" class="nav-link" data-scroll-target="#grd-backscatter"><span class="header-section-number">3.3.1</span> GRD Backscatter</a></li>
+  <li><a href="#slc-acquisition" id="toc-slc-acquisition" class="nav-link" data-scroll-target="#slc-acquisition"><span class="header-section-number">3.3.2</span> SLC Acquisition</a></li>
+  <li><a href="#coherence-quadruplet-design" id="toc-coherence-quadruplet-design" class="nav-link" data-scroll-target="#coherence-quadruplet-design"><span class="header-section-number">3.3.3</span> Coherence Quadruplet Design</a></li>
+  <li><a href="#snap-processing" id="toc-snap-processing" class="nav-link" data-scroll-target="#snap-processing"><span class="header-section-number">3.3.4</span> SNAP Processing</a></li>
+  <li><a href="#snr-decorrelation-correction" id="toc-snr-decorrelation-correction" class="nav-link" data-scroll-target="#snr-decorrelation-correction"><span class="header-section-number">3.3.5</span> SNR Decorrelation Correction</a></li>
+  </ul></li>
+  <li><a href="#sec-feature-fusion" id="toc-sec-feature-fusion" class="nav-link" data-scroll-target="#sec-feature-fusion"><span class="header-section-number">3.4</span> Feature Fusion and Model Configurations</a></li>
+  <li><a href="#classification-and-threshold-calibration" id="toc-classification-and-threshold-calibration" class="nav-link" data-scroll-target="#classification-and-threshold-calibration"><span class="header-section-number">3.5</span> Classification and Threshold Calibration</a></li>
+  <li><a href="#sec-postprocessing" id="toc-sec-postprocessing" class="nav-link" data-scroll-target="#sec-postprocessing"><span class="header-section-number">3.6</span> Spatial Postprocessing</a></li>
+  <li><a href="#sec-evaluation" id="toc-sec-evaluation" class="nav-link" data-scroll-target="#sec-evaluation"><span class="header-section-number">3.7</span> Evaluation</a></li>
+  <li><a href="#sec-prototype" id="toc-sec-prototype" class="nav-link" data-scroll-target="#sec-prototype"><span class="header-section-number">3.8</span> Operational Prototype and Generalisation Test</a></li>
+  <li><a href="#use-of-generative-ai-tools" id="toc-use-of-generative-ai-tools" class="nav-link" data-scroll-target="#use-of-generative-ai-tools"><span class="header-section-number">3.9</span> Use of Generative AI Tools</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+<h1 class="title"><span id="sec-methods" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods</span></span></h1>
+
+
+
+<section id="study-area-and-data-sources" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="study-area-and-data-sources"><span class="header-section-number">3.1</span> Study Area and Data Sources</h2>
+<p>The study area comprises the perimeter of Zurich Airport (Flughafen Zürich). The airport grasslands are subject to regular mowing regimes designed to manage vegetation height and reduce wildlife hazard risk. <a href="#fig-study-area" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> illustrates the spatial extent of the study area, highlighting the airport boundary and the specific grassy areas within it that are relevant for mowing event detection. A detailed description of the study area and its operational context is provided in the preceding project work <span class="citation" data-cites="klaver2025">(<a href="#ref-klaver2025" role="doc-biblioref">Klaver 2025</a>)</span>.</p>
+<div id="fig-study-area" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-study-area-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/study_area.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-study-area-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Study area at Zurich Airport. Yellow areas indicate grassland parcels derived from the official land survey (Amtliche Vermessung) and the cyan outline marks the airport boundary.
+</figcaption>
+</figure>
+</div>
+<p>The analysis draws on five primary data sources, summarised in <a href="#tbl-data-sources" class="quarto-xref">Table&nbsp;<span>3.1</span></a>. Sentinel-2 multispectral imagery and the associated ground truth mowing records were carried over from the previous study <span class="citation" data-cites="klaver2025">(<a href="#ref-klaver2025" role="doc-biblioref">Klaver 2025</a>)</span>. Sentinel-1 Single Ground Range Detected (GRD) and Look Complex (SLC) data were newly acquired for this thesis to add SAR features to the analysis. Grassland parcels from the official Swiss land survey (Amtliche Vermessung) were used to constrain the analysis to vegetated areas and exclude non-grassland areas such as forests, built-up surfaces, roads, and runways.</p>
+<div id="tbl-data-sources" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-sources-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Overview of data sources. All Sentinel-1 products use C-band. GRD data were obtained from Google Earth Engine and SLC data from the Copernicus Data Space Ecosystem (CDSE). The land survey data originate from the Amtliche Vermessung <span class="citation" data-cites="zh_geodata_2025">(<a href="#ref-zh_geodata_2025" role="doc-biblioref">Kanton Zürich 2017</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-data-sources-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Product</th>
+<th style="text-align: left;">Resolution</th>
+<th style="text-align: left;">Period</th>
+<th style="text-align: left;">Provider</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sentinel-2</td>
+<td style="text-align: left;">L2A multispectral</td>
+<td style="text-align: left;">10 m</td>
+<td style="text-align: left;">2019–2023</td>
+<td style="text-align: left;">Google Earth Engine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sentinel-1</td>
+<td style="text-align: left;">IW GRD</td>
+<td style="text-align: left;">10 m</td>
+<td style="text-align: left;">2019–2023</td>
+<td style="text-align: left;">Google Earth Engine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sentinel-1</td>
+<td style="text-align: left;">IW SLC</td>
+<td style="text-align: left;">5 x 20 m</td>
+<td style="text-align: left;">2019–2023</td>
+<td style="text-align: left;">CDSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ground truth</td>
+<td style="text-align: left;">Mowing polygons</td>
+<td style="text-align: left;">Vector</td>
+<td style="text-align: left;">2019–2023</td>
+<td style="text-align: left;">Zurich Airport</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Land survey</td>
+<td style="text-align: left;">Grassland parcels</td>
+<td style="text-align: left;">Vector</td>
+<td style="text-align: left;">2017</td>
+<td style="text-align: left;">Kanton Zürich</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The Sentinel-2 archive contains 201 cloud-masked scenes across the study period. No data were available for 2022 due to a gap in the local archive. The ground truth dataset consists of 1,899 mowing event polygons, recorded by farmers responsible for the mowing on maps and digitalised by project staff of the ZHAW. Each polygon is attributed with a mowing date. These records were cleaned by intersecting them with the grassland class from the Swiss land survey and removing fragments smaller than 400 m², resulting in 3,008 polygon fragments from 1,860 unique mowing events <span class="citation" data-cites="klaver2025">(<a href="#ref-klaver2025" role="doc-biblioref">Klaver 2025</a>)</span>.</p>
+<p>At the beginning of this thesis, extensive efforts were made to acquire additional ground truth data from external institutions and research groups to expand the training and validation basis beyond the airport. However, no suitable datasets of sufficient size and with the required spatial and temporal resolution could be obtained. The analysis therefore relies mainly on the Zurich Airport ground truth for model training and evaluation. A small number of additional mowing records from Lindau (provided by Strickhof) and Aadorf (provided by Agroscope) were obtained for use in qualitative validation of the model’s generalisation performance outside the airport study area.</p>
+</section>
+<section id="sentinel-2-preprocessing-and-feature-engineering" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sentinel-2-preprocessing-and-feature-engineering"><span class="header-section-number">3.2</span> Sentinel-2 Preprocessing and Feature Engineering</h2>
+<p>The Sentinel-2 preprocessing and feature engineering workflow was carried over from the previous project work and is described in detail in <span class="citation" data-cites="klaver2025">Klaver (<a href="#ref-klaver2025" role="doc-biblioref">2025</a>)</span>. This section summarises the key steps and parameters for completeness.</p>
+<p>All 201 Sentinel-2 scenes were reprojected from EPSG:32632 (UTM Zone 32N) to EPSG:2056 (Swiss LV95) using bilinear resampling, producing a uniform reference grid of 559 by 381 pixels at 10 m resolution. This grid defines the spatial reference for all subsequent raster operations in the pipeline. Cloud masking was applied per pixel using the cloud probability band (band 13), setting all pixels with a probability exceeding 30% to NaN.</p>
+<p>For each of the 227 ground truth mowing dates, the pipeline searches for a temporal triplet of three Sentinel-2 scenes in defined time windows relative to the event date, as shown in <a href="#tbl-temporal-windows" class="quarto-xref">Table&nbsp;<span>3.2</span></a> and <a href="#fig-triplet-design" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>. Events where all three images are available form a complete triplet. Of the 227 events, 92 produced valid triplets.</p>
+<div id="tbl-temporal-windows" class="quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[10, 15, 20, 25, 30]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-temporal-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: Temporal matching windows for Sentinel-2 triplet construction.
+</figcaption>
+<div aria-describedby="tbl-temporal-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Window</th>
+<th style="text-align: left;">Selection</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(t_{n-2}\)</span></td>
+<td style="text-align: left;">Before far</td>
+<td style="text-align: left;">9–20 days before</td>
+<td style="text-align: left;">Latest in window</td>
+<td style="text-align: left;">Reference for negative samples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(t_{n-1}\)</span></td>
+<td style="text-align: left;">Before near</td>
+<td style="text-align: left;">3–8 days before</td>
+<td style="text-align: left;">Latest in window</td>
+<td style="text-align: left;">Growth for negative + pre-mowing for positive samples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(t_{n+1}\)</span></td>
+<td style="text-align: left;">After</td>
+<td style="text-align: left;">1–7 days after</td>
+<td style="text-align: left;">Earliest in window</td>
+<td style="text-align: left;">Post-mowing image for positive samples</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="fig-triplet-design" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-triplet-design-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/temporal_triplet_design.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-triplet-design-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Temporal triplet design for training sample generation. For each mowing event, three satellite acquisitions are identified: <span class="math inline">\(t_{n-2}\)</span> (before far), <span class="math inline">\(t_{n-1}\)</span> (before near), and <span class="math inline">\(t_{n+1}\)</span> (after). The negative (not mowed) pair spans <span class="math inline">\(t_{n-2}\)</span> to <span class="math inline">\(t_{n-1}\)</span>, a period without mowing. The positive (mowed) pair spans <span class="math inline">\(t_{n-1}\)</span> to <span class="math inline">\(t_{n+1}\)</span>, capturing the vegetation change caused by the mowing event. <span class="math inline">\(t_n\)</span> represents the mowing event date.
+</figcaption>
+</figure>
+</div>
+<p>For each triplet, two feature sets are computed. The positive (mowed) pair uses the before near and after images, while the negative (not mowed) pair uses the before far and before near images. Five vegetation indices are calculated for each pair: NDVI, EVI, SAVI, GNDVI, and NDII. Together with their temporal differences and the corresponding raw band values and differences, this yields 20 features per pixel. The vegetation index formulas and their spectral basis are documented in <span class="citation" data-cites="klaver2025">Klaver (<a href="#ref-klaver2025" role="doc-biblioref">2025</a>)</span>.</p>
+<p>Training samples are drawn from within the ground truth polygons after applying a one-pixel (10 m) binary erosion to avoid edge effects at polygon boundaries. Sampling is balanced per event per class. After excluding events with insufficient valid pixels due to cloud cover, the final training dataset contains 33’368 samples from 63 unique mowing events.</p>
+</section>
+<section id="sec-sar-processing" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-sar-processing"><span class="header-section-number">3.3</span> SAR Data Acquisition and Coherence Estimation</h2>
+<section id="grd-backscatter" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="grd-backscatter"><span class="header-section-number">3.3.1</span> GRD Backscatter</h3>
+<p>As an initial approach, Sentinel-1 Ground Range Detected (GRD) images were acquired through Google Earth Engine for all training events. The GEE collection provided 471 ascending-orbit scenes in Interferometric Wide Swath (IW) mode with VV and VH polarisations over the study period. The images were speckle-filtered using a square spatial mean kernel with a 30 m radius, exported at 10 m resolution in EPSG:2056, and aligned to the Sentinel-2 reference grid. Six features were derived per event from the before near and after GRD images: the absolute VV, VH, and cross-ratio (VH minus VV) values of the after image, and the corresponding temporal differences.</p>
+<p>However, preliminary experiments during the development phase indicated that GRD backscatter features did not provide sufficient discriminative power for mowing detection (see <a href="5-results.html#sec-test-performance" class="quarto-xref"><span>Section 4.3</span></a> for details). This motivated the transition to interferometric coherence derived from SLC products, which captures phase-level information not available in GRD data <span class="citation" data-cites="tamm2016">(<a href="#ref-tamm2016" role="doc-biblioref">Tamm et al. 2016</a>)</span>.</p>
+</section>
+<section id="slc-acquisition" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="slc-acquisition"><span class="header-section-number">3.3.2</span> SLC Acquisition</h3>
+<p>Single Look Complex (SLC) products were acquired from the Copernicus Data Space Ecosystem (CDSE) <span class="citation" data-cites="copernicus_s1_2025">(<a href="#ref-copernicus_s1_2025" role="doc-biblioref">Copernicus Data Space Ecosystem 2025</a>)</span> using the cdsetool Python library <span class="citation" data-cites="cdsetool_pypi">(<a href="#ref-cdsetool_pypi" role="doc-biblioref">Vejby 2026</a>)</span>. A metadata query for ascending IW SLC products over the study area between 2019 and 2023 returned 633 available scenes. From these, relative orbit 15 was selected as it provides the most consistent coverage over Zurich Airport (387 scenes). The IW2 subswath was identified as covering the study area for this orbit geometry.</p>
+</section>
+<section id="coherence-quadruplet-design" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="coherence-quadruplet-design"><span class="header-section-number">3.3.3</span> Coherence Quadruplet Design</h3>
+<p>The coherence feature design requires a different temporal logic than the optical features. While vegetation indices capture the spectral state at a single point in time, interferometric coherence quantifies the phase stability between two SAR acquisitions. Tall, unmowed grass produces low coherence due to wind-induced movement, short stubble after mowing presents a stable surface with high coherence. Critically, a coherence pair spanning the mowing event itself would also yield low coherence, because the surface changed between acquisitions, making it indistinguishable from the unmowed case.</p>
+<p>To resolve this, the coherence estimation uses four SLC acquisitions per mowing event rather than the three used for optical features (see <a href="#fig-quadruplet-coh" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>). For the negative (not mowed) class, coherence is computed between two pre-mowing acquisitions (<span class="math inline">\(t_{n-2}\)</span> to <span class="math inline">\(t_{n-1}\)</span>), both captured while the grass is tall and signal unstable. For the positive (mowed) class, coherence is computed between two post-mowing acquisitions (<span class="math inline">\(t_{n+1}\)</span> to <span class="math inline">\(t_{n+2}\)</span>), both captured after the grass has been cut and the signal is stable.</p>
+<div id="fig-quadruplet-coh" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-quadruplet-coh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/temporal_quadruplet_coh.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-quadruplet-coh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Coherence quadruplet design. Unlike the optical triplet (<a href="#fig-triplet-design" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>), coherence estimation requires both acquisitions of each pair to fall on the same side of the mowing event.
+</figcaption>
+</figure>
+</div>
+<p>The first three SLC dates are matched to the optical triplet dates within a tolerance of 8 days, while the fourth acquisition (<span class="math inline">\(t_{n+2}\)</span>) is selected as the next same-orbit overpass exactly 6 or 12 days after <span class="math inline">\(t_{n+1}\)</span>. All temporal baselines within each coherence pair must equal 6 or 12 days, corresponding to the Sentinel-1 repeat cycle All acquisitions must originate from the same relative orbit and subswath to preserve the phase relationship. Of the 92 events with the full S2 temporal triplet, 72 produced valid SLC quadruplets. The remaining 20 events were excluded because they did not fulfil the strict temporal matching criteria.</p>
+</section>
+<section id="snap-processing" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="snap-processing"><span class="header-section-number">3.3.4</span> SNAP Processing</h3>
+<p>Interferometric coherence was computed using ESA’s SNAP Graph Processing Tool (GPT), called from Python via subprocess in batch mode <span class="citation" data-cites="snap_platform snap_gpt_docs">(<a href="#ref-snap_platform" role="doc-biblioref">ESA 2026a</a>, <a href="#ref-snap_gpt_docs" role="doc-biblioref">2026b</a>)</span>. For each SLC pair, the processing chain applied subswath splitting (IW2, VV and VH), precise orbit correction, back-geocoding with the SRTM 3-arcsecond DEM, and coherence estimation using a 19 x 5 pixel averaging window following Tamm et al. <span class="citation" data-cites="tamm2016">(<a href="#ref-tamm2016" role="doc-biblioref">2016</a>)</span>. The result was debursted and terrain-corrected to a 20 m output grid in EPSG:2056 using the SRTM 1-arcsecond DEM, producing a two-band GeoTIFF with VV and VH coherence values in [0, 1].</p>
+<p>A subset of SLC pairs produced invalid coherence outputs all bands contained only zero values, despite SNAP reporting successful processing. The cause of these silent failures could not be identified nor fixed, and affected 36 of the 72 pairs. Affected events were detected by automated validation checks and excluded from further analysis, reducing the number of valid coherence pairs to 36. Manual inspection of affected outputs confirmed that all bands contained exclusively zero values despite correct input data, but no consistent pattern in acquisition date, orbit geometry, or temporal baseline could be identified as the cause.</p>
+</section>
+<section id="snr-decorrelation-correction" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="snr-decorrelation-correction"><span class="header-section-number">3.3.5</span> SNR Decorrelation Correction</h3>
+<p>Following the approach described by Tamm et al. <span class="citation" data-cites="tamm2016">(<a href="#ref-tamm2016" role="doc-biblioref">2016</a>)</span>, a post-hoc correction for signal-to-noise ratio (SNR) decorrelation was applied to all coherence rasters. The correction isolates the temporal decorrelation component by dividing the measured coherence by the estimated SNR decorrelation factor, <span class="math inline">\(\gamma_{SNR}\)</span>.</p>
+<p>The SNR decorrelation factor for an interferometric pair was estimated using GRD backscatter images as a proxy for the radar cross-section <span class="math inline">\(\sigma^0\)</span>. For each SLC acquisition date, the nearest GRD image within 3 days was identified and resampled from the 10 m GRD grid to the 20 m coherence grid. The per-pixel SNR decorrelation was then computed following Equation 3 of Tamm et al. <span class="citation" data-cites="tamm2016">(<a href="#ref-tamm2016" role="doc-biblioref">2016</a>)</span>: <span id="eq-snr"><span class="math display">\[\gamma_{SNR} = \frac{1}{\sqrt{\left(1 + \frac{1}{SNR_{t_1}}\right)\left(1 + \frac{1}{SNR_{t_2}}\right)}} \tag{3.1}\]</span></span></p>
+<p>where <span class="math inline">\(SNR = (\sigma^0 - NESZ) / NESZ\)</span> for each acquisition. The noise equivalent sigma zero (NESZ) was approximated as -25.0 dB for VV and -27.0 dB for VH polarisation. These values fall within the range of measured NESZ performance for the IW2 subswath, which is typically several decibels below the mission requirement specification of -22 dB reported in the system documentation <span class="citation" data-cites="sentinel1handbook2013">(<a href="#ref-sentinel1handbook2013" role="doc-biblioref">ESA 2013</a>)</span>. Because per-pixel NESZ varies with incidence angle and burst position, these fixed approximations introduce some uncertainty into the correction, particularly for low-backscatter pixels near the noise floor. A minimum floor of <span class="math inline">\(\gamma_{SNR} = 0.10\)</span> was applied to prevent excessive amplification in low-backscatter areas. The corrected coherence was obtained as <span class="math inline">\(\gamma_{corrected} = \gamma_{measured} / \gamma_{SNR}\)</span>, clipped to [0, 1].</p>
+<p>To quantify the effect of both raw and SNR-corrected coherence on class separability, Cohen’s <span class="math inline">\(d\)</span> effect sizes and Mann-Whitney p-values were computed between mowed and unmowed parcels on post-event coherence (coh_after) for each polarisation and seasonal window. This analysis compares coherence spatially across parcels: for a given event window, the post-event coherence of parcels where mowing was recorded is compared against parcels where no mowing occurred. The growing season was divided into three periods: early (April to May), peak (June to July), and late (August to October). Based on the quadruplet design described above, a positive Cohen’s <span class="math inline">\(d\)</span> indicates that mowed parcels show higher post-event coherence than unmowed parcels. The results of this analysis are reported in <a href="5-results.html#sec-coherence-results" class="quarto-xref"><span>Section 4.1</span></a>.</p>
+</section>
+</section>
+<section id="sec-feature-fusion" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-feature-fusion"><span class="header-section-number">3.4</span> Feature Fusion and Model Configurations</h2>
+<p>To combine features from different sensor sources, GRD and coherence values were attached to the existing Sentinel-2 training samples by sampling the corresponding rasters at the exact geographic coordinates of each pixel. For GRD features, which share the same 10 m grid as the Sentinel-2 data, this extraction is spatially exact. Coherence rasters, produced at 20 m resolution, were resampled to the 10 m grid using bilinear interpolation before sampling. Because the Sentinel-2 samples were filtered for cloud cover during the optical preprocessing stage, not all events with valid coherence rasters retained usable training pixels. Consequently, the dataset was divided into two distinct groups to accommodate the differing data availability. Group A comprises the full set of 63 events with valid Sentinel-2 and GRD data, yielding 33,368 samples. Group B consists of the restricted subset of 24 events that also possess valid interferometric coherence pairs and corresponding cloud-free Sentinel-2 samples, consisting of 15,311 samples.</p>
+<p>The assignment of coherence values follows the quadruplet design described in <a href="#sec-sar-processing" class="quarto-xref"><span>Section 3.3</span></a>. Positive samples (label = 1, mowed) receive coherence values from the post-mowing pair (<span class="math inline">\(t_{n+1}\)</span> to <span class="math inline">\(t_{n+2}\)</span>), representing short vegetation. Negative samples (label = 0, not mowed) receive coherence values from the pre-mowing pair (<span class="math inline">\(t_{n-2}\)</span> to <span class="math inline">\(t_{n-1}\)</span>), representing tall vegetation. Both VV and VH polarisation coherence values are included as features.</p>
+<p>The data were split into training and test sets using GroupShuffleSplit with a test fraction of 0.2, grouped by event identifier (match_id). This ensures that all samples from a given mowing event appear exclusively in either the training or the test set, preventing data leakage between spatially and temporally correlated pixels. For Group A, this procedure produced a split of 50 training and 13 test events (24,945 and 8,423 samples respectively). For Group B, the split resulted in 19 training and 5 test events (12,023 and 3,288 samples).</p>
+<p>Feature selection was performed exclusively on the training split to prevent test-set leakage. This step was conducted on both sample subsets A and B and the results compared to find the best feature sets. Compared to the preceding project work <span class="citation" data-cites="klaver2025">(<a href="#ref-klaver2025" role="doc-biblioref">Klaver 2025</a>)</span>, which relied on simpler reduction, a more systematic feature importance analysis was conducted using three complementary methods: Pearson correlation analysis to identify redundant feature pairs (threshold <span class="math inline">\(∣r∣ &gt; 0.85\)</span>), Mean Decrease Impurity (MDI) from a preliminary Random Forest classifier to rank features by their contribution to node purity <span class="citation" data-cites="breiman2001">(<a href="#ref-breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>, and permutation importance to quantify each feature’s contribution to generalisation performance by measuring the decrease in F1-score after randomly shuffling that feature <span class="citation" data-cites="altmann2010">(<a href="#ref-altmann2010" role="doc-biblioref">Altmann et al. 2010</a>)</span>. Features with permutation importance values near zero or below zero were mostly discarded, and among correlated pairs the feature with the lower importance was removed.</p>
+<p>While these analytical methods identified several post-event (_after) features as highly informative, temporal difference features (_diff) are considered structurally more robust across different sites and conditions, as they capture relative change rather than absolute reflectance that varies with soil type, grass species, or geography. Consequently, the final model configurations balanced the analytical findings with domain expectations. The detailed outcomes are presented in <a href="5-results.html#sec-feature-importance" class="quarto-xref"><span>Section 4.2</span></a>.</p>
+<p>Eight model configurations were defined across the two groups, as summarised in <a href="#tbl-model-configs" class="quarto-xref">Table&nbsp;<span>3.3</span></a>. Configurations within Group A utilise Sentinel-2 and GRD features exclusively. Configurations within Group B incorporate the coherence features alongside the optical and GRD data. Because the two groups utilise separate train-test splits, their respective performance metrics are not directly comparable.</p>
+<div id="tbl-model-configs" class="quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[20, 60, 10, 10]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-configs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.3: Model configurations and their feature sets. S2-only_best refers to the 5 optical features selected through the feature importance analysis (including two <em>after</em> features). S2-only_diff refers to the 3 strongest temporal difference features. GRD-only refers to the four backscatter features retained after pruning. Coh-only includes both coherence features (coh_vv, coh_vh). <em>n</em> refers to the number of features in each configuration.
+</figcaption>
+<div aria-describedby="tbl-model-configs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 60%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Config</th>
+<th style="text-align: left;">Features</th>
+<th style="text-align: left;">n</th>
+<th style="text-align: left;">Group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S2-only_best</td>
+<td style="text-align: left;">ndii_diff, gndvi_diff, swir_diff, ndii_after, swir_after</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2-only_diff</td>
+<td style="text-align: left;">ndii_diff, gndvi_diff, swir_diff</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GRD-only</td>
+<td style="text-align: left;">vh_diff, cr_diff, cr_after, vh_after</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2+GRD</td>
+<td style="text-align: left;">S2-only_best + GRD-only</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Coh-only</td>
+<td style="text-align: left;">coh_vv, coh_vh</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2_best+Coh</td>
+<td style="text-align: left;">S2-only_best + Coh-only</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S2_diff+Coh</td>
+<td style="text-align: left;">S2-only_diff + Coh-only</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Full-fusion</td>
+<td style="text-align: left;">S2-only_best + GRD-only + Coh-only</td>
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">B</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="classification-and-threshold-calibration" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="classification-and-threshold-calibration"><span class="header-section-number">3.5</span> Classification and Threshold Calibration</h2>
+<p>Following the same approach as in the previous study <span class="citation" data-cites="klaver2025">(<a href="#ref-klaver2025" role="doc-biblioref">Klaver 2025</a>)</span>, three classifiers were trained for each of the eight model configurations: Support Vector Machine (SVM) <span class="citation" data-cites="cortes1995">(<a href="#ref-cortes1995" role="doc-biblioref">Cortes and Vapnik 1995</a>)</span>, Random Forest (RF) <span class="citation" data-cites="breiman2001">(<a href="#ref-breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>, and Light Gradient Boosting Machine (LGBM) <span class="citation" data-cites="ke2017">(<a href="#ref-ke2017" role="doc-biblioref">Ke et al. 2017</a>)</span>. All classifiers were implemented using scikit-learn compatible pipelines. The SVM pipeline includes a StandardScaler for feature normalisation prior to classification. The tree-based models (RF, LightGBM) operate on unscaled features.</p>
+<p>Hyperparameter tuning was performed using GridSearchCV with GroupKFold cross-validation (5 folds), optimising for the F1-Score. The parameter grids are summarised in <a href="#tbl-hyperparams" class="quarto-xref">Table&nbsp;<span>3.4</span></a>.</p>
+<div id="tbl-hyperparams" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hyperparams-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.4: Hyperparameter search grids used in GridSearchCV.
+</figcaption>
+<div aria-describedby="tbl-hyperparams-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classifier</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SVM</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">0.1, 1, 10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SVM</td>
+<td style="text-align: left;">gamma</td>
+<td style="text-align: left;">scale, auto</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF</td>
+<td style="text-align: left;">n_estimators</td>
+<td style="text-align: left;">100, 200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF</td>
+<td style="text-align: left;">max_depth</td>
+<td style="text-align: left;">None, 10, 20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LightGBM</td>
+<td style="text-align: left;">num_leaves</td>
+<td style="text-align: left;">31, 63</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LightGBM</td>
+<td style="text-align: left;">learning_rate</td>
+<td style="text-align: left;">0.05, 0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The default classification threshold of 0.5 on the predicted probability is calibrated for balanced class distributions. At real scene-level class balance, where often less than 10% of grassland pixels are mowed at any given time, this threshold produces excessive false positive predictions. To address this, a scene-level threshold calibration was performed using a leave-one-out (LOO) approach <span class="citation" data-cites="sklearnloo">(<a href="#ref-sklearnloo" role="doc-biblioref"><span class="nocase">scikit-learn developers</span> 2026b</a>)</span> over six mostly cloud-free calibration scenes with available ground truth. For each calibration scene, the full feature set was computed and the model was applied across a threshold sweep from 0.10 to 0.95 in steps of 0.05. The threshold maximising the F1-Score was recorded per scene, and the final operational threshold was set as the median across all calibration scenes. This calibration was performed independently for each of the models that were actually applied on full scenes later. Certain models that performed poorly in training were not included in the scene-level evaluation and threshold calibration, as they were not considered for operational use. The final calibrated thresholds are reported in <a href="5-results.html#sec-threshold-results" class="quarto-xref"><span>Section 4.4</span></a>.</p>
+</section>
+<section id="sec-postprocessing" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-postprocessing"><span class="header-section-number">3.6</span> Spatial Postprocessing</h2>
+<p>Three spatial postprocessing methods were applied to the binary classification outputs to reduce salt-and-pepper noise and improve spatial consistency. The methods operate on the predicted mowing maps, where each pixel is encoded as mowed (1), not mowed (0), or nodata (-1).</p>
+<p>The first method is a median filter with a configurable window size, which replaces isolated misclassified pixels with the majority label of their local surroundings. The second method applies morphological operations in sequence: binary opening (erosion followed by dilation) removes small spurious detections, followed by binary closing (dilation followed by erosion) to fill small gaps within classified regions. Both operations use a disk-shaped structuring element with a configurable radius. After the morphological operations, connected components smaller than a specified minimum area are removed. The third method uses SLIC superpixel segmentation to aggregate pixel-level predictions. The segmentation is computed from the spectral bands of the input scene and within each resulting segment, majority voting assigns all pixels the dominant class label.</p>
+<p>The three methods can be chained in sequence. To determine the optimal postprocessing configuration, a grid search was performed over the parameter space defined in <a href="#tbl-pp-grid" class="quarto-xref">Table&nbsp;<span>3.5</span></a>. Each configuration was evaluated on the six calibration scenes used for threshold calibration, and the configuration maximising the mean F1-Score across all scenes was selected as the operational postprocessing setting. The grid search was conducted using the most stable model from the scene-level evaluation before postprocessing (S2_only_diff SVM) with its calibrated threshold. The resulting best configuration and its effect on classification performance are reported in <a href="5-results.html#sec-postprocessing-results" class="quarto-xref"><span>Section 4.5</span></a>.</p>
+<div id="tbl-pp-grid" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pp-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.5: Postprocessing parameter grid. Each combination of morphological parameters was tested with and without a preceding median filter, and with and without subsequent SLIC aggregation producing a total of 448 combinations.
+</figcaption>
+<div aria-describedby="tbl-pp-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Median pre-filter</td>
+<td style="text-align: left;">0, 3, 5, 7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Disk radius (morphological)</td>
+<td style="text-align: left;">1, 2, 3, 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Min. component area (pixels)</td>
+<td style="text-align: left;">2, 4, 6, 8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SLIC segments</td>
+<td style="text-align: left;">200, 300, 400</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SLIC compactness</td>
+<td style="text-align: left;">0.05, 0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-evaluation" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-evaluation"><span class="header-section-number">3.7</span> Evaluation</h2>
+<p>Model performance was assessed at two levels. On the training data, pixel-level classification performance was evaluated using standard metrics, specifically accuracy, precision, recall, the F1-Score, and the Area Under the Receiver Operating Characteristic Curve (ROC AUC) <span class="citation" data-cites="sklearnmetrics">(<a href="#ref-sklearnmetrics" role="doc-biblioref"><span class="nocase">scikit-learn developers</span> 2026a</a>)</span>. Additionally, confusion matrices were generated to visualize the balance between false positive and false negative predictions. These metrics were computed for each model configuration using the held-out test events from the GroupShuffleSplit.</p>
+<p>Pixel-based metrics on sampled training data can overestimate true operational performance in geospatial domains <span class="citation" data-cites="meyer2019spatialvalidation ploton2020">(<a href="#ref-meyer2019spatialvalidation" role="doc-biblioref">Meyer et al. 2019</a>; <a href="#ref-ploton2020" role="doc-biblioref">Ploton et al. 2020</a>)</span>. Therefore, based on test-set performance across all 24 trained models, 11 were selected for scene-level evaluation. The selection prioritised the best-performing SVM and RF variants across the feature configurations, while excluding LightGBM models, which consistently underperformed in this and the preceding study. Since multiple mowing events can occur within the temporal window spanned by a scene pair, a composite ground truth mask was constructed for each evaluation scene. This mask distinguishes between definite mowing pixels, where the ground truth unambiguously indicates mowing within the scene pair interval, and boundary pixels, where the temporal assignment is ambiguous due to overlapping or adjacent events (e.g., event occuring at the same date as the before- or after-image of the chosen scene). Such boundary pixels were excluded from both the positive and negative class during scoring to avoid penalising the model for predictions in temporally uncertain areas. Pixel-level accuracy, precision, recall, and F1-Score for the mowed class were computed on the remaining definite and non-mowed pixels. Each model was evaluated on two mostly cloud-free composite scenes using its LOO-calibrated threshold, both with and without the best postprocessing configuration determined by the grid search described in <a href="#sec-postprocessing" class="quarto-xref"><span>Section 3.6</span></a>. Spatial difference maps showing true positives, false positives, false negatives, and boundary detections overlaid on the Sentinel-2 RGB composite were generated to support qualitative assessment of prediction patterns and error sources.</p>
+<p>To directly quantify the improvement over the preceding study, the best-performing model from PW2 (SVM trained on ndii_diff as the sole feature) was applied to the same two evaluation scenes using its original default threshold of 0.5 and without postprocessing. This allows a fair comparison between the previous and current workflow under identical scene conditions.</p>
+<p>In addition to the standard evaluation on mowing scenes, a control test was conducted to assess the model’s false positive behaviour in the absence of mowing. For a selected event, the S2_only_diff SVM model was applied to the before-far (<span class="math inline">\(t_{n-2}\)</span>) to before-near (<span class="math inline">\(t_{n-1}\)</span>) image pair rather than the before-near to after pair. In this time window, no mowing is expected to have occurred on the areas identified as mowed in the ground truth for the true event period. The control test measures the proportion of ground truth mowed pixels that the model incorrectly predicts as mowed during this non-mowing period. A low false positive rate in the control window provides additional confidence that the model responds to actual mowing signals rather than to unrelated spectral or coherence variations.</p>
+</section>
+<section id="sec-prototype" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-prototype"><span class="header-section-number">3.8</span> Operational Prototype and Generalisation Test</h2>
+<p>To support practical application of the developed methodology, a standalone prototype was produced as an interactive Jupyter Notebook. The tool is designed for end-users such as environmental researchers or land managers, allowing them to apply the mowing detection workflow without requiring the full training pipeline or dependencies on the project’s source code. The user provides two Sentinel-2 GeoTIFFs (a before and after image bracketing the suspected mowing event), loads a pre-trained model file, and optionally supplies a study area boundary, grassland mask, or ground truth polygons for evaluation. The notebook then handles feature computation, cloud masking, model prediction, and postprocessing automatically. Only the S2-only model configurations are included, as the acquisition and preprocessing complexity of interferometric coherence estimation would undermine the tool’s purpose as a lightweight, accessible application.</p>
+<p>To evaluate the spatial transferability of the most stable model from this thesis (S2_only_diff SVM), the prototype was applied to an area near Lindau (Canton Zurich), entirely outside the airport training domain and temporally separated from the training period (2019-2023). Ground truth data consisting of four mowing event polygons dated 02.05.2025 were provided by Strickhof. Two Sentinel-2 scenes covering the area were manually downloaded from the Copernicus Browser (30.04.2025 as the before image, 10.05.2025 as the after image). The model was applied over the full scene extent without restricting the analysis to grassland areas, simulating a realistic use case where no prior land cover information is available. The resulting mowing predictions were compared to the ground truth polygons to assess the model’s generalisation performance in a new geographic context.</p>
+</section>
+<section id="use-of-generative-ai-tools" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="use-of-generative-ai-tools"><span class="header-section-number">3.9</span> Use of Generative AI Tools</h2>
+<p>Generative AI tools were used as support during the development of this thesis. Claude (Anthropic, Claude Opus 4.6) was used for code development assistance, particularly for SAR data processing workflows with SNAP and Google Earth Engine, and for refining the language of the written report. Perplexity AI was used to support the initial identification of relevant scientific literature, with all sources subsequently verified and retrieved from primary databases. DeepL Translator and DeepL Write were used for translation between English and German and for language refinement. In all cases, the scientific content, methodological decisions, and interpretation of results are the author’s own work. All AI outputs were critically reviewed and verified before use. In particular, literature references identified through Perplexity AI required systematic verification, as initial suggestions frequently included misattributed or non-existent sources. A complete list of the tools and their specific purposes is provided in the List of Used AI Tools.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-altmann2010" class="csl-entry" role="listitem">
+Altmann, André, Laura Toloşi, Oliver Sander, and Thomas Lengauer. 2010. <span>“Permutation Importance: A Corrected Feature Importance Measure.”</span> <em>Bioinformatics</em> 26 (10): 1340–47. <a href="https://doi.org/10.1093/bioinformatics/btq134">https://doi.org/10.1093/bioinformatics/btq134</a>.
+</div>
+<div id="ref-breiman2001" class="csl-entry" role="listitem">
+Breiman, Leo. 2001. <span>“Random Forests.”</span> <em>Machine Learning</em> 45 (1): 5–32. <a href="https://doi.org/10.1023/A:1010933404324">https://doi.org/10.1023/A:1010933404324</a>.
+</div>
+<div id="ref-copernicus_s1_2025" class="csl-entry" role="listitem">
+Copernicus Data Space Ecosystem. 2025. <em>Sentinel-1 Documentation</em>. <a href="https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel1.html">https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel1.html</a>.
+</div>
+<div id="ref-cortes1995" class="csl-entry" role="listitem">
+Cortes, Corinna, and Vladimir Vapnik. 1995. <span>“Support-Vector Networks.”</span> <em>Machine Learning</em> 20 (3): 273–97. <a href="https://doi.org/10.1007/BF00994018">https://doi.org/10.1007/BF00994018</a>.
+</div>
+<div id="ref-sentinel1handbook2013" class="csl-entry" role="listitem">
+ESA. 2013. <em>Sentinel-1 User Handbook</em>. GMES-S1OP-EOPG-TN-13-0001. European Space Agency. <a href="https://sentinels.copernicus.eu/documents/247904/685163/Sentinel-1_User_Handbook">https://sentinels.copernicus.eu/documents/247904/685163/Sentinel-1_User_Handbook</a>.
+</div>
+<div id="ref-snap_platform" class="csl-entry" role="listitem">
+ESA. 2026a. <em>SNAP – the Sentinels Application Platform</em>. <a href="https://step.esa.int/main/toolboxes/snap/" class="uri">Https://step.esa.int/main/toolboxes/snap/</a>.
+</div>
+<div id="ref-snap_gpt_docs" class="csl-entry" role="listitem">
+ESA. 2026b. <em>The SNAP Graph Processing Tool (Gpt)</em>. <a href="https://step.esa.int/main/wp-content/help/?version=11.0.0&amp;helpid=gpf.graphProcessingTool" class="uri">Https://step.esa.int/main/wp-content/help/?version=11.0.0&amp;helpid=gpf.graphProcessingTool</a>.
+</div>
+<div id="ref-zh_geodata_2025" class="csl-entry" role="listitem">
+Kanton Zürich. 2017. <em><span>Amtliche Vermessung</span></em>. Geoportal Kanton Z<span>ü</span>rich. <a href="https://geo.zh.ch">https://geo.zh.ch</a>.
+</div>
+<div id="ref-ke2017" class="csl-entry" role="listitem">
+Ke, Guolin, Qi Meng, Thomas Finley, et al. 2017. <span>“LightGBM: A Highly Efficient Gradient Boosting Decision Tree.”</span> <em>Advances in Neural Information Processing Systems</em> 30.
+</div>
+<div id="ref-klaver2025" class="csl-entry" role="listitem">
+Klaver, Florian. 2025. <span>“Satellite-Based Monitoring of Grassland Management: Detecting Mowing Events on Airport Areas Using Machine Learning.”</span> Project Work, Zurich University of Applied Sciences, Department Life Sciences; Facility Management. <a href="https://klaveflo.github.io/airport-mowing-detection/">https://klaveflo.github.io/airport-mowing-detection/</a>.
+</div>
+<div id="ref-meyer2019spatialvalidation" class="csl-entry" role="listitem">
+Meyer, Hanna, Christoph Reudenbach, Christoph Häfer, Jörg Bendix, and Tobias Kötter. 2019. <span>“Spatial Validation Reveals Poor Predictive Performance of Large-Scale Ecological Models.”</span> <em>Nature Communications</em> 10 (1): 3681. <a href="https://doi.org/10.1038/s41467-019-13250-1">https://doi.org/10.1038/s41467-019-13250-1</a>.
+</div>
+<div id="ref-ploton2020" class="csl-entry" role="listitem">
+Ploton, Pierre, Frédéric Mortier, Maxime Réjou-Méchain, et al. 2020. <span>“Spatial Validation Reveals Poor Predictive Performance of Large-Scale Ecological Mapping Models.”</span> <em>Nature Communications</em> 11 (1): 4540. <a href="https://doi.org/10.1038/s41467-020-18321-y">https://doi.org/10.1038/s41467-020-18321-y</a>.
+</div>
+<div id="ref-sklearnmetrics" class="csl-entry" role="listitem">
+<span class="nocase">scikit-learn developers</span>. 2026a. <em>Classification Metrics</em>. <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics">https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics</a>.
+</div>
+<div id="ref-sklearnloo" class="csl-entry" role="listitem">
+<span class="nocase">scikit-learn developers</span>. 2026b. <span>“LeaveOneOut Cross-Validator.”</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneOut.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneOut.html</a>.
+</div>
+<div id="ref-tamm2016" class="csl-entry" role="listitem">
+Tamm, Tanel, Karlis Zalite, Kaupo Voormansik, and Liina Talgre. 2016. <span>“Relating Sentinel-1 Interferometric Coherence to Mowing Events on Grasslands.”</span> <em>Remote Sensing</em> 8 (10). <a href="https://doi.org/10.3390/rs8100802">https://doi.org/10.3390/rs8100802</a>.
+</div>
+<div id="ref-cdsetool_pypi" class="csl-entry" role="listitem">
+Vejby. 2026. <em>Cdsetool</em>. <a href="https://pypi.org/project/cdsetool/" class="uri">Https://pypi.org/project/cdsetool/</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./3-literature.pdf" class="pagination-link" aria-label="Literature Review">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Literature Review</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./5-results.pdf" class="pagination-link" aria-label="Results">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Results</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

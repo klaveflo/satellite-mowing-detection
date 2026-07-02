@@ -46,7 +46,7 @@ FEATURE_NAMES = [
     'blue_after', 'green_after', 'red_after', 'nir_after', 'swir_after',
 ]
 
-IMG_DIR = "docs/images"
+IMG_DIR = "report/images"
 
 
 # ---------------------------------------------------------------------------

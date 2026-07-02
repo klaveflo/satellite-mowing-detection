@@ -1,0 +1,338 @@
+---
+jupyter: ba
+---
+
+# Results {#sec-results}
+## Interferometric Coherence and SNR Correction Analysis {#sec-coherence-results}
+@tbl-coherence-seasonal summarises the mean coherence values, Cohen's $d$ effect sizes, and p-values for both raw and SNR-corrected signals across the three seasonal windows.
+
+```{python}
+#| tbl-cap: "Mean coherence by class and season. Mowed and Not mowed columns show the mean coherence of the respective class. Cohen's d quantifies the effect size between classes."
+#| label: tbl-coherence-seasonal
+#| echo: false
+
+import pandas as pd
+from great_tables import GT, md, style, loc
+
+# Load data
+data = pd.read_csv("tables/seasonal_coherence_comparison.csv")
+
+# Drop unneeded columns to focus on the post-mowing shifts
+data = data.drop(columns=["n_mowed", "n_not_mowed", "mean_before_mowed", "mean_before_not_mowed"])
+
+# Rename columns to avoid issues with special characters in GT kwargs
+data = data.rename(columns={
+    "Pol": "Pol.",
+    "Version": "Correction",
+    "mean_after_mowed": "Mowed",
+    "mean_after_not_mowed": "Not mowed",
+    "Cohen's d (after)": "Cohen's d",
+    "MW p (after, mow>not)": "p-value"
+})
+
+# Shorten cell values
+data["Correction"] = data["Correction"].replace({
+    "Original": "Raw",
+    "SNR-corrected": "SNR-corr."
+})
+
+# Create and style the table
+(
+    GT(data)
+    .fmt_number(
+        columns=["Mowed", "Not mowed", "Cohen's d", "p-value"],
+        decimals=3
+    )
+    .tab_options(
+        table_font_size="10pt",  
+        heading_title_font_size="12pt",
+        data_row_padding="3px",
+        table_border_top_color="black",
+        table_border_bottom_color="black",
+        heading_border_bottom_color="gray"
+    )
+    .opt_row_striping() 
+)
+
+```
+
+VH polarisation during the late season was the only configuration that produced a positive Cohen's $d$, with mowed parcels showing higher mean post-event coherence than unmowed parcels. This separation is also visible in the density distributions (@fig-vh-density), where the mowed class is shifted to the right relative to the unmowed class.
+
+In the early and peak growth seasons, both polarisations produced negative Cohen's $d$ values, with mowed parcels showing lower post-event coherence than unmowed parcels. VV polarisation showed near-zero effect sizes across all seasons, with consistently high p-values.
+
+The SNR correction increased the magnitude of Cohen's $d$ and lowered the associated p-values across most configurations, but did not change the sign of the effect in any season-polarisation combination.
+
+![Density distributions of post-event VH coherence (coh_after) across early, peak, and late seasons, showing the rightward shift of the mowed class exclusively in the late season.](images/snr_correction/plot_A_coh_vh_after.png){#fig-vh-density}
+
+
+
+## Feature Importance and Selection {#sec-feature-importance}
+@fig-perm-importance-A and @fig-perm-importance-B show the permutation importance of all candidate features for Group A (26 features, no coherence) and Group B (28 features, including coherence). In both groups, optical vegetation index features occupy the top ranks, while GRD backscatter features and absolute coherence values show negligible or negative importance.
+
+![Permutation importance for Group A (26 features). Bars show the mean F1-Score decrease when each feature is permuted (20 shuffles), with error bars indicating one standard deviation.](images/feature_importance/perm_importance.png){#fig-perm-importance-A width=80%}
+
+![Permutation importance for Group B (28 features). Bars show the mean F1-Score decrease when each feature is permuted (20 shuffles), with error bars indicating one standard deviation.](images/feature_importance/perm_importance_B.png){#fig-perm-importance-B width=80%}
+
+In Group A, ndii_diff is the single dominant predictor, followed by swir_after, evi_after, and swir_diff. No GRD feature reaches above near-zero importance. In Group B, the ranking shifts substantially: gndvi_after and gndvi_diff become the two strongest predictors, while ndii_diff drops to rank three. Features such as gndvi_diff, which shows negative importance in Group A, appear among the most informative in Group B. The coherence values (coh_vv, coh_vh) show negative near-zero importance. The final feature sets for each model configuration were derived from these rankings in combination with domain knowledge, as described in @sec-feature-fusion.
+
+
+## Test-Set Classification Performance {#sec-test-performance}
+@tbl-model-results summarises the test-set performance of all 24 model configurations across both groups. The F1 comparison across all configurations is shown in @fig-f1-comparison.
+
+```{python}
+#| tbl-cap: "Test-set classification performance for all model configurations. Group A models were evaluated on 13 held-out events (8,423 samples), Group B models on 5 held-out events (3,288 samples). Results across groups are not directly comparable due to different test sets."
+#| label: tbl-model-results
+#| echo: false
+
+import pandas as pd
+from great_tables import GT
+
+data = pd.read_csv("tables/model_training_summary.csv")
+
+data = data[["Model", "Num_Features", "F1_Score",
+             "Precision", "Recall", "ROC_AUC", "Group"]]
+
+data = data.rename(columns={
+    "Model": "Configuration",
+    "Num_Features": "n",
+    "F1_Score": "F1",
+    "ROC_AUC": "AUC"
+})
+
+data["Configuration"] = data["Configuration"].str.replace("_", " ")
+
+(
+    GT(data)
+    .cols_label(
+        Configuration="Configuration",
+        n="n",
+        F1="F1",
+        Precision="Precision",
+        Recall="Recall",
+        AUC="AUC",
+        Group="Group"
+    )
+    .fmt_number(
+        columns=["F1", "Precision", "Recall", "AUC"],
+        decimals=3
+    )
+    .tab_options(
+        table_font_size="10pt",
+        heading_title_font_size="12pt",
+        data_row_padding="3px",
+        table_border_top_color="black",
+        table_border_bottom_color="black",
+        heading_border_bottom_color="gray"
+    )
+    .opt_row_striping()
+)
+```
+
+![F1-Score comparison across all model configurations for Group A (left) and Group B (right). The dashed line indicates the 0.5 random baseline. Blue bars represent Random Forest, green bars Support Vector Machine and orange bars LightGBM configurations.](images/ml_training/f1_comparison.png){#fig-f1-comparison}
+
+Within Group A, the S2-only configurations achieve the highest F1-Scores, with the SVM reaching 0.923 using five optical features. Reducing the feature set to only the three difference features (ndii_diff, gndvi_diff, swir_diff) produces a minimal drop to 0.920. Adding GRD backscatter features to the optical set does not improve performance: the S2+GRD RF achieves 0.919, marginally below the S2-only baseline. The GRD-only configurations achieve F1-Scores between 0.467 and 0.528, near the random baseline.
+
+Within Group B, the Full-fusion RF achieves the highest F1-Score of 0.922, followed by S2_best+Coh RF at 0.910. Coherence-only models perform near random (F1 between 0.468 and 0.479). The S2_diff+Coh configurations, which combine S2 difference features with coherence, achieve lower F1-Scores (0.841 to 0.861) than the S2_best+Coh configurations that include absolute post-event index values (0.899 to 0.910).
+
+The choice of classifier has a smaller effect on performance than the choice of features. Across Group A, the spread between the best and worst algorithm for a given feature set is typically less than 0.01 F1. In Group B, the spread is larger, particularly for the Full-fusion configuration where RF (0.922) substantially outperforms SVM (0.859).
+
+@fig-cm-best shows the confusion matrix and ROC curve for the best-performing Group A model (S2-only_best SVM). The model achieves an AUC of 0.962, with the confusion matrix showing that the majority of errors are false negatives (571) rather than false positives (83), indicating a conservative classification tendency at the default threshold. The Confusion matrices and ROC curves for all other model configurations are provided in @sec-statistical-outputs.
+
+![Confusion matrix and ROC curve for the best-performing Group A model (S2-only_best SVM, F1 = 0.923, AUC = 0.962). The model correctly classifies 4,150 mowed and 3,619 not-mowed pixels, with 83 false positives and 571 false negatives.](images/ml_training/eval_S2-only_best_SVM.png){#fig-cm-best}
+
+
+## Scene-Level Threshold Calibration {#sec-threshold-results}
+The LOO-calibrated thresholds for all evaluated models are reported in @tbl-calibrated-thresholds. For all S2-based models, the calibrated thresholds range from 0.775 (Full-fusion RF) to 0.950 (S2_best+Coh RF), substantially above the default of 0.5. The coherence-only and GRD-only models show the opposite pattern, with calibrated thresholds at or near 0.1.
+
+| Model | Calibrated threshold |
+|:--|:--|
+| S2-only_best RF | 0.925 |
+| S2-only_best SVM | 0.875 |
+| S2-only_diff RF | 0.875 |
+| S2-only_diff SVM | 0.900 |
+| S2_best+Coh RF | 0.950 |
+| S2_diff+Coh RF | 0.850 |
+| S2+GRD RF | 0.800 |
+| Full-fusion RF | 0.775 |
+| Coh-only RF | 0.100 |
+| Coh-only SVM | 0.325 |
+| GRD-only RF | 0.100 |
+
+: Scene-level LOO-calibrated thresholds. Calibration was performed over six held-out scenes with ground truth. {#tbl-calibrated-thresholds}
+
+The effect of threshold calibration is illustrated in @fig-threshold-calibration, which compares predictions on scene 46 using the model S2-only_diff SVM with the default threshold (t = 0.50) and the calibrated threshold (t = 0.875), both without postprocessing. At the default threshold, the model achieves high recall (0.881) but low precision (0.327). The calibrated threshold raises precision to 0.499 and improves the F1-Score from 0.477 to 0.587, while recall decreases to 0.712. In the figure it is clearly visible that the threshold calibration removes many of the scattered false positives, reducing salt-and-pepper noise and at the same time causing the model to miss some true positives.
+
+::: {#fig-threshold-calibration layout-ncol=2}
+
+![Default threshold (t = 0.50)](images/threshold_calibration_scene46_default.png){#fig-thresh-default}
+
+![Calibrated threshold (t = 0.875)](images/threshold_calibration_scene46_calibrated.png){#fig-thresh-calibrated}
+
+Prediction maps for scene 46 without postprocessing. (a) Default threshold of 0.50 (F1 = 0.477, P = 0.327, R = 0.881). (b) LOO-calibrated threshold of 0.875 (F1 = 0.587, P = 0.499, R = 0.712). Cyan: true positive, orange: false positive, magenta: false negative, yellow: boundary-ambiguous (predicted mowed, but ground truth mowing occurred exactly on the after-image date itself, making those pixels uncertain).
+:::
+
+
+## Effect of Spatial Postprocessing {#sec-postprocessing-results}
+
+@tbl-pp-summary shows the best configuration from each method category alongside the baseline without postprocessing.
+
+```{python}
+#| tbl-cap: "Best postprocessing configuration per method category, averaged across six calibration scenes. Delta F1 is relative to the no-postprocessing baseline."
+#| label: tbl-pp-summary
+#| echo: false
+
+import pandas as pd
+from great_tables import GT
+
+data = pd.read_csv("tables/pp_method_summary.csv")
+
+data = data.rename(columns={
+    "category": "Method",
+    "f1": "F1",
+    "delta_F1": "ΔF1",
+    "median_size": "Median size",
+    "disk_radius": "Disk r",
+    "min_area_pixels": "Min. area",
+    "n_segments": "Segments",
+    "slic_compactness": "Compact."
+})
+
+(
+    GT(data)
+    .fmt_number(columns=["F1", "ΔF1"], decimals=3)
+    .fmt_number(columns=["Median size", "Disk r", "Min. area", "Segments"], decimals=0)
+    .fmt_number(columns=[ "Compact."], decimals=1)
+    .sub_missing(missing_text="—")
+    .tab_options(
+        table_font_size="10pt",
+        heading_title_font_size="12pt",
+        data_row_padding="3px",
+        table_border_top_color="black",
+        table_border_bottom_color="black",
+        heading_border_bottom_color="gray"
+    )
+    .opt_row_striping()
+)
+```
+
+The overall effect of postprocessing on the F1-Score is small. The best-performing configuration, a median filter with a window size of 3x3 followed by morphological opening and closing with a disk radius of 1 pixel and a minimum component area of 4 pixels, achieved a mean F1 of 0.602 across the six calibration scenes, an improvement of +0.005 over the unprocessed baseline (0.597). Morphological operations alone produced a negligible increase of +0.001. Configurations involving SLIC superpixel aggregation performed drastically worse, dropping to F1-Scores around 0.239.
+
+The effect of postprocessing also varies across scenes, as shown in @fig-pp-f1-comparison. For three of the six calibration scenes, the best postprocessing configuration produced a modest improvement in F1-Score, while for the other three scenes it resulted in a slight decrease.
+
+![F1-Score comparison with and without the best postprocessing configuration across all six calibration scenes.](images/pp_f1_comparison_scenes.png){#fig-pp-f1-comparison width=65%}
+
+@fig-pp-sidebyside illustrates the spatial effect of postprocessing on a single scene (match_id 46). The raw prediction (F1 = 0.567 ) contains scattered false positive pixels. After postprocessing (F1 = 0.632), these isolated detections are removed, producing cleaner parcel boundaries and reducing the false positive area. The false negative regions (magenta) remain largely unchanged.
+
+::: {#fig-pp-sidebyside layout-ncol=2}
+
+![Without postprocessing](images/pp_sidebyside_scene46_raw.png){#fig-pp-raw}
+
+![Best postprocessing](images/pp_sidebyside_scene46_pp.png){#fig-pp-best}
+
+Prediction maps for scene 46. (a) Raw prediction (F1 = 0.567). (b) After median + morphological postprocessing (F1 = 0.632). Colour legend as in @fig-threshold-calibration.
+:::
+
+
+## Operational Scene Application {#sec-operational-results}
+
+@tbl-scene-results reports the operational performance of the 11 selected models on held-out scenes 12 and 73.
+
+```{python}
+#| tbl-cap: "Operational evaluation on held-out scenes 12 and 73. Raw and PP denote performance without and with postprocessing respectively. Abbreviations: P = Precision, R = Recall. Models are sorted by F1 PP within each scene."
+#| label: tbl-scene-results
+#| echo: false
+
+import pandas as pd
+from great_tables import GT
+
+data = pd.read_csv("tables/scene_evaluation_results.csv")
+
+# Rename columns for better readability
+data = data.rename(columns={
+    "match_id": "Scene",
+    "model": "Model",
+    "F1_raw": "F1 raw",
+    "F1_pp": "F1 PP",
+    "Prec_raw": "P raw",
+    "Rec_raw": "R raw",
+    "Prec_pp": "P PP",
+    "Rec_pp": "R PP"
+})
+
+# Reorder columns and drop threshold
+cols_order = ["Scene", "Model", "F1 raw", "F1 PP", "P raw", "P PP", "R raw", "R PP"]
+data = data[cols_order]
+data["Model"] = data["Model"].str.replace("_", " ")
+
+(
+    GT(data)
+    .fmt_number(
+        columns=["F1 raw", "F1 PP", "P raw", "P PP", "R raw", "R PP"],
+        decimals=3
+    )
+    .tab_options(
+        table_font_size="9pt",
+        heading_title_font_size="12pt",
+        data_row_padding="3px",
+        table_border_top_color="black",
+        table_border_bottom_color="black",
+        heading_border_bottom_color="gray"
+    )
+    .opt_row_striping()
+)
+
+```
+
+The best-performing model on scene 12 is the S2-only_diff SVM (F1 = 0.689 raw, 0.674 with postprocessing), followed closely by the S2-only_best SVM (0.667 raw, 0.673 with postprocessing) and the Full-fusion RF (0.675 raw, 0.669 with postprocessing). On scene 73, the S2-only_best RF achieves the highest F1 among S2-only models (0.749 raw, 0.735 with postprocessing). The Full-fusion RF performs comparably at 0.717. Across both scenes, the S2-based models consistently outperform all configurations that rely on SAR data alone. GRD-only and coherence-only models achieve F1-Scores around 0.200, with recall near 1.0 and precision near 0.11.
+
+@fig-coh-failure shows the coherence-only RF prediction on scene 12. The model predicts almost the entire grassland area as mowed, resulting in an F1-Score of 0.200.
+
+![Prediction map for the coh-only RF on scene 12 (F1 = 0.200). Colour legend as in @fig-threshold-calibration.](images/full_scene_eval/eval_scene12_coh_only_rf.png){#fig-coh-failure width=50%}
+
+
+### Comparison with PW2 Baseline
+
+To directly assess the improvement over the previous study, the best-performing model from PW2 (SVM using ndii_diff as the sole feature, with a default threshold of 0.5 and no postprocessing) was applied to the same two scenes. On scene 73 (@fig-comparison-scene73), the PW2 model achieves an F1-Score of 0.397 with a precision of 0.251 and recall of 0.938. The S2-only_diff SVM, selected as the most stable model across multiple scenes, reaches 0.635, with precision increasing to 0.537 and recall decreasing to 0.777.
+
+::: {#fig-comparison-scene73 layout-ncol=2}
+
+![PW2 baseline (F1=0.397)](images/full_scene_eval/eval_scene73_pw2_svm_ndii.png){#fig-scene73-pw2}
+
+![S2-only_diff SVM (F1=0.635)](images/full_scene_eval/eval_scene73_s2_only_diff_svm.png){#fig-scene73-best}
+
+Comparison of PW2 baseline and S2-only_diff SVM on scene 73 Colour legend as in @fig-threshold-calibration.
+:::
+
+@fig-comparison-scene12 shows that on scene 12, the improvement is smaller but consistent: the PW2 model achieves an F1-Score of 0.597 while the best model (S2-only_diff SVM) reaches 0.674.
+
+::: {#fig-comparison-scene12 layout-ncol=2}
+
+![PW2 baseline (F1=0.597)](images/full_scene_eval/eval_scene12_pw2_svm_ndii.png){#fig-scene12-pw2}
+
+![S2-only_diff SVM (F1=0.674)](images/full_scene_eval/eval_scene12_s2_only_diff_svm.png){#fig-scene12-best}
+
+Comparison of PW2 baseline and S2-only_diff SVM on scene 12. The pattern is consistent with scene 73: the improved model reduces false positives while maintaining coverage of the main mowing areas. Colour legend as in @fig-threshold-calibration.
+:::
+
+
+### Non-Event Control
+
+@fig-control-test shows the control test results for scene 46, where the model was applied to the non-event window ($t_{n-2}$ to $t_{n-1}$) alongside the standard mowing detection window from $t_{n-1}$ to $t_{n+1}$. The model correctly predicts no mowing in the non-event window, while detecting the known mowing areas in the event window.
+
+::: {#fig-control-test layout-ncol=2}
+
+![Non-event window ($t_{n-2}$ to $t_{n-1}$)](images/control_test_46_ctrl.png){#fig-control-nonevent}
+
+![Mowing event window ($t_{n-1}$ to $t_{n+1}$)](images/control_test_46_true.png){#fig-control-event}
+
+Control test on scene 46. Left: model applied to the non-event window, where no mowing occurred. Right: model applied to the subsequent mowing event window on the same area. Green in control map (left): True negatives for the Ground Truth area, red in control map: general false positives, rest of the colour legend as in @fig-threshold-calibration.
+:::
+
+
+## Generalisation Test
+
+The generalisation test near Lindau (30.04.2025 to 10.05.2025) was conducted over the full scene extent without grassland mask or study area restriction. The evaluation against the four available ground truth polygons yields an F1-Score of 0.511 with a precision of 0.344 and recall of 0.997 (@fig-generalisation). The model detects virtually all known mowing pixels (2,032 true positives, 6 false negatives) but also predicts 3,881 pixels as mowed outside the ground truth polygons.
+
+![Generalisation test near Lindau (30.04.2025 to 10.05.2025), applied without grassland mask or study area restriction. F1 = 0.511, P = 0.344, R = 0.997. Cyan: true positive, orange: false positive, magenta: false negative.](images/generalization_lindau_2025-05-10.png){#fig-generalisation width=50%}
+
+The ground truth covers only four parcels managed by Strickhof and does not account for mowing events on surrounding parcels managed by other farmers. Visual inspection of before and after RGB composites reveals spectral changes in several false-positive areas. Notably, the model does not produce false detections on non-grassland surfaces such as forests, buildings, roads, or bare soil, despite the absence of a land cover mask.
