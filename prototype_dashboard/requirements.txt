@@ -1,0 +1,11 @@
+streamlit>=1.32
+numpy
+pandas
+rasterio
+geopandas
+pyproj
+scipy
+scikit-learn
+scikit-image
+joblib
+matplotlib
