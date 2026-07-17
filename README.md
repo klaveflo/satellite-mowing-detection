@@ -96,8 +96,8 @@ The `standalone_models/` folder contains four pre-trained models (Sentinel-2 onl
 
 | File | Algorithm | Features |
 |------|-----------|----------|
-| `s2_only_best_rf.joblib` | Random Forest | ndii_diff, gndvi_diff, swir_diff, ndii_after, swir_after — **recommended** |
-| `s2_only_best_svm.joblib` | SVM | same feature set |
+| `s2_only_best_rf.joblib` | Random Forest | ndii_diff, gndvi_diff, swir_diff, ndii_after, swir_after |
+| `s2_only_best_svm.joblib` | SVM | same feature set, **recommended**|
 | `s2_only_diff_rf.joblib` | Random Forest | ndii_diff, gndvi_diff, swir_diff |
 | `s2_only_diff_svm.joblib` | SVM | same feature set |
 
