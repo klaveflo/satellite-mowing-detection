@@ -41,6 +41,12 @@ satellite-mowing-detection/
 │       ├── masks/                        # Optional ground truth masks
 │       └── results/                      # Output files written here
 │
+├── prototype_dashboard/    # Streamlit dashboard prototype for a browser-based workflow
+│   ├── app.py                            # Streamlit app entry point
+│   ├── mowing_pipeline.py                # Shared dashboard pipeline logic
+│   ├── requirements.txt                  # Dashboard dependencies
+│   └── standalone_models/                # Pre-trained model files (.joblib)
+│
 │
 ├── report/                 # Quarto source files for the thesis report (.qmd)
 │
@@ -65,11 +71,19 @@ conda activate satellite-mowing-detection
 
 ## Prototype Usage
 
-The `prototype_application/` folder is a self-contained notebook that applies a pre-trained mowing detection model to any pair of Sentinel-2 images. No access to the full dataset or the research pipeline is required.
+### Dashboard
+
+The `prototype_dashboard/` folder contains a small Streamlit app that exposes the mowing-detection pipeline in a browser-based interface. It is the easiest way to use the prototype: no local setup is needed when using the hosted version accessible [here](https://satellite-mowing-detection.streamlit.app/). It can also be run locally with `streamlit run app.py` from inside the folder. Usage instructions are shown at the top of the dashboard.
+
+---
+
+### Jupyter Notebook
+
+The `prototype_application/` folder is a self-contained notebook that applies a pre-trained mowing detection model to any pair of Sentinel-2 images. It is the code-based version of the prototype and requires the local conda environment and notebook setup, which makes it better suited for step-by-step inspection, modification, and reruns.
 
 ### What it does
 
-Given two cloud-free Sentinel-2 scenes taken a few days apart (before and after a suspected mowing event), the notebook:
+Given two cloud-free Sentinel-2 scenes taken a few days apart (before and after a suspected mowing event), the dashboard/notebook:
 
 1. Loads both GeoTIFFs and computes vegetation index features (NDII, GNDVI, SWIR).
 2. Applies one of the included pre-trained classifiers pixel-by-pixel.
@@ -84,7 +98,7 @@ Given two cloud-free Sentinel-2 scenes taken a few days apart (before and after 
 | `before.tif` | Sentinel-2 L2A multi-band GeoTIFF taken **before** the mowing event |
 | `after.tif` | Sentinel-2 L2A multi-band GeoTIFF taken **after** the mowing event |
 
-Place both files in `prototype_application/data/s2_images/` (or point the config variables to their actual paths).
+Place both files in `prototype_application/data/s2_images/` (or point the config variables to their actual paths. For the dashboard version you can just upload them with a button).
 
 If you download images directly from [Copernicus Browser](https://browser.dataspace.copernicus.eu), the notebook includes an optional conversion step (Step 2 / "Data Preparation") that assembles individual band files into the required multi-band GeoTIFF format.
 
