@@ -75,7 +75,6 @@ conda activate satellite-mowing-detection
 
 The `prototype_dashboard/` folder contains a small Streamlit app that exposes the mowing-detection pipeline in a browser-based interface. It is the easiest way to use the prototype: no local setup is needed when using the hosted version accessible [here](https://satellite-mowing-detection.streamlit.app/). It can also be run locally with `streamlit run app.py` from inside the folder. Usage instructions are shown at the top of the dashboard.
 
----
 
 ### Jupyter Notebook
 
