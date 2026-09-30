@@ -55,6 +55,17 @@ satellite-mowing-detection/
 
 ---
 
+## Report
+
+The thesis report is available in two formats:
+
+- **HTML (GitHub Pages):** [https://klaveflo.github.io/satellite-mowing-detection/](https://klaveflo.github.io/satellite-mowing-detection/)
+- **PDF:** [`docs/Advanced-Earth-Observation-for-Grassland-Management.pdf`](docs/Advanced-Earth-Observation-for-Grassland-Management.pdf)
+
+The Quarto source files for the report are in [`report/`](report/).
+
+---
+
 ## Installation
 
 Clone the repository and create the conda environment:
@@ -68,6 +79,7 @@ conda activate satellite-mowing-detection
 
 
 ---
+
 
 ## Prototype Usage
 
@@ -143,16 +155,6 @@ All outputs are written to `OUTPUT_DIR` (default: `prototype_application/data/re
 
 ---
 
-## Report
-
-The thesis report is available in two formats:
-
-- **HTML (GitHub Pages):** [https://klaveflo.github.io/satellite-mowing-detection/](https://klaveflo.github.io/satellite-mowing-detection/)
-- **PDF:** [`docs/Advanced-Earth-Observation-for-Grassland-Management.pdf`](docs/Advanced-Earth-Observation-for-Grassland-Management.pdf)
-
-The Quarto source files for the report are in [`report/`](report/).
-
----
 
 ## Citation
 
