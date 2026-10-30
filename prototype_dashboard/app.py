@@ -42,6 +42,11 @@ st.set_page_config(
 )
 
 APP_DIR = Path(__file__).resolve().parent
+EXAMPLE_IMAGE_DIR = APP_DIR / "example_images"
+EXAMPLE_IMAGE_PATHS = {
+    "before": EXAMPLE_IMAGE_DIR / "2025-04-30.tif",
+    "after": EXAMPLE_IMAGE_DIR / "2025-05-10.tif",
+}
 
 # Where to look for the bundled .joblib models.
 MODEL_SEARCH_DIRS = [
@@ -94,16 +99,34 @@ def extract_to_dir(uploaded_zip, dest_dir: Path) -> Path:
     return dest_dir
 
 
+def load_example_images():
+    missing = [str(path) for path in EXAMPLE_IMAGE_PATHS.values() if not path.is_file()]
+    if missing:
+        st.error(f"Example image file(s) not found: {', '.join(missing)}")
+        return
+
+    st.session_state.example_image_paths = dict(EXAMPLE_IMAGE_PATHS)
+    st.session_state.pop("before_tif", None)
+    st.session_state.pop("after_tif", None)
+    st.session_state["band_blue"] = 1
+    st.session_state["band_green"] = 2
+    st.session_state["band_red"] = 3
+    st.session_state["band_nir"] = 4
+    st.session_state["band_swir"] = 5
+    st.session_state["band_cloud"] = 6
+
+
 # --------------------------------------------------------------------------- #
 # Header & instructions
 # --------------------------------------------------------------------------- #
 
 st.title("Mowing Detection Dashboard")
 st.caption(
-    "Detect grassland mowing events between two Sentinel-2 acquisitions using a "
-    "pre-trained model. This is a prototype: Uploads and results are temporary and are "
-    "discarded when the session ends."
-)
+    "Detect grassland mowing events between two Sentinel-2 acquisitions using a pre-trained model. \n\n"
+    "**Disclaimer:** This is a prototype for demonstration and evaluation only. "
+    "Results may be inaccurate and should not be used as the sole basis for operational, "
+    "scientific, or management decisions. Uploads and results are temporary and will therefore be discarded when the session ends.")
+
 
 with st.expander("ℹ️  How to use this dashboard", expanded=True):
     st.markdown(
@@ -121,7 +144,7 @@ and one **after** a suspected mowing event (a few days apart, both cloud-free).
    bands for you. Requires bands **B02, B03, B04, B08, B11** and the
    **Scene classification map**.
 
-> Don't have images yet? Download two cloud-free scenes from the
+> Don't have images yet? Test the application with the example images or download two cloud-free scenes from the
 > [Copernicus Browser](https://browser.dataspace.copernicus.eu).
 > 
 > Download steps:
@@ -164,6 +187,17 @@ if input_mode == "Pre-combined GeoTIFFs":
                                  key="before_tif")
     up_after = sb.file_uploader("After image (.tif)", type=["tif", "tiff"],
                                 key="after_tif")
+    sb.button(
+        "Load example images",
+        on_click=load_example_images,
+        help="Load the bundled before and after Sentinel-2 example images.",
+    )
+    example_image_paths = st.session_state.get("example_image_paths", {})
+    if example_image_paths and up_before is None and up_after is None:
+        sb.caption(
+            "Active examples: "
+            f"{example_image_paths['before'].name} → {example_image_paths['after'].name}"
+        )
     cop_before = cop_after = None
 else:
     cop_before = sb.file_uploader(
@@ -237,12 +271,12 @@ with sb.expander("Advanced settings"):
     pp_disk = st.number_input("Morphology disk radius (px)", 0, 10, 1)
     pp_min_area = st.number_input("Min. patch area (px)", 0, 100, 4)
     st.caption("Band layout (1-based) of the combined images:")
-    b_blue = st.number_input("Blue (B02)", 1, 20, 1)
-    b_green = st.number_input("Green (B03)", 1, 20, 2)
-    b_red = st.number_input("Red (B04)", 1, 20, 3)
-    b_nir = st.number_input("NIR (B08)", 1, 20, 4)
-    b_swir = st.number_input("SWIR (B11)", 1, 20, 5)
-    b_cloud = st.number_input("Cloud Probability", 1, 20, 6)
+    b_blue = st.number_input("Blue (B02)", 1, 20, 1, key="band_blue")
+    b_green = st.number_input("Green (B03)", 1, 20, 2, key="band_green")
+    b_red = st.number_input("Red (B04)", 1, 20, 3, key="band_red")
+    b_nir = st.number_input("NIR (B08)", 1, 20, 4, key="band_nir")
+    b_swir = st.number_input("SWIR (B11)", 1, 20, 5, key="band_swir")
+    b_cloud = st.number_input("Cloud Probability", 1, 20, 6, key="band_cloud")
 
 band_layout = {"blue": b_blue, "green": b_green, "red": b_red,
                "nir": b_nir, "swir": b_swir, "cloud": b_cloud}
@@ -254,12 +288,14 @@ run = sb.button("Run detection", type="primary", width="stretch")
 # Helpers to resolve uploads into on-disk paths
 # --------------------------------------------------------------------------- #
 
-def resolve_combined_image(uploaded, cop_uploads, label, ws) -> Path:
+def resolve_combined_image(uploaded, cop_uploads, label, ws, example_path=None) -> Path:
     """Return a path to a combined GeoTIFF for one date, from either input mode."""
     if input_mode == "Pre-combined GeoTIFFs":
-        if uploaded is None:
-            raise ValueError(f"No {label} image uploaded.")
-        return save_upload(uploaded, ws / label)
+        if uploaded is not None:
+            return save_upload(uploaded, ws / label)
+        if example_path is not None:
+            return example_path
+        raise ValueError(f"No {label} image uploaded.")
 
     # Copernicus mode: files may be a zip or a set of band files.
     if not cop_uploads:
@@ -503,8 +539,15 @@ if run:
     try:
         with st.spinner("Running mowing detection…"):
             # 1. Resolve images
-            before_path = resolve_combined_image(up_before, cop_before, "before", workspace)
-            after_path = resolve_combined_image(up_after, cop_after, "after", workspace)
+            example_image_paths = st.session_state.get("example_image_paths", {})
+            before_path = resolve_combined_image(
+                up_before, cop_before, "before", workspace,
+                example_path=example_image_paths.get("before"),
+            )
+            after_path = resolve_combined_image(
+                up_after, cop_after, "after", workspace,
+                example_path=example_image_paths.get("after"),
+            )
 
             # 2. Resolve optional vectors
             aoi_path = resolve_vector(up_aoi, workspace, "aoi")
@@ -714,3 +757,18 @@ if "results" in st.session_state:
         st.text("\n".join(r["log"]))
 else:
     st.info("Configure inputs in the sidebar and click **Run detection** to start.")
+
+st.markdown(
+    """
+    <hr style="margin-top: 2rem; margin-bottom: 0.75rem;">
+    <div style="text-align: center; color: #777; font-size: 0.8rem;">
+        <a href="https://github.com/klaveflo/satellite-mowing-detection" target="_blank">
+            GitHub repository
+        </a>
+        &nbsp;|&nbsp; ZHAW Life Sciences &amp; Facility Management
+        &nbsp;|&nbsp; Applied Digital Life Sciences
+        &nbsp;|&nbsp; Bachelor's Thesis
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
